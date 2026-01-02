@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:trainer_application/core/widgets/app_drawer.dart';
+import 'package:trainer_application/core/widgets/custom_appBar.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Dashboard Screen',
-            style: TextStyle(fontSize: 44, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 10),
-        ],
+      key: scaffoldKey,
+      drawer: const AppDrawer(),
+
+      appBar: CustomAppBar(
+        title: "Home",
+        onMenuTap: () {
+          scaffoldKey.currentState?.openDrawer();
+        },
+        onNotificationTap: () {},
+        onProfileTap: () {},
       ),
+
+      body: const Center(child: Text("Dashboard Content")),
     );
   }
 }

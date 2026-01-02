@@ -34,11 +34,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: const Center(child: Text('Hello', style: TextStyle(fontSize: 24))),
     );
   }
