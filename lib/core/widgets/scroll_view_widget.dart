@@ -13,7 +13,7 @@ class ScrollViewWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: SizedBox(
-          height: 40,
+          height: 100,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
