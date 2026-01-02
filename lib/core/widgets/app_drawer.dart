@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -21,21 +22,21 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.dashboard_outlined),
               title: const Text('Dashboard'),
               onTap: () {
-                Navigator.pop(context);
+                context.go('/dashboard');
               },
             ),
             ListTile(
               leading: const Icon(Icons.cast_for_education),
               title: const Text('Training'),
               onTap: () {
-                Navigator.pop(context);
+                context.go('/training');
               },
             ),
             ListTile(
               leading: const Icon(Icons.work_outline),
               title: const Text('Job'),
               onTap: () {
-                Navigator.pop(context);
+                context.go('/job');
               },
             ),
 
@@ -43,7 +44,7 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.settings_outlined),
               title: const Text('Settings'),
               onTap: () {
-                Navigator.pop(context);
+                context.go('/setting');
               },
             ),
             const Spacer(),
