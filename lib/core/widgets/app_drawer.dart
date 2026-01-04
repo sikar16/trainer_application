@@ -6,9 +6,6 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
     return Drawer(
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 100, horizontal: 20),

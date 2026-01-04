@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trainer_application/core/widgets/app_drawer.dart';
 import 'package:trainer_application/core/widgets/custom_appBar.dart';
-import 'package:trainer_application/feature/splash/presentation/pages/splash_screen.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/audience_profile_widget.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/content_widget.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/module_widget.dart';

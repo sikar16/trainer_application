@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CostomDropDown extends StatefulWidget {
-  final String title; // The question
+  final String title;
   final Widget content; // The answer/content
 
   const CostomDropDown({super.key, required this.title, required this.content});
@@ -48,7 +48,7 @@ class _CostomDropDownState extends State<CostomDropDown> {
                   Expanded(
                     child: Text(
                       widget.title,
-                      style: textTheme.headlineSmall?.copyWith(
+                      style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -8,13 +8,11 @@ class MaterialTheme {
   static ColorScheme lightScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
-      primary: Color(0xFF0968FF), // <- your new primary color
-      surfaceTint: Color(0xFF0968FF), // <- match primary
-      onPrimary: Color(0xFFFFFFFF), // text/icons on primary
-      primaryContainer: Color(
-        0xFFCCE0FF,
-      ), // optional lighter shade for container
-      onPrimaryContainer: Color(0xFF00328A), // contrast color for container
+      primary: Color(0xFF0968FF),
+      surfaceTint: Color(0xFF0968FF),
+      onPrimary: Color(0xFFFFFFFF),
+      primaryContainer: Color(0xFFCCE0FF),
+      onPrimaryContainer: Color(0xFF00328A),
       secondary: Color(0xff585e71),
       onSecondary: Color(0xffffffff),
       secondaryContainer: Color(0xffdde2f9),

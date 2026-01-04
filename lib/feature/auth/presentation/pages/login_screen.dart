@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       Future.delayed(const Duration(seconds: 1), () {
-        context.go('/dashboard'); // GoRouter navigation
+        context.go('/dashboard');
       });
     }
   }
@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         backgroundColor: colorScheme.primary,
                       ),
                       child: const Text(
-                        "Sign In",
+                        "Log in",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

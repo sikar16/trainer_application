@@ -14,7 +14,7 @@ class DashboardScreen extends StatelessWidget {
       drawer: const AppDrawer(),
 
       appBar: CustomAppBar(
-        title: "Home",
+        title: "Dashboard",
         onMenuTap: () {
           scaffoldKey.currentState?.openDrawer();
         },

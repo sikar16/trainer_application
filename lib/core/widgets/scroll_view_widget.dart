@@ -6,8 +6,6 @@ class ScrollViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorTheme = Theme.of(context).colorScheme;
-
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30),
       child: Padding(
