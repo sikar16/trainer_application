@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:trainer_application/core/widgets/custom_popupdropdown.dart';
 
-class MysessionsWidget extends StatelessWidget {
+enum SampleItem { itemOne, itemTwo, itemThree }
+
+class MysessionsWidget extends StatefulWidget {
   const MysessionsWidget({super.key});
+
+  @override
+  State<MysessionsWidget> createState() => _MysessionsWidgetState();
+}
+
+class _MysessionsWidgetState extends State<MysessionsWidget> {
+  SampleItem? selectedItem;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
 
+    SampleItem? selectedItem;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,6 +271,7 @@ class MysessionsWidget extends StatelessWidget {
               ],
             ),
           ),
+
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(20),
@@ -274,6 +286,101 @@ class MysessionsWidget extends StatelessWidget {
             child: Text("data"),
           ),
 
+          // Container(
+          //   padding: const EdgeInsets.symmetric(horizontal: 12),
+          //   decoration: BoxDecoration(
+          //     border: Border.all(color: Colors.grey.shade400),
+          //     borderRadius: BorderRadius.circular(8),
+          //     color: Colors.white,
+          //   ),
+          //   child: PopupMenuButton<SampleItem>(
+          //     child: Row(
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: [
+          //         Text(
+          //           selectedItem != null
+          //               ? selectedItem!.name.replaceAll("item", "Item ")
+          //               : "Select Item",
+          //           style: const TextStyle(color: Colors.black),
+          //         ),
+          //         const SizedBox(width: 6),
+          //         const Icon(Icons.arrow_drop_down),
+          //       ],
+          //     ),
+          //     onSelected: (SampleItem item) {
+          //       setState(() {
+          //         selectedItem = item;
+          //       });
+          //     },
+          //     itemBuilder: (BuildContext context) =>
+          //         <PopupMenuEntry<SampleItem>>[
+          //           const PopupMenuItem<SampleItem>(
+          //             value: SampleItem.itemOne,
+          //             child: Text('Item 1'),
+          //           ),
+          //           const PopupMenuItem<SampleItem>(
+          //             value: SampleItem.itemTwo,
+          //             child: Text('Item 2'),
+          //           ),
+          //           const PopupMenuItem<SampleItem>(
+          //             value: SampleItem.itemThree,
+          //             child: Text('Item 3'),
+          //           ),
+          //         ],
+          //   ),
+          // ),
+          Container(
+            child: ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  builder: (context) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          top: 16,
+                          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Bottom Sheet Title",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              "Here is the content of the bottom sheet.",
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("Close"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Text("Show Bottom Sheet"),
+            ),
+          ),
           Container(
             width: double.infinity,
             margin: const EdgeInsets.only(top: 30),
@@ -285,10 +392,10 @@ class MysessionsWidget extends StatelessWidget {
                 color: const Color.fromARGB(255, 220, 220, 220),
               ),
             ),
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /// 🔘 TOP ACTION
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -314,7 +421,6 @@ class MysessionsWidget extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-                /// 🔍 SEARCH + ACTION
                 Row(
                   children: [
                     Expanded(
@@ -371,12 +477,11 @@ class MysessionsWidget extends StatelessWidget {
                           2: FixedColumnWidth(140),
                           3: FixedColumnWidth(120),
                           4: FixedColumnWidth(260),
-                          5: FixedColumnWidth(200),
+                          5: FixedColumnWidth(220),
                         },
                         defaultVerticalAlignment:
                             TableCellVerticalAlignment.middle,
                         children: [
-                          /// 🔹 HEADER
                           TableRow(
                             decoration: BoxDecoration(
                               color: Colors.grey.shade100,
@@ -517,7 +622,7 @@ class MysessionsWidget extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 12,
-                                      vertical: 10,
+                                      vertical: 0,
                                     ),
 
                                     elevation: 0,
@@ -540,11 +645,109 @@ class MysessionsWidget extends StatelessWidget {
                                         color: Colors.black,
                                         size: 20,
                                       ),
-                                      SizedBox(width: 10),
-                                      const Text(
-                                        "Add ID & Consent",
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 10, 3, 3),
+                                      SizedBox(width: 1),
+                                      TextButton(
+                                        onPressed: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.white,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                    top: Radius.circular(20),
+                                                  ),
+                                            ),
+                                            builder: (context) {
+                                              return SizedBox(
+                                                width: double.infinity,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                    left: 16,
+                                                    right: 16,
+                                                    top: 16,
+                                                    bottom:
+                                                        MediaQuery.of(
+                                                          context,
+                                                        ).viewInsets.bottom +
+                                                        16,
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        "Upload ID Document - student test",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 16,
+                                                      ),
+                                                      const Text("ID Type"),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      CustomPopupDropdown<
+                                                        SampleItem
+                                                      >(
+                                                        selectedItem:
+                                                            selectedItem,
+                                                        hint: "Select Item",
+                                                        items: const [
+                                                          DropdownMenuItem(
+                                                            value: SampleItem
+                                                                .itemOne,
+                                                            child: Text(
+                                                              "Item 1",
+                                                            ),
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            value: SampleItem
+                                                                .itemTwo,
+                                                            child: Text(
+                                                              "Item 2",
+                                                            ),
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            value: SampleItem
+                                                                .itemThree,
+                                                            child: Text(
+                                                              "Item 3",
+                                                            ),
+                                                          ),
+                                                        ],
+                                                        onSelected: (item) {
+                                                          setState(() {
+                                                            selectedItem = item;
+                                                          });
+                                                        },
+                                                      ),
+                                                      ElevatedButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                              context,
+                                                            ),
+                                                        child: const Text(
+                                                          "Close",
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: const Text(
+                                          "Show Bottom Sheet",
+                                          style: TextStyle(color: Colors.black),
                                         ),
                                       ),
                                     ],

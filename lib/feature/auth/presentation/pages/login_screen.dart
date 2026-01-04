@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:trainer_application/feature/auth/presentation/bloc/login_bloc.dart';
+import 'package:trainer_application/feature/auth/presentation/bloc/login_event.dart';
+import 'package:trainer_application/feature/auth/presentation/bloc/login_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,23 +15,19 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   bool _obscurePassword = true;
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Login successful!'),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 1),
+      context.read<LoginBloc>().add(
+        LoginSubmitted(
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
         ),
       );
-
-      Future.delayed(const Duration(seconds: 1), () {
-        context.go('/dashboard');
-      });
     }
   }
 
@@ -35,16 +36,24 @@ class _LoginScreenState extends State<LoginScreen> {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SingleChildScrollView(
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state is LoginSuccess) {
+          context.go('/dashboard');
+        } else if (state is LoginFailure) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
+        }
+      },
+      child: Scaffold(
+        body: Center(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 60),
             child: Form(
               key: _formKey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset('asset/images/logo.png', width: 200, height: 50),
@@ -57,51 +66,35 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
+
                   Text(
                     "Enter your email and password to sign in",
                     textAlign: TextAlign.center,
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: const Color.fromARGB(255, 166, 166, 166),
-                    ),
+                    style: textTheme.bodyMedium?.copyWith(color: Colors.grey),
                   ),
                   const SizedBox(height: 40),
 
+                  /// EMAIL
                   TextFormField(
                     controller: _emailController,
-                    textCapitalization: TextCapitalization.none,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       final emailRegex = RegExp(
                         r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                       );
 
-                      if (value!.isEmpty) return "Email is required";
-                      if (!emailRegex.hasMatch(value))
+                      if (value == null || value.isEmpty) {
+                        return "Email is required";
+                      }
+                      if (!emailRegex.hasMatch(value)) {
                         return "Enter a valid email";
+                      }
                       return null;
                     },
-                    decoration: InputDecoration(
-                      labelText: "Email",
-                      hintText: "Enter your email",
-
-                      filled: true,
-                      fillColor: colorScheme.surfaceVariant.withOpacity(0.2),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 190, 189, 189),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 190, 189, 189),
-                          width: 1,
-                        ),
-                      ),
+                    decoration: _inputDecoration(
+                      label: "Email",
+                      hint: "Enter your email",
+                      colorScheme: colorScheme,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -115,27 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      hintText: "Enter your password",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 190, 189, 189),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 190, 189, 189),
-                          width: 1,
-                        ),
-                      ),
-
-                      suffixIcon: IconButton(
+                    decoration: _inputDecoration(
+                      label: "Password",
+                      hint: "Enter your password",
+                      colorScheme: colorScheme,
+                      suffix: IconButton(
                         icon: Icon(
                           _obscurePassword
                               ? Icons.visibility_off_outlined
@@ -149,53 +126,86 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "Forgot password?",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  const SizedBox(height: 20),
 
-                  SizedBox(height: 20),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _login,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        backgroundColor: colorScheme.primary,
-                      ),
-                      child: const Text(
-                        "Log in",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Forgot password?",
+                      style: TextStyle(
+                        color: colorScheme.primary,
+                        fontSize: 16,
                       ),
                     ),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: state is LoginLoading ? null : _login,
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            backgroundColor: colorScheme.primary,
+                          ),
+                          child: state is LoginLoading
+                              ? const SizedBox(
+                                  height: 22,
+                                  width: 22,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Text(
+                                  "Log In",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
             ),
           ),
-        ],
+        ),
       ),
+    );
+  }
+
+  InputDecoration _inputDecoration({
+    required String label,
+    required String hint,
+    required ColorScheme colorScheme,
+    Widget? suffix,
+  }) {
+    return InputDecoration(
+      labelText: label,
+      hintText: hint,
+      filled: true,
+      fillColor: colorScheme.surfaceVariant.withOpacity(0.2),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      suffixIcon: suffix,
     );
   }
 }

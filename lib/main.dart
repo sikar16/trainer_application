@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:trainer_application/core/route/route.dart';
 import 'package:trainer_application/core/theme/theme.dart';
 import 'package:trainer_application/core/theme/util.dart';
+
+import 'package:trainer_application/feature/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:trainer_application/feature/auth/data/repositories/auth_repository_impl.dart';
+import 'package:trainer_application/feature/auth/domain/usecases/login_usecase.dart';
+import 'package:trainer_application/feature/auth/presentation/bloc/login_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,29 +20,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = View.of(context).platformDispatcher.platformBrightness;
-    TextTheme textTheme = createTextTheme(context, "Roboto", "Roboto");
 
-    MaterialTheme theme = MaterialTheme(textTheme);
+    final textTheme = createTextTheme(context, "Roboto", "Roboto");
+    final MaterialTheme theme = MaterialTheme(textTheme);
 
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: router,
-      title: 'Flutter Demo',
-      theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: const Center(child: Text('Hello', style: TextStyle(fontSize: 24))),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LoginBloc>(
+          create: (_) => LoginBloc(
+            LoginUseCase(AuthRepositoryImpl(AuthRemoteDataSource())),
+          ),
+        ),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'Trainer Application',
+        routerConfig: router,
+        theme: brightness == Brightness.light ? theme.light() : theme.dark(),
+      ),
     );
   }
 }
