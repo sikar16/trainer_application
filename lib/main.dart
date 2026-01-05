@@ -9,6 +9,11 @@ import 'package:trainer_application/feature/auth/data/datasources/auth_remote_da
 import 'package:trainer_application/feature/auth/data/repositories/auth_repository_impl.dart';
 import 'package:trainer_application/feature/auth/domain/usecases/login_usecase.dart';
 import 'package:trainer_application/feature/auth/presentation/bloc/login_bloc.dart';
+import 'package:trainer_application/feature/profile/data/datasources/profile_remote_data_source.dart';
+import 'package:trainer_application/feature/profile/data/repositories/profile_repository_impl.dart';
+import 'package:trainer_application/feature/profile/domain/usecases/get_profile_usecase.dart';
+import 'package:trainer_application/feature/profile/domain/usecases/edit_profile_usecase.dart';
+import 'package:trainer_application/feature/profile/presentation/bloc/profile_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +34,16 @@ class MyApp extends StatelessWidget {
         BlocProvider<LoginBloc>(
           create: (_) => LoginBloc(
             LoginUseCase(AuthRepositoryImpl(AuthRemoteDataSource())),
+          ),
+        ),
+        BlocProvider<ProfileBloc>(
+          create: (_) => ProfileBloc(
+            getProfileUseCase: GetProfileUseCase(
+              ProfileRepositoryImpl(ProfileRemoteDataSource()),
+            ),
+            editProfileUseCase: EditProfileUseCase(
+              ProfileRepositoryImpl(ProfileRemoteDataSource()),
+            ),
           ),
         ),
       ],
