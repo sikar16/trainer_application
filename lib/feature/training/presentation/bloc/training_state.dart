@@ -12,6 +12,12 @@ class TrainingLoaded extends TrainingState {
   TrainingLoaded(this.trainingList);
 }
 
+class TrainingDetailLoaded extends TrainingState {
+  final TrainingEntity training;
+
+  TrainingDetailLoaded(this.training);
+}
+
 class TrainingError extends TrainingState {
   final String message;
 

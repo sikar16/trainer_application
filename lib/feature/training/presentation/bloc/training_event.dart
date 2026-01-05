@@ -6,3 +6,9 @@ class GetTrainingsEvent extends TrainingEvent {
 
   GetTrainingsEvent({this.page = 1, this.pageSize = 10});
 }
+
+class GetTrainingByIdEvent extends TrainingEvent {
+  final String id;
+
+  GetTrainingByIdEvent(this.id);
+}

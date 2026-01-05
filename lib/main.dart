@@ -17,6 +17,7 @@ import 'package:trainer_application/feature/profile/presentation/bloc/profile_bl
 import 'package:trainer_application/feature/training/data/datasources/training_remote_data_source.dart';
 import 'package:trainer_application/feature/training/data/repositories/training_repository_impl.dart';
 import 'package:trainer_application/feature/training/domain/usecases/get_trainings_usecase.dart';
+import 'package:trainer_application/feature/training/domain/usecases/get_training_by_id_usecase.dart';
 import 'package:trainer_application/feature/training/presentation/bloc/training_bloc.dart';
 
 void main() {
@@ -53,6 +54,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<TrainingBloc>(
           create: (_) => TrainingBloc(
             getTrainingsUseCase: GetTrainingsUseCase(
+              TrainingRepositoryImpl(TrainingRemoteDataSource()),
+            ),
+            getTrainingByIdUseCase: GetTrainingByIdUseCase(
               TrainingRepositoryImpl(TrainingRemoteDataSource()),
             ),
           ),

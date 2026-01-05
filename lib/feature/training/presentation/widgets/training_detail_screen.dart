@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainer_application/core/widgets/app_drawer.dart';
 import 'package:trainer_application/core/widgets/custom_appBar.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/audience_profile_widget.dart';
@@ -7,9 +8,14 @@ import 'package:trainer_application/feature/training/presentation/widgets/module
 import 'package:trainer_application/feature/training/presentation/widgets/mysessions_widget.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/overview_wiget.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/traning_profile_widget.dart';
+import '../bloc/training_bloc.dart';
+import '../bloc/training_event.dart';
+import '../bloc/training_state.dart';
 
 class TrainingDetailScreen extends StatefulWidget {
-  const TrainingDetailScreen({super.key});
+  final String trainingId;
+
+  const TrainingDetailScreen({super.key, required this.trainingId});
 
   @override
   State<TrainingDetailScreen> createState() => _TrainingDetailScreenState();
@@ -30,75 +36,147 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    context.read<TrainingBloc>().add(GetTrainingByIdEvent(widget.trainingId));
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorTheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: const AppDrawer(),
-      appBar: CustomAppBar(
-        title: "Test training",
-        onMenuTap: () {
-          scaffoldKey.currentState?.openDrawer();
-        },
-        onNotificationTap: () {},
-        onProfileTap: () {},
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            height: 30,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: tabs.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 30),
-              itemBuilder: (context, index) {
-                final isSelected = index == selectedIndex;
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      Icon(
-                        _getIconForTab(tabs[index]),
-                        size: 20,
+    return BlocBuilder<TrainingBloc, TrainingState>(
+      builder: (context, state) {
+        String title = "Training Details";
+        if (state is TrainingDetailLoaded) {
+          title = state.training.title;
+        }
+
+        return Scaffold(
+          key: scaffoldKey,
+          drawer: const AppDrawer(),
+          appBar: CustomAppBar(
+            title: title,
+            onMenuTap: () {
+              scaffoldKey.currentState?.openDrawer();
+            },
+            onNotificationTap: () {},
+            onProfileTap: () {},
+          ),
+          body: _buildBody(context, state, colorTheme, textTheme),
+        );
+      },
+    );
+  }
+
+  Widget _buildBody(
+    BuildContext context,
+    TrainingState state,
+    ColorScheme colorTheme,
+    TextTheme textTheme,
+  ) {
+    if (state is TrainingLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state is TrainingError) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: 48, color: colorTheme.error),
+              const SizedBox(height: 16),
+              Text('Error loading training', style: textTheme.titleMedium),
+              const SizedBox(height: 8),
+              Text(
+                state.message,
+                style: textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                onPressed: () {
+                  context.read<TrainingBloc>().add(
+                    GetTrainingByIdEvent(widget.trainingId),
+                  );
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (state is TrainingDetailLoaded) {
+      return _buildTabsContent(context, state.training, colorTheme);
+    }
+
+    return const SizedBox();
+  }
+
+  Widget _buildTabsContent(
+    BuildContext context,
+    dynamic training,
+    ColorScheme colorTheme,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          height: 30,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: tabs.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 30),
+            itemBuilder: (context, index) {
+              final isSelected = index == selectedIndex;
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      _getIconForTab(tabs[index]),
+                      size: 20,
+                      color: isSelected
+                          ? colorTheme.primary
+                          : colorTheme.secondary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      tabs[index],
+                      style: TextStyle(
                         color: isSelected
                             ? colorTheme.primary
-                            : colorTheme.secondary,
+                            : colorTheme.onSurfaceVariant,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        tabs[index],
-                        style: TextStyle(
-                          color: isSelected
-                              ? colorTheme.primary
-                              : colorTheme.onSurfaceVariant,
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
-          const Divider(color: Color.fromARGB(255, 218, 219, 219)),
-
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: _buildContentForTab(selectedIndex),
-            ),
+        ),
+        const Divider(color: Color.fromARGB(255, 218, 219, 219)),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: _buildContentForTab(selectedIndex, training),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -121,14 +199,14 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
     }
   }
 
-  Widget _buildContentForTab(int index) {
+  Widget _buildContentForTab(int index, dynamic training) {
     switch (index) {
       case 0:
-        return const Center(child: OverviewWiget());
+        return Center(child: OverviewWiget(training: training));
       case 1:
-        return const Center(child: TraningProfileWidget());
+        return Center(child: TraningProfileWidget(training: training));
       case 2:
-        return const Center(child: AudienceProfileWidget());
+        return Center(child: AudienceProfileWidget(training: training));
       case 3:
         return const Center(child: ModuleWidget());
       case 4:

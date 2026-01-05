@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../domain/entities/training_entity.dart';
 
 class AudienceProfileWidget extends StatelessWidget {
-  const AudienceProfileWidget({super.key});
+  final TrainingEntity? training;
+
+  const AudienceProfileWidget({super.key, this.training});
 
   @override
   Widget build(BuildContext context) {

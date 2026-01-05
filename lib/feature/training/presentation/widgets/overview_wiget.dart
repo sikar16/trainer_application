@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trainer_application/core/widgets/custom_dropdown.dart';
+import '../../domain/entities/training_entity.dart';
 
 class OverviewWiget extends StatelessWidget {
-  const OverviewWiget({super.key});
+  final TrainingEntity? training;
+
+  const OverviewWiget({super.key, this.training});
 
   @override
   Widget build(BuildContext context) {
@@ -35,56 +38,31 @@ class OverviewWiget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Title:", style: textTheme.titleMedium),
-                      SizedBox(height: 10),
-                      Text("Test Training"),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
+                      Text(training?.title ?? "N/A"),
+                      const SizedBox(height: 10),
                       Text("Rationale:", style: textTheme.titleMedium),
-                      SizedBox(height: 10),
-                      Text("Test Training"),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
+                      Text(training?.rationale ?? "N/A"),
+                      const SizedBox(height: 10),
                       Text("Training Tags:", style: textTheme.titleMedium),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Soft Skill",
-                              style: textTheme.bodySmall?.copyWith(
-                                color: Colors.black,
+                        children: (training?.trainingTags ?? [])
+                            .map(
+                              (tag) => ElevatedButton(
+                                onPressed: () {},
+                                child: Text(
+                                  tag.name,
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Digital Literacy",
-                              style: textTheme.bodySmall?.copyWith(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Financial Literacy",
-                              style: textTheme.bodySmall?.copyWith(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Data Induction",
-                              style: textTheme.bodySmall?.copyWith(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
+                            )
+                            .toList(),
                       ),
                     ],
                   ),
@@ -99,17 +77,26 @@ class OverviewWiget extends StatelessWidget {
                     children: [
                       Text("Countries:", style: textTheme.titleMedium),
                       const SizedBox(height: 10),
-                      Text("Ethiopia:"),
-
+                      Text(
+                        training?.zones.isNotEmpty == true
+                            ? training!.zones.first.region.country.name
+                            : "N/A",
+                      ),
                       const SizedBox(height: 20),
                       Text("Regions:", style: textTheme.titleMedium),
                       const SizedBox(height: 10),
-                      Text("Addis Ababa City Administration"),
+                      Text(
+                        training?.zones.isNotEmpty == true
+                            ? training!.zones.first.region.name
+                            : "N/A",
+                      ),
                       const SizedBox(height: 20),
                       Text("Zones:", style: textTheme.titleMedium),
                       const SizedBox(height: 10),
                       Text(
-                        "Nifas Silk Lafto Sub City, Yeka Sub City, Bole Sub City",
+                        training?.zones.isNotEmpty == true
+                            ? training!.zones.map((z) => z.name).join(", ")
+                            : "N/A",
                       ),
                     ],
                   ),
@@ -123,17 +110,19 @@ class OverviewWiget extends StatelessWidget {
                     children: [
                       Text("Duration:", style: textTheme.titleMedium),
                       const SizedBox(height: 10),
-                      Text("Addis Ababa City Administration"),
-
+                      Text(
+                        training != null
+                            ? "${training!.duration.toStringAsFixed(training!.duration.truncateToDouble() == training!.duration ? 0 : 1)} ${training!.durationType.toLowerCase()}"
+                            : "N/A",
+                      ),
                       const SizedBox(height: 20),
                       Text("Delivery Method:", style: textTheme.titleMedium),
                       const SizedBox(height: 10),
-                      Text("Blended"),
-
+                      Text(training?.deliveryMethod ?? "N/A"),
                       const SizedBox(height: 20),
                       Text("Training Type:", style: textTheme.titleMedium),
                       const SizedBox(height: 10),
-                      Text("AShort Term Training"),
+                      Text(training?.trainingType?.name ?? "N/A"),
                     ],
                   ),
                 ),
@@ -146,9 +135,11 @@ class OverviewWiget extends StatelessWidget {
                     children: [
                       Text("Total Participants:", style: textTheme.titleMedium),
                       const SizedBox(height: 10),
-                      Text("50", style: textTheme.bodySmall),
+                      Text(
+                        training?.totalParticipants.toString() ?? "N/A",
+                        style: textTheme.bodySmall,
+                      ),
                       const SizedBox(height: 20),
-
                       Text(
                         "Gender Distribution:",
                         style: textTheme.titleMedium,
@@ -157,25 +148,26 @@ class OverviewWiget extends StatelessWidget {
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: const [
-                          Text("Male (50%)"),
-                          Text("Female (50%)"),
-                        ],
+                        children: (training?.genderPercentages ?? [])
+                            .map(
+                              (gp) => Text(
+                                "${gp.gender} (${gp.percentage.toStringAsFixed(0)}%)",
+                              ),
+                            )
+                            .toList(),
                       ),
-                      const SizedBox(height: 20),
 
+                      const SizedBox(height: 20),
                       Text("Age Groups:", style: textTheme.titleMedium),
                       const SizedBox(height: 10),
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: const [
-                          Text("15-17 Years"),
-                          Text("18-24 Years"),
-                        ],
+                        children: (training?.ageGroups ?? [])
+                            .map((age) => Text(age.name))
+                            .toList(),
                       ),
                       const SizedBox(height: 20),
-
                       Text(
                         "Economic Backgrounds:",
                         style: textTheme.titleMedium,
@@ -184,13 +176,11 @@ class OverviewWiget extends StatelessWidget {
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: const [
-                          Text("Informal Economy / Subsistence Living"),
-                          Text("Rural Economy Dependent"),
-                        ],
+                        children: (training?.economicBackgrounds ?? [])
+                            .map((eb) => Text(eb.name))
+                            .toList(),
                       ),
                       const SizedBox(height: 20),
-
                       Text(
                         "Academic Qualifications:",
                         style: textTheme.titleMedium,
@@ -199,12 +189,9 @@ class OverviewWiget extends StatelessWidget {
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: const [
-                          Text("TVET Certificate"),
-                          Text("Secondary School"),
-                          Text("Middle School"),
-                          Text("Informal Education"),
-                        ],
+                        children: (training?.academicQualifications ?? [])
+                            .map((aq) => Text(aq.name))
+                            .toList(),
                       ),
                     ],
                   ),
@@ -222,10 +209,11 @@ class OverviewWiget extends StatelessWidget {
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: const [Text("Skill Development")],
+                        children: (training?.trainingPurposes ?? [])
+                            .map((tp) => Text(tp.name))
+                            .toList(),
                       ),
                       const SizedBox(height: 20),
-
                       Text(
                         "Certificate Description:",
                         style: textTheme.titleMedium,
@@ -234,7 +222,9 @@ class OverviewWiget extends StatelessWidget {
                       Wrap(
                         spacing: 8,
                         runSpacing: 8,
-                        children: const [Text("N/A")],
+                        children: [
+                          Text(training?.certificateDescription ?? "N/A"),
+                        ],
                       ),
                     ],
                   ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trainer_application/core/widgets/custom_dropdown.dart';
+import '../../domain/entities/training_entity.dart';
 
 class TraningProfileWidget extends StatelessWidget {
-  const TraningProfileWidget({super.key});
+  final TrainingEntity? training;
+
+  const TraningProfileWidget({super.key, this.training});
 
   @override
   Widget build(BuildContext context) {

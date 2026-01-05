@@ -47,9 +47,12 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const ProfileScreen(),
     ),
     GoRoute(
-      path: '/trainingDetails',
+      path: '/trainingDetails/:id',
       name: "trainingDetails",
-      builder: (context, state) => const TrainingDetailScreen(),
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '';
+        return TrainingDetailScreen(trainingId: id);
+      },
     ),
   ],
 );

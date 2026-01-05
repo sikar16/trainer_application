@@ -165,7 +165,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                       age: _formatAgeGroups(training.ageGroups),
                       nextpage: 'View training',
                       onNextTap: () {
-                        context.go('/trainingDetails');
+                        context.go('/trainingDetails/${training.id}');
                       },
                     ),
                   );
