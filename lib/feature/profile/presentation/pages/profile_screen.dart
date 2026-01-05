@@ -67,42 +67,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _saveProfile() {
-    if (_formKey.currentState!.validate() && _currentProfile != null) {
-      final Map<String, dynamic> profileData = {
-        'firstName': _firstNameController.text.trim(),
-        'lastName': _lastNameController.text.trim(),
-        'email': _emailController.text.trim(),
-        'phoneNumber': _phoneController.text.trim(),
-      };
+    if (!_formKey.currentState!.validate() || _currentProfile == null) return;
 
-      if (_currentProfile!.trainer != null) {
-        final trainer = _currentProfile!.trainer!;
-        profileData['trainer'] = {
-          'firstName': _firstNameController.text.trim(),
-          'lastName': _lastNameController.text.trim(),
-          'email': _emailController.text.trim(),
-          'phoneNumber': _phoneController.text.trim(),
-          'faydaId': trainer.faydaId,
-          'gender': trainer.gender,
-          'dateOfBirth': trainer.dateOfBirth,
-          'language': {'id': trainer.language.id},
-          'zone': {'id': trainer.zone.id},
-          if (trainer.city != null) 'city': trainer.city,
-          'woreda': trainer.woreda,
-          'houseNumber': trainer.houseNumber,
-          'location': trainer.location,
-          'academicLevel': {'id': trainer.academicLevel.id},
-          'trainingTags': trainer.trainingTags
-              .map((tag) => {'id': tag.id})
-              .toList(),
-          'experienceYears': trainer.experienceYears,
-          'coursesTaught': trainer.coursesTaught,
-          'certifications': trainer.certifications,
-        };
-      }
+    final profile = _currentProfile!;
+    final trainer = profile.trainer;
 
-      context.read<ProfileBloc>().add(EditProfileEvent(profileData));
+    final Map<String, dynamic> payload = {
+      "firstName": _firstNameController.text.trim(),
+      "lastName": _lastNameController.text.trim(),
+      "email": _emailController.text.trim(),
+      "phoneNumber": _phoneController.text.trim(),
+    };
+
+    if (trainer != null) {
+      payload.addAll({
+        "gender": trainer.gender,
+        "dateOfBirth": trainer.dateOfBirth,
+        "languageId": trainer.language.id,
+        "zoneId": trainer.zone.id,
+        "academicLevelId": trainer.academicLevel.id,
+        "trainingTagIds": trainer.trainingTags.map((e) => e.id).toList(),
+        "experienceYears": trainer.experienceYears,
+        "coursesTaught": trainer.coursesTaught,
+        "certifications": trainer.certifications,
+      });
     }
+
+    context.read<ProfileBloc>().add(EditProfileEvent(payload));
   }
 
   @override

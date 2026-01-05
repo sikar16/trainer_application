@@ -5,7 +5,6 @@ class StorageService {
   static const String _userDataKey = 'user_data';
   static const String _tokenKey = 'auth_token';
 
-  // Save user data
   static Future<void> saveUserData(Map<String, dynamic> userData) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -15,7 +14,6 @@ class StorageService {
     }
   }
 
-  // Get user data
   static Future<Map<String, dynamic>?> getUserData() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -29,7 +27,6 @@ class StorageService {
     }
   }
 
-  // Save auth token
   static Future<void> saveToken(String token) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -39,7 +36,6 @@ class StorageService {
     }
   }
 
-  // Get auth token
   static Future<String?> getToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -49,7 +45,6 @@ class StorageService {
     }
   }
 
-  // Clear all data (logout)
   static Future<void> clearAll() async {
     try {
       final prefs = await SharedPreferences.getInstance();

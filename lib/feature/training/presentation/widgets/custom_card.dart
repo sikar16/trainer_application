@@ -43,7 +43,7 @@ class CustomCard extends StatelessWidget {
                 color: colorTheme.secondary,
               ),
               const SizedBox(width: 5),
-              Text(locaton, style: textTheme.bodySmall),
+              Text("N/A", style: textTheme.bodySmall),
               const SizedBox(width: 20),
 
               Icon(Icons.timer_outlined, size: 16, color: colorTheme.secondary),

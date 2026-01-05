@@ -14,6 +14,10 @@ import 'package:trainer_application/feature/profile/data/repositories/profile_re
 import 'package:trainer_application/feature/profile/domain/usecases/get_profile_usecase.dart';
 import 'package:trainer_application/feature/profile/domain/usecases/edit_profile_usecase.dart';
 import 'package:trainer_application/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:trainer_application/feature/training/data/datasources/training_remote_data_source.dart';
+import 'package:trainer_application/feature/training/data/repositories/training_repository_impl.dart';
+import 'package:trainer_application/feature/training/domain/usecases/get_trainings_usecase.dart';
+import 'package:trainer_application/feature/training/presentation/bloc/training_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,6 +47,13 @@ class MyApp extends StatelessWidget {
             ),
             editProfileUseCase: EditProfileUseCase(
               ProfileRepositoryImpl(ProfileRemoteDataSource()),
+            ),
+          ),
+        ),
+        BlocProvider<TrainingBloc>(
+          create: (_) => TrainingBloc(
+            getTrainingsUseCase: GetTrainingsUseCase(
+              TrainingRepositoryImpl(TrainingRemoteDataSource()),
             ),
           ),
         ),
