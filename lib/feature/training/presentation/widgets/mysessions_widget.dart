@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trainer_application/core/widgets/custom_popupdropdown.dart';
-
-enum SampleItem { itemOne, itemTwo, itemThree }
+import 'package:trainer_application/feature/training/presentation/widgets/view_report_widget.dart';
 
 class MysessionsWidget extends StatefulWidget {
   const MysessionsWidget({super.key});
@@ -11,15 +9,16 @@ class MysessionsWidget extends StatefulWidget {
 }
 
 class _MysessionsWidgetState extends State<MysessionsWidget> {
-  SampleItem? selectedItem;
+  bool _isAbsent = true;
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorTheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final primary = theme.colorScheme.primary;
 
-    SampleItem? selectedItem;
     return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,741 +28,433 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            margin: EdgeInsets.only(top: 30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(255, 210, 210, 210),
-                width: 1,
-              ),
-            ),
 
+          const SizedBox(height: 24),
+
+          _card(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Cohorts", style: textTheme.titleMedium),
-                SizedBox(height: 16),
-
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorTheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text("Test cohort 4"),
-                      ),
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorTheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text("Test cohort 4"),
-                      ),
-                      SizedBox(width: 10),
-
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorTheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text("Test cohort 4"),
-                      ),
-                      SizedBox(width: 10),
-
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorTheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text("Test cohort 4"),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            margin: EdgeInsets.only(top: 30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(255, 210, 210, 210),
-                width: 1,
-              ),
-            ),
-
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Sessions", style: textTheme.titleMedium),
-                SizedBox(height: 16),
-
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorTheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text("Digital literacy"),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(20),
-            margin: EdgeInsets.only(top: 30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(255, 210, 210, 210),
-                width: 1,
-              ),
-            ),
-
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  child: Wrap(
-                    spacing: 14,
-                    runSpacing: 8,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Digital literacy",
-                            style: textTheme.titleMedium?.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Cohort:Test cohort 4",
-                            style: textTheme.bodySmall?.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 30),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Date",
-                            style: textTheme.titleMedium?.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "07/10/2025",
-                            style: textTheme.bodySmall?.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 30),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Time",
-                            style: textTheme.titleMedium?.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "12:00 PM -3:00 PM",
-                            style: textTheme.bodySmall?.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 30),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Location",
-                            style: textTheme.titleMedium?.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Business Center,",
-                            style: textTheme.bodySmall?.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                const Text("Cohorts"),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 12,
+                  children: [
+                    _pill("Test cohort 4", selected: true),
+                    _pill("Test cohort 3"),
+                    _pill("Test cohort 2"),
+                    _pill("Test cohort 1"),
+                  ],
                 ),
               ],
             ),
           ),
 
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            margin: EdgeInsets.only(top: 30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(255, 210, 210, 210),
-                width: 1,
-              ),
+          const SizedBox(height: 20),
+
+          _card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Sessions"),
+                const SizedBox(height: 12),
+                _pill("Digital literacy", selected: true),
+              ],
             ),
-            child: Text("data"),
           ),
 
-          // Container(
-          //   padding: const EdgeInsets.symmetric(horizontal: 12),
-          //   decoration: BoxDecoration(
-          //     border: Border.all(color: Colors.grey.shade400),
-          //     borderRadius: BorderRadius.circular(8),
-          //     color: Colors.white,
-          //   ),
-          //   child: PopupMenuButton<SampleItem>(
-          //     child: Row(
-          //       mainAxisSize: MainAxisSize.min,
-          //       children: [
-          //         Text(
-          //           selectedItem != null
-          //               ? selectedItem!.name.replaceAll("item", "Item ")
-          //               : "Select Item",
-          //           style: const TextStyle(color: Colors.black),
-          //         ),
-          //         const SizedBox(width: 6),
-          //         const Icon(Icons.arrow_drop_down),
-          //       ],
-          //     ),
-          //     onSelected: (SampleItem item) {
-          //       setState(() {
-          //         selectedItem = item;
-          //       });
-          //     },
-          //     itemBuilder: (BuildContext context) =>
-          //         <PopupMenuEntry<SampleItem>>[
-          //           const PopupMenuItem<SampleItem>(
-          //             value: SampleItem.itemOne,
-          //             child: Text('Item 1'),
-          //           ),
-          //           const PopupMenuItem<SampleItem>(
-          //             value: SampleItem.itemTwo,
-          //             child: Text('Item 2'),
-          //           ),
-          //           const PopupMenuItem<SampleItem>(
-          //             value: SampleItem.itemThree,
-          //             child: Text('Item 3'),
-          //           ),
-          //         ],
-          //   ),
-          // ),
-          Container(
-            child: ElevatedButton(
+          const SizedBox(height: 20),
+
+          _card(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _infoColumn(
+                    title: "Digital literacy",
+                    subtitle: "Cohort: Test cohort 4",
+                  ),
+                  const SizedBox(width: 32),
+
+                  _infoColumn(
+                    title: "Date",
+                    subtitle: "07/10/2025",
+                    icon: Icons.calendar_today_outlined,
+                  ),
+                  const SizedBox(width: 32),
+
+                  _infoColumn(title: "Time", subtitle: "12:00 PM - 3:00 PM"),
+                  const SizedBox(width: 32),
+
+                  _infoColumn(title: "Location", subtitle: "Business Center"),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+          Align(
+            alignment: Alignment.centerRight,
+            child: OutlinedButton.icon(
               onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
-                  ),
-                  builder: (context) {
-                    return SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          top: 16,
-                          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Bottom Sheet Title",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            const Text(
-                              "Here is the content of the bottom sheet.",
-                            ),
-                            const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text("Close"),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ViewReportPage()),
                 );
               },
-              child: const Text("Show Bottom Sheet"),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(top: 30),
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(255, 220, 220, 220),
+              icon: const Icon(Icons.check_circle_outline),
+              label: const Text("View Report"),
+              style: OutlinedButton.styleFrom(
+                backgroundColor: const Color(0xFFE7F9EE),
+                foregroundColor: const Color(0xFF137333),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
+          ),
+          const SizedBox(height: 16),
 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 20,
-                        ),
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: Colors.grey.shade300),
-                        ),
-                      ),
-                      child: const Text("Save Attendance"),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primary.withOpacity(.6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
                     ),
-                  ],
-                ),
-
-                const SizedBox(height: 24),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Search students",
-                          prefixIcon: const Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          isDense: true,
-                        ),
-                      ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    const SizedBox(width: 16),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 20,
-                        ),
-                        backgroundColor: const Color.fromRGBO(134, 239, 172, 1),
-                        foregroundColor: const Color.fromARGB(255, 27, 71, 28),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: const BorderSide(
-                            color: Color.fromARGB(255, 133, 199, 136),
-                            width: 1.5,
-                          ),
-                        ),
-                      ),
-                      child: const Text("View Report"),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 24),
-
-                SizedBox(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Table(
-                        border: TableBorder.symmetric(
-                          inside: BorderSide(color: Colors.grey.shade300),
-                          outside: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        columnWidths: const {
-                          0: FixedColumnWidth(60),
-                          1: FixedColumnWidth(180),
-                          2: FixedColumnWidth(140),
-                          3: FixedColumnWidth(120),
-                          4: FixedColumnWidth(260),
-                          5: FixedColumnWidth(220),
-                        },
-                        defaultVerticalAlignment:
-                            TableCellVerticalAlignment.middle,
-                        children: [
-                          TableRow(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade100,
-                            ),
-                            children: const [
-                              Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text("data"),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text(
-                                  "Full Name",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text(
-                                  "Phone number",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text(
-                                  "Date",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text(
-                                  "Attendance",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text(
-                                  "ID & Consent Form",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          TableRow(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text(""),
-                              ),
-
-                              const Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text("Student test one"),
-                              ),
-
-                              const Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text("+25196677889"),
-                              ),
-
-                              const Padding(
-                                padding: EdgeInsets.all(12),
-                                child: Text("07/10/2025"),
-                              ),
-
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.check_circle,
-                                              color: Colors.green,
-                                              size: 30,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.cancel,
-                                              color: Colors.red,
-                                              size: 30,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(width: 12),
-
-                                        Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.message_outlined,
-                                              color: Color.fromARGB(
-                                                255,
-                                                96,
-                                                96,
-                                                96,
-                                              ),
-                                              size: 20,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.save_outlined,
-                                              color: Color.fromARGB(
-                                                255,
-                                                96,
-                                                96,
-                                                96,
-                                              ),
-                                              size: 20,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 6),
-                                  ],
-                                ),
-                              ),
-
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 0,
-                                    ),
-
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(
-                                        color: const Color.fromRGBO(
-                                          221,
-                                          221,
-                                          221,
-                                          1,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.calendar_today_rounded,
-                                        color: Colors.black,
-                                        size: 20,
-                                      ),
-                                      SizedBox(width: 1),
-                                      TextButton(
-                                        onPressed: () {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            backgroundColor: Colors.white,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.vertical(
-                                                    top: Radius.circular(20),
-                                                  ),
-                                            ),
-                                            builder: (context) {
-                                              return SizedBox(
-                                                width: double.infinity,
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                    left: 16,
-                                                    right: 16,
-                                                    top: 16,
-                                                    bottom:
-                                                        MediaQuery.of(
-                                                          context,
-                                                        ).viewInsets.bottom +
-                                                        16,
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Text(
-                                                        "Upload ID Document - student test",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 16,
-                                                      ),
-                                                      const Text("ID Type"),
-                                                      const SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      CustomPopupDropdown<
-                                                        SampleItem
-                                                      >(
-                                                        selectedItem:
-                                                            selectedItem,
-                                                        hint: "Select Item",
-                                                        items: const [
-                                                          DropdownMenuItem(
-                                                            value: SampleItem
-                                                                .itemOne,
-                                                            child: Text(
-                                                              "Item 1",
-                                                            ),
-                                                          ),
-                                                          DropdownMenuItem(
-                                                            value: SampleItem
-                                                                .itemTwo,
-                                                            child: Text(
-                                                              "Item 2",
-                                                            ),
-                                                          ),
-                                                          DropdownMenuItem(
-                                                            value: SampleItem
-                                                                .itemThree,
-                                                            child: Text(
-                                                              "Item 3",
-                                                            ),
-                                                          ),
-                                                        ],
-                                                        onSelected: (item) {
-                                                          setState(() {
-                                                            selectedItem = item;
-                                                          });
-                                                        },
-                                                      ),
-                                                      ElevatedButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                              context,
-                                                            ),
-                                                        child: const Text(
-                                                          "Close",
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: const Text(
-                                          "Show Bottom Sheet",
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    "Save Attendance",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ),
+
+                const SizedBox(width: 24),
+
+                SizedBox(
+                  width: 188,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "Search students...",
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      isDense: true,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: 12),
               ],
             ),
           ),
+
+          const SizedBox(height: 16),
+
+          _card(
+            padding: EdgeInsets.zero,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                headingRowColor: MaterialStateProperty.all(
+                  Colors.grey.shade100,
+                ),
+                columns: const [
+                  DataColumn(label: Checkbox(value: false, onChanged: null)),
+                  DataColumn(label: Text("Full Name")),
+                  DataColumn(label: Text("Phone Number")),
+                  DataColumn(label: Text("Date")),
+                  DataColumn(label: Text("Attendance")),
+                  DataColumn(label: Text("ID & Consent Form")),
+                ],
+                rows: [
+                  DataRow(
+                    cells: [
+                      const DataCell(Checkbox(value: false, onChanged: null)),
+                      const DataCell(Text("student one test")),
+                      const DataCell(Text("+251920562362")),
+                      const DataCell(Text("07/10/2025")),
+                      DataCell(_attendanceChip()),
+                      DataCell(
+                        OutlinedButton.icon(
+                          onPressed: () {
+                            _showUploadIDDialog(context);
+                          },
+                          icon: const Icon(Icons.badge_outlined),
+                          label: const Text("Add ID & Consent"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+        ],
+      ),
+    );
+  }
+
+  Widget _card({required Widget child, EdgeInsets? padding}) {
+    return Container(
+      width: double.infinity,
+      padding: padding ?? const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+        color: Colors.white,
+      ),
+      child: child,
+    );
+  }
+
+  Widget _pill(String label, {bool selected = false}) {
+    return OutlinedButton(
+      onPressed: () {},
+      style: OutlinedButton.styleFrom(
+        backgroundColor: selected ? Colors.blue : Colors.white,
+        foregroundColor: selected ? Colors.white : Colors.black,
+        side: BorderSide(color: selected ? Colors.blue : Colors.grey.shade300),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      child: Text(label),
+    );
+  }
+
+  Widget _infoColumn({
+    required String title,
+    required String subtitle,
+    IconData? icon,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            if (icon != null) Icon(icon, size: 16),
+            if (icon != null) const SizedBox(width: 6),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Text(subtitle, style: TextStyle(color: Colors.grey.shade600)),
+      ],
+    );
+  }
+
+  Widget _attendanceChip() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _isAbsent = !_isAbsent;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: _isAbsent ? Colors.red : Colors.green),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              _isAbsent ? Icons.close : Icons.check,
+              size: 16,
+              color: _isAbsent ? Colors.red : Colors.green,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              _isAbsent ? "Absent" : "Present",
+              style: TextStyle(color: _isAbsent ? Colors.red : Colors.green),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              "Editing",
+              style: TextStyle(
+                fontSize: 12,
+                color: _isAbsent ? Colors.blue : Colors.green,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showUploadIDDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return _uploadIDBottomSheet();
+      },
+    );
+  }
+
+  Widget _uploadIDBottomSheet() {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Upload ID Document - student test",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "ID Type",
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Select ID type",
+                      style: TextStyle(color: Colors.grey.shade600),
+                    ),
+                    Icon(Icons.arrow_drop_down, color: Colors.grey.shade600),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Front of ID",
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                height: 150,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300, width: 2),
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.grey.shade50,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.cloud_upload_outlined,
+                      size: 48,
+                      color: Colors.grey.shade400,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Upload Front",
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 32),
+
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text("Cancel", style: TextStyle(fontSize: 16)),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Handle upload logic here
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    "Upload ID",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
         ],
       ),
     );
