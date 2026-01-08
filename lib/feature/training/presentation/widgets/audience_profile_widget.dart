@@ -8,6 +8,6 @@ class AudienceProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("Audience profile"));
+    return SizedBox(child: Text("Audience profile"));
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:trainer_application/core/widgets/app_drawer.dart';
-import 'package:trainer_application/core/widgets/custom_appBar.dart';
+import 'package:trainer_application/core/widgets/custom_appbar.dart';
 
 import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';
@@ -231,11 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () => _startEditing(profile),
             icon: Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withOpacity(0.1),
-                shape: BoxShape.circle,
-                border: Border.all(color: colorScheme.primary.withOpacity(0.2)),
-              ),
+              decoration: BoxDecoration(shape: BoxShape.circle),
               child: Icon(
                 Icons.edit_outlined,
                 size: 22,
@@ -367,10 +363,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: colorScheme.error.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(shape: BoxShape.circle),
               child: Icon(
                 Icons.error_outline,
                 size: 48,
@@ -425,9 +418,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         border: Border.all(color: Colors.grey[200]!),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.grey,
+            blurRadius: 1,
+            offset: const Offset(0, 0),
           ),
         ],
       ),
@@ -438,10 +431,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(shape: BoxShape.circle),
               child: Icon(
                 icon,
                 size: 20,

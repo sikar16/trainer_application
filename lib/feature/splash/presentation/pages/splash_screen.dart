@@ -18,15 +18,11 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> goToHome() async {
-    await Future.delayed(const Duration(seconds: 3)); // 3 seconds splash
-    if (mounted) context.go('/login'); // navigate to home
+    await Future.delayed(const Duration(seconds: 3));
+    if (mounted) context.go('/login');
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

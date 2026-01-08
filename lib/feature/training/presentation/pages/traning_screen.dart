@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trainer_application/core/widgets/app_drawer.dart';
-import 'package:trainer_application/core/widgets/custom_appBar.dart';
+import 'package:trainer_application/core/widgets/custom_appbar.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/custom_card.dart';
 import '../bloc/training_bloc.dart';
 import '../bloc/training_event.dart';
@@ -19,7 +19,7 @@ class TrainingScreen extends StatefulWidget {
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _TrainingScreenState extends State<TrainingScreen> {
-  int _currentPage = 1;
+  final int _currentPage = 1;
   final int _pageSize = 10;
 
   @override

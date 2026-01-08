@@ -15,10 +15,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    final primary = theme.colorScheme.primary;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -127,7 +126,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: primary.withOpacity(.6),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 12,
@@ -174,9 +172,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
-                headingRowColor: MaterialStateProperty.all(
-                  Colors.grey.shade100,
-                ),
                 columns: const [
                   DataColumn(label: Checkbox(value: false, onChanged: null)),
                   DataColumn(label: Text("Full Name")),

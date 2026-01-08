@@ -13,7 +13,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
   final TextEditingController _topicsCoveredController = TextEditingController(
     text: "training report",
   );
-  final TextEditingController _SignificantObservationController =
+  final TextEditingController _significantObservationController =
       TextEditingController(text: "none");
   final TextEditingController _satisfactionController = TextEditingController(
     text: "5 - Very Satisfied",
@@ -60,7 +60,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
   @override
   void dispose() {
-    _SignificantObservationController.dispose();
+    _significantObservationController.dispose();
     _topicsCoveredController.dispose();
     _satisfactionController.dispose();
     _summaryController.dispose();
@@ -177,6 +177,9 @@ class _ViewReportPageState extends State<ViewReportPage> {
             label: const Text("Back"),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
           )
         else
@@ -193,6 +196,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             label: const Text("Next"),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -206,10 +210,13 @@ class _ViewReportPageState extends State<ViewReportPage> {
               _saveReportData();
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.done),
             label: const Text("Save & Close"),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
           ),
@@ -258,7 +265,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
 
             TextField(
-              controller: _SignificantObservationController,
+              controller: _significantObservationController,
               maxLines: 1,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -581,39 +588,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildTextField(String label, TextEditingController controller) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.grey.shade700,
-          ),
-        ),
-        const SizedBox(height: 4),
-        SizedBox(
-          width: 150,
-          child: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 8,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Colors.grey.shade300),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 

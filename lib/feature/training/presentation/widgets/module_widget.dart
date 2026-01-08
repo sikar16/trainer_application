@@ -5,6 +5,6 @@ class ModuleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("Module"));
+    return SizedBox(child: Text("Module"));
   }
 }

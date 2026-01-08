@@ -24,17 +24,6 @@ class CustomPopupDropdown<T> extends StatelessWidget {
         color: Colors.white,
       ),
       child: PopupMenuButton<T>(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              selectedItem != null ? _getItemLabel(selectedItem!) : hint,
-              style: const TextStyle(color: Colors.black),
-            ),
-            const SizedBox(width: 6),
-            const Icon(Icons.arrow_drop_down),
-          ],
-        ),
         onSelected: onSelected,
         itemBuilder: (context) {
           return items
@@ -44,6 +33,22 @@ class CustomPopupDropdown<T> extends StatelessWidget {
               )
               .toList();
         },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Builder(
+              builder: (_) {
+                final item = selectedItem;
+                return Text(
+                  item == null ? hint : _getItemLabel(item),
+                  style: const TextStyle(color: Colors.black),
+                );
+              },
+            ),
+            const SizedBox(width: 6),
+            const Icon(Icons.arrow_drop_down),
+          ],
+        ),
       ),
     );
   }

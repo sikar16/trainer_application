@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trainer_application/core/widgets/app_drawer.dart';
-import 'package:trainer_application/core/widgets/custom_appBar.dart';
+import 'package:trainer_application/core/widgets/custom_appbar.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -27,7 +27,7 @@ class _SettingScreenState extends State<SettingScreen> {
         onProfileTap: () {},
       ),
 
-      body: Container(child: Text("Setting screen")),
+      body: SizedBox(child: Text("Setting screen")),
     );
   }
 }

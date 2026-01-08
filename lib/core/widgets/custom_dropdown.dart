@@ -39,7 +39,7 @@ class _CostomDropDownState extends State<CostomDropDown> {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
-                color: colorTheme.surfaceVariant.withOpacity(0.3),
+                color: colorTheme.surface,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(

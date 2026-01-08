@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainer_application/core/widgets/app_drawer.dart';
-import 'package:trainer_application/core/widgets/custom_appBar.dart';
+import 'package:trainer_application/core/widgets/custom_appbar.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/audience_profile_widget.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/content_widget.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/module_widget.dart';
@@ -133,7 +133,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: tabs.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 30),
+            separatorBuilder: (_, _) => const SizedBox(width: 30),
             itemBuilder: (context, index) {
               final isSelected = index == selectedIndex;
               return InkWell(
