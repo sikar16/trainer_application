@@ -8,13 +8,14 @@ class MysessionsWidget extends StatefulWidget {
   State<MysessionsWidget> createState() => _MysessionsWidgetState();
 }
 
+
 class _MysessionsWidgetState extends State<MysessionsWidget> {
   bool _isAbsent = true;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.only(bottom: 20),
@@ -135,11 +136,15 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                     ),
                     elevation: 0,
                   ),
-                  child: const Text(
-                    "Save Attendance",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  child: SizedBox(
+                    child: Text(
+                      "Save Attendance",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        backgroundColor: colorScheme.primary,
+                    
+                      ),
                     ),
                   ),
                 ),
@@ -227,7 +232,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     return OutlinedButton(
       onPressed: () {},
       style: OutlinedButton.styleFrom(
-        backgroundColor: selected ? Colors.blue : Colors.white,
+        backgroundColor: selected ?  : Colors.white,
         foregroundColor: selected ? Colors.white : Colors.black,
         side: BorderSide(color: selected ? Colors.blue : Colors.grey.shade300),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
