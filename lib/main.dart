@@ -18,19 +18,24 @@ import 'package:trainer_application/feature/training/data/datasources/training_r
 import 'package:trainer_application/feature/training/data/datasources/cohort_remote_data_source.dart';
 import 'package:trainer_application/feature/training/data/datasources/session_remote_data_source.dart';
 import 'package:trainer_application/feature/training/data/datasources/trainee_remote_data_source.dart';
+import 'package:trainer_application/feature/training/data/datasources/attendance_remote_data_source.dart';
 import 'package:trainer_application/feature/training/data/repositories/training_repository_impl.dart';
 import 'package:trainer_application/feature/training/data/repositories/cohort_repository_impl.dart';
 import 'package:trainer_application/feature/training/data/repositories/session_repository_impl.dart';
 import 'package:trainer_application/feature/training/data/repositories/trainee_repository_impl.dart';
+import 'package:trainer_application/feature/training/data/repositories/attendance_repository_impl.dart';
 import 'package:trainer_application/feature/training/domain/usecases/get_trainings_usecase.dart';
 import 'package:trainer_application/feature/training/domain/usecases/get_training_by_id_usecase.dart';
 import 'package:trainer_application/feature/training/domain/usecases/get_cohorts_usecase.dart';
 import 'package:trainer_application/feature/training/domain/usecases/get_sessions_by_cohort_usecase.dart';
 import 'package:trainer_application/feature/training/domain/usecases/get_trainees_by_cohort_usecase.dart';
+import 'package:trainer_application/feature/training/domain/usecases/get_attendance_by_session_usecase.dart';
+import 'package:trainer_application/feature/training/domain/usecases/save_attendance_usecase.dart';
 import 'package:trainer_application/feature/training/presentation/bloc/training_bloc.dart';
 import 'package:trainer_application/feature/training/presentation/bloc/cohort_bloc.dart';
 import 'package:trainer_application/feature/training/presentation/bloc/session_bloc.dart';
 import 'package:trainer_application/feature/training/presentation/bloc/trainee_bloc.dart';
+import 'package:trainer_application/feature/training/presentation/bloc/attendance_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -91,6 +96,16 @@ class MyApp extends StatelessWidget {
           create: (_) => TraineeBloc(
             getTraineesByCohortUseCase: GetTraineesByCohortUseCase(
               TraineeRepositoryImpl(TraineeRemoteDataSource()),
+            ),
+          ),
+        ),
+        BlocProvider<AttendanceBloc>(
+          create: (_) => AttendanceBloc(
+            getAttendanceBySessionUseCase: GetAttendanceBySessionUseCase(
+              AttendanceRepositoryImpl(AttendanceRemoteDataSource()),
+            ),
+            saveAttendanceUseCase: SaveAttendanceUseCase(
+              AttendanceRepositoryImpl(AttendanceRemoteDataSource()),
             ),
           ),
         ),

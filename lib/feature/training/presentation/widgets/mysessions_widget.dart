@@ -7,6 +7,9 @@ import '../bloc/session_bloc.dart';
 import '../bloc/session_event.dart';
 import '../bloc/trainee_bloc.dart';
 import '../bloc/trainee_event.dart';
+import '../bloc/attendance_bloc.dart';
+import '../bloc/attendance_event.dart';
+import '../bloc/attendance_state.dart';
 import '../../domain/entities/session_entity.dart';
 import '../../domain/entities/trainee_entity.dart';
 import 'cohort_selection_widget.dart';
@@ -28,6 +31,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   String? _selectedSessionId;
   String _searchQuery = '';
   bool _hasSessions = false;
+  Map<String, bool> _attendanceChanges = {};
+  Map<String, bool> _initialAttendance = {};
+  bool _hasUnsavedChanges = false;
 
   @override
   void initState() {
@@ -56,14 +62,80 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     if (_selectedSessionId == null && sessions.isNotEmpty) {
       setState(() {
         _selectedSessionId = sessions.first.id;
+        _attendanceChanges.clear();
+        _initialAttendance.clear();
+        _hasUnsavedChanges = false;
       });
+      context.read<AttendanceBloc>().add(
+        GetAttendanceBySessionEvent(sessions.first.id),
+      );
     }
   }
 
   void _onSessionSelected(String? sessionId) {
     setState(() {
       _selectedSessionId = sessionId;
+      _attendanceChanges.clear();
+      _initialAttendance.clear();
+      _hasUnsavedChanges = false;
     });
+    if (sessionId != null) {
+      context.read<AttendanceBloc>().add(
+        GetAttendanceBySessionEvent(sessionId),
+      );
+    }
+  }
+
+  void _onAttendanceChanged(String traineeId, bool isPresent) {
+    setState(() {
+      _attendanceChanges[traineeId] = isPresent;
+      // Check if the change is different from initial state
+      _hasUnsavedChanges = _attendanceChanges.entries.any(
+        (entry) => entry.value != (_initialAttendance[entry.key] ?? true),
+      );
+    });
+  }
+
+  void _onAttendanceLoaded(Map<String, bool> attendanceMap) {
+    setState(() {
+      _initialAttendance = Map<String, bool>.from(attendanceMap);
+      _attendanceChanges.clear();
+      _hasUnsavedChanges = false;
+    });
+  }
+
+  Future<void> _saveAttendance() async {
+    if (!_hasUnsavedChanges || _selectedSessionId == null) return;
+
+    // Save all attendance changes
+    final attendanceBloc = context.read<AttendanceBloc>();
+    for (var entry in _attendanceChanges.entries) {
+      attendanceBloc.add(
+        SaveAttendanceEvent(
+          sessionId: _selectedSessionId!,
+          traineeId: entry.key,
+          isPresent: entry.value,
+        ),
+      );
+    }
+
+    // Wait a bit for saves to complete, then reload
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    // Reload attendance after saving
+    attendanceBloc.add(GetAttendanceBySessionEvent(_selectedSessionId!));
+
+    setState(() {
+      _attendanceChanges.clear();
+      _hasUnsavedChanges = false;
+    });
+
+    // Reload attendance to get updated state
+    if (_selectedSessionId != null) {
+      context.read<AttendanceBloc>().add(
+        GetAttendanceBySessionEvent(_selectedSessionId!),
+      );
+    }
   }
 
   void _showUploadIDDialog(BuildContext context, TraineeEntity trainee) {
@@ -157,25 +229,46 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
+                    BlocListener<AttendanceBloc, AttendanceState>(
+                      listener: (context, state) {
+                        if (state is AttendanceSaved) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Attendance saved successfully'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        } else if (state is AttendanceError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Error: ${state.message}'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                      child: ElevatedButton(
+                        onPressed: _hasUnsavedChanges ? _saveAttendance : null,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          backgroundColor: _hasUnsavedChanges
+                              ? colorScheme.primary
+                              : Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 0,
                         ),
-                        backgroundColor: colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: SizedBox(
-                        child: Text(
-                          "Save Attendance",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        child: SizedBox(
+                          child: Text(
+                            "Save Attendance",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -210,11 +303,23 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               const SizedBox(height: 16),
             ],
 
-            TraineeDataTableWidget(
-              selectedCohortId: _selectedCohortId,
-              selectedSessionId: _selectedSessionId,
-              searchQuery: _searchQuery,
-              onUploadID: (trainee) => _showUploadIDDialog(context, trainee),
+            BlocListener<AttendanceBloc, AttendanceState>(
+              listener: (context, state) {
+                if (state is AttendanceLoaded) {
+                  final attendanceMap = <String, bool>{};
+                  for (var attendance in state.attendanceList.attendance) {
+                    attendanceMap[attendance.trainee.id] = attendance.isPresent;
+                  }
+                  _onAttendanceLoaded(attendanceMap);
+                }
+              },
+              child: TraineeDataTableWidget(
+                selectedCohortId: _selectedCohortId,
+                selectedSessionId: _selectedSessionId,
+                searchQuery: _searchQuery,
+                onUploadID: (trainee) => _showUploadIDDialog(context, trainee),
+                onAttendanceChanged: _onAttendanceChanged,
+              ),
             ),
 
             const SizedBox(height: 12),
