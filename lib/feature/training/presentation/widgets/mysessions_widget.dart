@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/view_report_widget.dart';
-import '../bloc/cohort/cohort_bloc.dart';
-import '../bloc/cohort/cohort_event.dart';
-import '../bloc/session/session_bloc.dart';
-import '../bloc/session/session_event.dart';
-import '../bloc/trainee/trainee_bloc.dart';
-import '../bloc/trainee/trainee_event.dart';
-import '../bloc/attendance/attendance_bloc.dart';
-import '../bloc/attendance/attendance_event.dart';
-import '../bloc/attendance/attendance_state.dart';
+import '../bloc/cohort_bloc/cohort_bloc.dart';
+import '../bloc/cohort_bloc/cohort_event.dart';
+import '../bloc/session_bloc/session_bloc.dart';
+import '../bloc/session_bloc/session_event.dart';
+import '../bloc/trainee_bloc/trainee_bloc.dart';
+import '../bloc/trainee_bloc/trainee_event.dart';
+import '../bloc/attendance_bloc/attendance_bloc.dart';
+import '../bloc/attendance_bloc/attendance_event.dart';
+import '../bloc/attendance_bloc/attendance_state.dart';
 import '../../domain/entities/session_entity.dart';
 import '../../domain/entities/trainee_entity.dart';
 import 'cohort_selection_widget.dart';
@@ -208,17 +208,15 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                   icon: const Icon(Icons.check_circle_outline),
                   label: const Text("View Report"),
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color(0xFFE7F9EE),
-                    foregroundColor: const Color(0xFF137333),
+                    backgroundColor: colorScheme.primaryContainer,
+                    foregroundColor: colorScheme.onPrimaryContainer,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 12,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
-                      side: BorderSide(
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                      ),
+                      side: BorderSide(color: colorScheme.surface),
                     ),
                   ),
                 ),
@@ -233,16 +231,20 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                       listener: (context, state) {
                         if (state is AttendanceSaved) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Attendance saved successfully'),
-                              backgroundColor: Colors.green,
+                            SnackBar(
+                              content: const Text(
+                                'Attendance saved successfully',
+                              ),
+                              backgroundColor: colorScheme.primaryContainer,
+                              behavior: SnackBarBehavior.floating,
                             ),
                           );
                         } else if (state is AttendanceError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Error: ${state.message}'),
-                              backgroundColor: Colors.red,
+                              backgroundColor: colorScheme.errorContainer,
+                              behavior: SnackBarBehavior.floating,
                             ),
                           );
                         }
@@ -256,7 +258,10 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                           ),
                           backgroundColor: _hasUnsavedChanges
                               ? colorScheme.primary
-                              : Colors.grey,
+                              : colorScheme.surfaceContainerHighest,
+                          foregroundColor: _hasUnsavedChanges
+                              ? colorScheme.onPrimary
+                              : colorScheme.onSurfaceVariant,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -265,9 +270,8 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                         child: SizedBox(
                           child: Text(
                             "Save Attendance",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                            style: textTheme.labelLarge?.copyWith(
+                              color: colorScheme.outline,
                             ),
                           ),
                         ),

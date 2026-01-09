@@ -81,10 +81,12 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("View Session Report"),
-        backgroundColor: Colors.white,
+        backgroundColor: colorScheme.surface,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -100,7 +102,10 @@ class _ViewReportPageState extends State<ViewReportPage> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(5, (index) => _buildStepIndicator(index)),
+              children: List.generate(
+                5,
+                (index) => _buildStepIndicator(index, context),
+              ),
             ),
 
             const SizedBox(height: 24),
@@ -116,7 +121,9 @@ class _ViewReportPageState extends State<ViewReportPage> {
     );
   }
 
-  Widget _buildStepIndicator(int index) {
+  Widget _buildStepIndicator(int index, BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     bool isActive = index == _currentStep;
     bool isCompleted = index < _currentStep;
 
@@ -125,12 +132,14 @@ class _ViewReportPageState extends State<ViewReportPage> {
         CircleAvatar(
           radius: 16,
           backgroundColor: isActive || isCompleted
-              ? Colors.blue
-              : Colors.grey.shade300,
+              ? colorScheme.primary
+              : colorScheme.outlineVariant,
           child: Text(
             (index + 1).toString(),
-            style: TextStyle(
-              color: isActive || isCompleted ? Colors.white : Colors.grey,
+            style: textTheme.labelLarge?.copyWith(
+              color: isActive || isCompleted
+                  ? colorScheme.onPrimary
+                  : colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -139,7 +148,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
         Container(
           width: 40,
           height: 2,
-          color: isCompleted ? Colors.blue : Colors.grey.shade300,
+          color: isCompleted ? colorScheme.primary : colorScheme.outlineVariant,
         ),
       ],
     );
@@ -201,7 +210,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
                 borderRadius: BorderRadius.circular(12),
               ),
               backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Colors.white,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
           )
         else
@@ -210,10 +219,10 @@ class _ViewReportPageState extends State<ViewReportPage> {
               _saveReportData();
               Navigator.pop(context);
             },
-            label: const Text("Save & Close"),
+            label: const Text("Save "),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -281,7 +290,10 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
         const SizedBox(height: 32),
 
-        Container(height: 1, color: Colors.grey.shade300),
+        Container(
+          height: 1,
+          color: Theme.of(context).colorScheme.outlineVariant,
+        ),
 
         const SizedBox(height: 32),
 
@@ -563,15 +575,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
         const SizedBox(height: 32),
 
-        TextField(
-          maxLines: 1,
-          readOnly: true,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-            contentPadding: const EdgeInsets.all(12),
-          ),
-        ),
-
         const SizedBox(height: 32),
       ],
     );
@@ -587,15 +590,17 @@ class _ViewReportPageState extends State<ViewReportPage> {
             margin: const EdgeInsets.only(top: 6, right: 8),
             width: 6,
             height: 6,
-            decoration: const BoxDecoration(
-              color: Colors.blue,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
               shape: BoxShape.circle,
             ),
           ),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
         ],
@@ -632,7 +637,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -641,10 +646,13 @@ class _ViewReportPageState extends State<ViewReportPage> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: Colors.blue.shade50,
+              color: Theme.of(context).colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(6),
             ),
-            child: const Icon(Icons.description, color: Colors.blue),
+            child: Icon(
+              Icons.description,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -653,12 +661,16 @@ class _ViewReportPageState extends State<ViewReportPage> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   details,
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),

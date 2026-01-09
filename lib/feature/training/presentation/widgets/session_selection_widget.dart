@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/session/session_bloc.dart';
-import '../bloc/session/session_event.dart';
-import '../bloc/session/session_state.dart';
+import '../bloc/session_bloc/session_bloc.dart';
+import '../bloc/session_bloc/session_event.dart';
+import '../bloc/session_bloc/session_state.dart';
 import '../../domain/entities/session_entity.dart';
 import 'common_widgets.dart';
 import 'session_info_card_widget.dart';
@@ -25,6 +25,9 @@ class SessionSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    
     if (selectedCohortId == null) return const SizedBox.shrink();
 
     return BlocListener<SessionBloc, SessionState>(
@@ -73,7 +76,9 @@ class SessionSelectionWidget extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     'Error: ${state.message}',
-                    style: const TextStyle(color: Colors.red),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.error,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   OutlinedButton(
@@ -96,27 +101,24 @@ class SessionSelectionWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Sessions",
-                      style: TextStyle(
+                      style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
+                    Text(
                       'No Sessions Available',
-                      style: TextStyle(
+                      style: textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'No sessions are available in this cohort for attendance tracking. Please add sessions to this cohort first.',
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 14,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],

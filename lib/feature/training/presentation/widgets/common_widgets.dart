@@ -4,21 +4,18 @@ class CommonCard extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
 
-  const CommonCard({
-    super.key,
-    required this.child,
-    this.padding,
-  });
+  const CommonCard({super.key, required this.child, this.padding});
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       width: double.infinity,
       padding: padding ?? const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
-        color: Colors.white,
+        border: Border.all(color: colorScheme.outlineVariant),
+        color: colorScheme.surface,
       ),
       child: child,
     );
@@ -39,12 +36,17 @@ class PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return OutlinedButton(
       onPressed: onTap,
       style: OutlinedButton.styleFrom(
-        backgroundColor: selected ? Colors.blue : Colors.white,
-        foregroundColor: selected ? Colors.white : Colors.black,
-        side: BorderSide(color: selected ? Colors.blue : Colors.grey.shade300),
+        backgroundColor: selected ? colorScheme.primary : colorScheme.surface,
+        foregroundColor: selected
+            ? colorScheme.onPrimary
+            : colorScheme.onSurface,
+        side: BorderSide(
+          color: selected ? colorScheme.primary : colorScheme.outlineVariant,
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       child: Text(label),
@@ -66,18 +68,31 @@ class InfoColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            if (icon != null) Icon(icon, size: 16),
+            if (icon != null)
+              Icon(icon, size: 16, color: colorScheme.onSurface),
             if (icon != null) const SizedBox(width: 6),
-            Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text(
+              title,
+              style: textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 6),
-        Text(subtitle, style: TextStyle(color: Colors.grey.shade600)),
+        Text(
+          subtitle,
+          style: textTheme.bodySmall?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
       ],
     );
   }

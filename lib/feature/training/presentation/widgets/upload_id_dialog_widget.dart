@@ -51,6 +51,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -63,7 +66,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
             children: [
               Text(
                 "Upload ID Document - ${widget.trainee?.fullName ?? ''}",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               IconButton(
                 icon: Icon(Icons.close),
@@ -81,7 +84,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
             children: [
               Text(
                 "ID Type",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
               Container(
@@ -91,7 +94,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade300),
+                  border: Border.all(color: colorScheme.outlineVariant),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: DropdownButton<String>(
@@ -100,7 +103,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                   underline: const SizedBox(),
                   hint: Text(
                     "Select ID type",
-                    style: TextStyle(color: Colors.grey.shade600),
+                    style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
                   ),
                   items: const [
                     'Passport',
@@ -113,7 +116,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                       value: value,
                       child: Text(
                         value,
-                        style: TextStyle(fontWeight: FontWeight.normal),
+                        style: textTheme.bodyMedium,
                       ),
                     );
                   }).toList(),
@@ -146,9 +149,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                   height: 150,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade300, width: 2),
+                    border: Border.all(color: colorScheme.outlineVariant, width: 2),
                     borderRadius: BorderRadius.circular(12),
-                    color: Colors.grey.shade50,
+                    color: colorScheme.surfaceContainerHighest,
                   ),
                   child: _frontImagePath != null
                       ? ClipRRect(
@@ -163,14 +166,13 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                                   Icon(
                                     Icons.image,
                                     size: 48,
-                                    color: Colors.grey.shade400,
+                                    color: colorScheme.onSurfaceVariant,
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
                                     _frontImagePath!.split('/').last,
-                                    style: TextStyle(
-                                      color: Colors.grey.shade600,
-                                      fontSize: 12,
+                                    style: textTheme.labelSmall?.copyWith(
+                                      color: colorScheme.onSurfaceVariant,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -186,14 +188,13 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                             Icon(
                               Icons.cloud_upload_outlined,
                               size: 48,
-                              color: Colors.grey.shade400,
+                              color: colorScheme.onSurfaceVariant,
                             ),
                             const SizedBox(height: 8),
                             Text(
                               "Upload Front",
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: 16,
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ],
@@ -210,7 +211,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
               children: [
                 Text(
                   "Back of ID",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                  style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 12),
                 GestureDetector(
@@ -219,9 +220,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                     height: 150,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300, width: 2),
+                      border: Border.all(color: colorScheme.outlineVariant, width: 2),
                       borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey.shade50,
+                      color: colorScheme.surfaceContainerHighest,
                     ),
                     child: _backImagePath != null
                         ? ClipRRect(
@@ -236,14 +237,13 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                                     Icon(
                                       Icons.image,
                                       size: 48,
-                                      color: Colors.grey.shade400,
+                                      color: colorScheme.onSurfaceVariant,
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
                                       _backImagePath!.split('/').last,
-                                      style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 12,
+                                      style: textTheme.labelSmall?.copyWith(
+                                        color: colorScheme.onSurfaceVariant,
                                       ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -259,14 +259,13 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                               Icon(
                                 Icons.cloud_upload_outlined,
                                 size: 48,
-                                color: Colors.grey.shade400,
+                                color: colorScheme.onSurfaceVariant,
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 "Upload Back",
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontSize: 16,
+                                style: textTheme.bodyMedium?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
                                 ),
                               ),
                             ],
@@ -292,7 +291,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text("Cancel", style: TextStyle(fontSize: 16)),
+                  child: Text("Cancel", style: textTheme.labelLarge),
                 ),
               ),
               const SizedBox(width: 16),
@@ -331,15 +330,18 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: colorScheme.onPrimary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Upload ID",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: textTheme.labelLarge?.copyWith(
+                      color: colorScheme.onPrimary,
+                    ),
                   ),
                 ),
               ),

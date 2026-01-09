@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/trainee/trainee_bloc.dart';
-import '../bloc/trainee/trainee_state.dart';
-import '../bloc/session/session_bloc.dart';
-import '../bloc/session/session_state.dart';
-import '../bloc/attendance/attendance_bloc.dart';
-import '../bloc/attendance/attendance_event.dart';
-import '../bloc/attendance/attendance_state.dart';
+import '../bloc/trainee_bloc/trainee_bloc.dart';
+import '../bloc/trainee_bloc/trainee_state.dart';
+import '../bloc/session_bloc/session_bloc.dart';
+import '../bloc/session_bloc/session_state.dart';
+import '../bloc/attendance_bloc/attendance_bloc.dart';
+import '../bloc/attendance_bloc/attendance_event.dart';
+import '../bloc/attendance_bloc/attendance_state.dart';
 import '../../domain/entities/trainee_entity.dart';
 import 'common_widgets.dart';
 import 'attendance_chip_widget.dart';
@@ -48,6 +48,8 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (widget.selectedCohortId == null || widget.selectedSessionId == null) {
       return const SizedBox.shrink();
     }
@@ -166,16 +168,13 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       side: BorderSide(
-                                        color: const Color.fromARGB(
-                                          255,
-                                          255,
-                                          255,
-                                          255,
-                                        ),
+                                        color: colorScheme.surface,
                                       ),
                                     ),
-                                    backgroundColor: const Color(0xFFE7F9EE),
-                                    foregroundColor: const Color(0xFF137333),
+                                    backgroundColor:
+                                        colorScheme.primaryContainer,
+                                    foregroundColor:
+                                        colorScheme.onPrimaryContainer,
                                   ),
                                   icon: const Icon(Icons.badge_outlined),
                                   label: const Text("Add ID & Consent"),

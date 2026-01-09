@@ -35,6 +35,11 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final presentColor = colorScheme.primary;
+    final absentColor = colorScheme.error;
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -47,7 +52,7 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: _isPresent ? Colors.green : Colors.red),
+          border: Border.all(color: _isPresent ? presentColor : absentColor),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -55,20 +60,21 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
             Icon(
               _isPresent ? Icons.check_circle : Icons.close_rounded,
               size: 16,
-              color: _isPresent ? Colors.green : Colors.red,
+              color: _isPresent ? presentColor : absentColor,
             ),
             const SizedBox(width: 6),
             Text(
               _isPresent ? "Present" : "Absent",
-              style: TextStyle(color: _isPresent ? Colors.green : Colors.red),
+              style: textTheme.labelMedium?.copyWith(
+                color: _isPresent ? presentColor : absentColor,
+              ),
             ),
             if (_hasChanged) ...[
               const SizedBox(width: 8),
               Text(
                 "Editing",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: _isPresent ? Colors.green : Colors.blue,
+                style: textTheme.labelSmall?.copyWith(
+                  color: _isPresent ? presentColor : colorScheme.tertiary,
                 ),
               ),
             ],

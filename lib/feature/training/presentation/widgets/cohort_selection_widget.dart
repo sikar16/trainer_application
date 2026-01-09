@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/cohort/cohort_bloc.dart';
-import '../bloc/cohort/cohort_event.dart';
-import '../bloc/cohort/cohort_state.dart';
+import '../bloc/cohort_bloc/cohort_bloc.dart';
+import '../bloc/cohort_bloc/cohort_event.dart';
+import '../bloc/cohort_bloc/cohort_state.dart';
 import 'common_widgets.dart';
 
 class CohortSelectionWidget extends StatelessWidget {
@@ -19,6 +19,9 @@ class CohortSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    
     return BlocListener<CohortBloc, CohortState>(
       listener: (context, state) {
         if (state is CohortLoaded && selectedCohortId == null) {
@@ -50,7 +53,9 @@ class CohortSelectionWidget extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     'Error: ${state.message}',
-                    style: TextStyle(color: Colors.red),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.error,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   OutlinedButton(
