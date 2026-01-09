@@ -58,172 +58,60 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
 
     return SingleChildScrollView(
       padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Attendance",
-            style: textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Attendance",
+              style: textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-          BlocListener<CohortBloc, CohortState>(
-            listener: (context, state) {
-              if (state is CohortLoaded && _selectedCohortId == null) {
-                final cohorts = state.cohortList.cohorts;
-                if (cohorts.isNotEmpty) {
-                  _onCohortSelected(cohorts.first.id);
-                }
-              }
-            },
-            child: BlocBuilder<CohortBloc, CohortState>(
-              builder: (context, state) {
-                if (state is CohortLoading) {
-                  return _card(
-                    child: const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  );
-                }
-
-                if (state is CohortError) {
-                  return _card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Cohorts"),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Error: ${state.message}',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                        const SizedBox(height: 8),
-                        OutlinedButton(
-                          onPressed: () {
-                            context.read<CohortBloc>().add(
-                              GetCohortsEvent(trainingId: widget.trainingId),
-                            );
-                          },
-                          child: const Text('Retry'),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                if (state is CohortLoaded) {
+            BlocListener<CohortBloc, CohortState>(
+              listener: (context, state) {
+                if (state is CohortLoaded && _selectedCohortId == null) {
                   final cohorts = state.cohortList.cohorts;
-                  if (cohorts.isEmpty) {
+                  if (cohorts.isNotEmpty) {
+                    _onCohortSelected(cohorts.first.id);
+                  }
+                }
+              },
+              child: BlocBuilder<CohortBloc, CohortState>(
+                builder: (context, state) {
+                  if (state is CohortLoading) {
+                    return _card(
+                      child: const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    );
+                  }
+
+                  if (state is CohortError) {
                     return _card(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text("Cohorts"),
                           const SizedBox(height: 12),
-                          const Text('No cohorts available'),
-                        ],
-                      ),
-                    );
-                  }
-
-                  return _card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Cohorts"),
-                        const SizedBox(height: 12),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: cohorts.map((cohort) {
-                              final isSelected = _selectedCohortId == cohort.id;
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 16),
-                                child: _pill(
-                                  cohort.name,
-                                  selected: isSelected,
-                                  onTap: () {
-                                    _onCohortSelected(
-                                      isSelected ? null : cohort.id,
-                                    );
-                                  },
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                return _card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Cohorts"),
-                      const SizedBox(height: 12),
-                      const Text('Loading...'),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          if (_selectedCohortId != null)
-            BlocListener<SessionBloc, SessionState>(
-              listener: (context, state) {
-                if (state is SessionLoaded) {
-                  _onSessionsLoaded(state.sessionList.sessions);
-                }
-              },
-              child: BlocBuilder<SessionBloc, SessionState>(
-                builder: (context, state) {
-                  if (state is SessionLoading) {
-                    return _card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Sessions"),
-                          const SizedBox(height: 12),
-                          const Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  if (state is SessionError) {
-                    return _card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Sessions"),
-                          const SizedBox(height: 12),
                           Text(
                             'Error: ${state.message}',
-                            style: const TextStyle(color: Colors.red),
+                            style: TextStyle(color: Colors.red),
                           ),
                           const SizedBox(height: 8),
                           OutlinedButton(
                             onPressed: () {
-                              context.read<SessionBloc>().add(
-                                GetSessionsByCohortEvent(
-                                  cohortId: _selectedCohortId!,
-                                ),
+                              context.read<CohortBloc>().add(
+                                GetCohortsEvent(trainingId: widget.trainingId),
                               );
                             },
                             child: const Text('Retry'),
@@ -233,183 +121,303 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                     );
                   }
 
+                  if (state is CohortLoaded) {
+                    final cohorts = state.cohortList.cohorts;
+                    if (cohorts.isEmpty) {
+                      return _card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Cohorts"),
+                            const SizedBox(height: 12),
+                            const Text('No cohorts available'),
+                          ],
+                        ),
+                      );
+                    }
+
+                    return _card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Cohorts"),
+                          const SizedBox(height: 12),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: cohorts.map((cohort) {
+                                final isSelected =
+                                    _selectedCohortId == cohort.id;
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: _pill(
+                                    cohort.name,
+                                    selected: isSelected,
+                                    onTap: () {
+                                      _onCohortSelected(
+                                        isSelected ? null : cohort.id,
+                                      );
+                                    },
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return _card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Cohorts"),
+                        const SizedBox(height: 12),
+                        const Text('Loading...'),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            if (_selectedCohortId != null)
+              BlocListener<SessionBloc, SessionState>(
+                listener: (context, state) {
                   if (state is SessionLoaded) {
-                    final sessions = state.sessionList.sessions;
-                    if (sessions.isEmpty) {
+                    _onSessionsLoaded(state.sessionList.sessions);
+                  }
+                },
+                child: BlocBuilder<SessionBloc, SessionState>(
+                  builder: (context, state) {
+                    if (state is SessionLoading) {
                       return _card(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text("Sessions"),
                             const SizedBox(height: 12),
-                            const Text('No sessions available'),
+                            const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
                           ],
                         ),
                       );
                     }
 
-                    return Column(
-                      children: [
-                        _card(
+                    if (state is SessionError) {
+                      return _card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Sessions"),
+                            const SizedBox(height: 12),
+                            Text(
+                              'Error: ${state.message}',
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                            const SizedBox(height: 8),
+                            OutlinedButton(
+                              onPressed: () {
+                                context.read<SessionBloc>().add(
+                                  GetSessionsByCohortEvent(
+                                    cohortId: _selectedCohortId!,
+                                  ),
+                                );
+                              },
+                              child: const Text('Retry'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    if (state is SessionLoaded) {
+                      final sessions = state.sessionList.sessions;
+                      if (sessions.isEmpty) {
+                        return _card(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text("Sessions"),
                               const SizedBox(height: 12),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: sessions.map((session) {
-                                    final isSelected =
-                                        _selectedSessionId == session.id;
-                                    return Padding(
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: _pill(
-                                        session.name,
-                                        selected: isSelected,
-                                        onTap: () {
-                                          setState(() {
-                                            _selectedSessionId = isSelected
-                                                ? null
-                                                : session.id;
-                                          });
-                                        },
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
+                              const Text('No sessions available'),
                             ],
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        _buildSessionInfoCard(sessions),
-                      ],
-                    );
-                  }
+                        );
+                      }
 
-                  return const SizedBox.shrink();
+                      return Column(
+                        children: [
+                          _card(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Sessions"),
+                                const SizedBox(height: 12),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: sessions.map((session) {
+                                      final isSelected =
+                                          _selectedSessionId == session.id;
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 16,
+                                        ),
+                                        child: _pill(
+                                          session.name,
+                                          selected: isSelected,
+                                          onTap: () {
+                                            setState(() {
+                                              _selectedSessionId = isSelected
+                                                  ? null
+                                                  : session.id;
+                                            });
+                                          },
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          _buildSessionInfoCard(sessions),
+                        ],
+                      );
+                    }
+
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+
+            const SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerRight,
+              child: OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const ViewReportPage()),
+                  );
                 },
-              ),
-            ),
-
-          const SizedBox(height: 20),
-          Align(
-            alignment: Alignment.centerRight,
-            child: OutlinedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ViewReportPage()),
-                );
-              },
-              icon: const Icon(Icons.check_circle_outline),
-              label: const Text("View Report"),
-              style: OutlinedButton.styleFrom(
-                backgroundColor: const Color(0xFFE7F9EE),
-                foregroundColor: const Color(0xFF137333),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    backgroundColor: colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 0,
+                icon: const Icon(Icons.check_circle_outline),
+                label: const Text("View Report"),
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: const Color(0xFFE7F9EE),
+                  foregroundColor: const Color(0xFF137333),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
                   ),
-                  child: SizedBox(
-                    child: Text(
-                      "Save Attendance",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
                       ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(width: 24),
-
-                SizedBox(
-                  width: 188,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search students...",
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
+                      backgroundColor: colorScheme.primary,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      isDense: true,
+                      elevation: 0,
                     ),
-                  ),
-                ),
-
-                const SizedBox(width: 12),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          _card(
-            padding: EdgeInsets.zero,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Checkbox(value: false, onChanged: null)),
-                  DataColumn(label: Text("Full Name")),
-                  DataColumn(label: Text("Phone Number")),
-                  DataColumn(label: Text("Date")),
-                  DataColumn(label: Text("Attendance")),
-                  DataColumn(label: Text("ID & Consent Form")),
-                ],
-                rows: [
-                  DataRow(
-                    cells: [
-                      const DataCell(Checkbox(value: false, onChanged: null)),
-                      const DataCell(Text("student one test")),
-                      const DataCell(Text("+251920562362")),
-                      const DataCell(Text("07/10/2025")),
-                      DataCell(_attendanceChip()),
-                      DataCell(
-                        OutlinedButton.icon(
-                          onPressed: () {
-                            _showUploadIDDialog(context);
-                          },
-                          icon: const Icon(Icons.badge_outlined),
-                          label: const Text("Add ID & Consent"),
+                    child: SizedBox(
+                      child: Text(
+                        "Save Attendance",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
-                    ],
+                    ),
                   ),
+
+                  const SizedBox(width: 24),
+
+                  SizedBox(
+                    width: 188,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Search students...",
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        isDense: true,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 12),
                 ],
               ),
             ),
-          ),
 
-          const SizedBox(height: 12),
-        ],
+            const SizedBox(height: 16),
+
+            _card(
+              padding: EdgeInsets.zero,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: const [
+                    DataColumn(label: Checkbox(value: false, onChanged: null)),
+                    DataColumn(label: Text("Full Name")),
+                    DataColumn(label: Text("Phone Number")),
+                    DataColumn(label: Text("Date")),
+                    DataColumn(label: Text("Attendance")),
+                    DataColumn(label: Text("ID & Consent Form")),
+                  ],
+                  rows: [
+                    DataRow(
+                      cells: [
+                        const DataCell(Checkbox(value: false, onChanged: null)),
+                        const DataCell(Text("student one test")),
+                        const DataCell(Text("+251920562362")),
+                        const DataCell(Text("07/10/2025")),
+                        DataCell(_attendanceChip()),
+                        DataCell(
+                          OutlinedButton.icon(
+                            onPressed: () {
+                              _showUploadIDDialog(context);
+                            },
+                            icon: const Icon(Icons.badge_outlined),
+                            label: const Text("Add ID & Consent"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+          ],
+        ),
       ),
     );
   }
