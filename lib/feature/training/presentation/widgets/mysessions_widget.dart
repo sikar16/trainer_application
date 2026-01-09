@@ -8,7 +8,6 @@ class MysessionsWidget extends StatefulWidget {
   State<MysessionsWidget> createState() => _MysessionsWidgetState();
 }
 
-
 class _MysessionsWidgetState extends State<MysessionsWidget> {
   bool _isAbsent = true;
 
@@ -143,7 +142,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         backgroundColor: colorScheme.primary,
-                    
                       ),
                     ),
                   ),
@@ -232,7 +230,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     return OutlinedButton(
       onPressed: () {},
       style: OutlinedButton.styleFrom(
-        backgroundColor: selected ?  : Colors.white,
+        backgroundColor: selected ? Colors.blue : Colors.white,
         foregroundColor: selected ? Colors.white : Colors.black,
         side: BorderSide(color: selected ? Colors.blue : Colors.grey.shade300),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
