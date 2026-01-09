@@ -31,11 +31,11 @@ import 'package:trainer_application/feature/training/domain/usecases/get_session
 import 'package:trainer_application/feature/training/domain/usecases/get_trainees_by_cohort_usecase.dart';
 import 'package:trainer_application/feature/training/domain/usecases/get_attendance_by_session_usecase.dart';
 import 'package:trainer_application/feature/training/domain/usecases/save_attendance_usecase.dart';
-import 'package:trainer_application/feature/training/presentation/bloc/training_bloc.dart';
-import 'package:trainer_application/feature/training/presentation/bloc/cohort_bloc.dart';
-import 'package:trainer_application/feature/training/presentation/bloc/session_bloc.dart';
-import 'package:trainer_application/feature/training/presentation/bloc/trainee_bloc.dart';
-import 'package:trainer_application/feature/training/presentation/bloc/attendance_bloc.dart';
+import 'package:trainer_application/feature/training/presentation/bloc/training/training_bloc.dart';
+import 'package:trainer_application/feature/training/presentation/bloc/cohort/cohort_bloc.dart';
+import 'package:trainer_application/feature/training/presentation/bloc/session/session_bloc.dart';
+import 'package:trainer_application/feature/training/presentation/bloc/trainee/trainee_bloc.dart';
+import 'package:trainer_application/feature/training/presentation/bloc/attendance/attendance_bloc.dart';
 
 void main() {
   runApp(const MyApp());

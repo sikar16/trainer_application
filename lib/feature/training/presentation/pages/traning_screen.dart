@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:trainer_application/core/widgets/app_drawer.dart';
 import 'package:trainer_application/core/widgets/custom_appbar.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/custom_card.dart';
-import '../bloc/training_bloc.dart';
-import '../bloc/training_event.dart';
-import '../bloc/training_state.dart';
+import '../bloc/training/training_bloc.dart';
+import '../bloc/training/training_event.dart';
+import '../bloc/training/training_state.dart';
 import '../../domain/entities/training_entity.dart';
 
 class TrainingScreen extends StatefulWidget {

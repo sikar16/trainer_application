@@ -1,14 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/get_sessions_by_cohort_usecase.dart';
+import '../../../domain/usecases/get_sessions_by_cohort_usecase.dart';
 import 'session_event.dart';
 import 'session_state.dart';
 
 class SessionBloc extends Bloc<SessionEvent, SessionState> {
   final GetSessionsByCohortUseCase getSessionsByCohortUseCase;
 
-  SessionBloc({
-    required this.getSessionsByCohortUseCase,
-  }) : super(SessionInitial()) {
+  SessionBloc({required this.getSessionsByCohortUseCase})
+    : super(SessionInitial()) {
     on<GetSessionsByCohortEvent>((event, emit) async {
       emit(SessionLoading());
       try {

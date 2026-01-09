@@ -8,9 +8,9 @@ import 'package:trainer_application/feature/training/presentation/widgets/module
 import 'package:trainer_application/feature/training/presentation/widgets/mysessions_widget.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/overview_wiget.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/traning_profile_widget.dart';
-import '../bloc/training_bloc.dart';
-import '../bloc/training_event.dart';
-import '../bloc/training_state.dart';
+import '../bloc/training/training_bloc.dart';
+import '../bloc/training/training_event.dart';
+import '../bloc/training/training_state.dart';
 
 class TrainingDetailScreen extends StatefulWidget {
   final String trainingId;

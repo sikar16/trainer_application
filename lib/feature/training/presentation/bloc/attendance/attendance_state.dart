@@ -1,4 +1,4 @@
-import '../../domain/entities/attendance_entity.dart';
+import '../../../domain/entities/attendance_entity.dart';
 
 abstract class AttendanceState {}
 

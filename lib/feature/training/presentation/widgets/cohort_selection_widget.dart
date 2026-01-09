@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/cohort_bloc.dart';
-import '../bloc/cohort_event.dart';
-import '../bloc/cohort_state.dart';
+import '../bloc/cohort/cohort_bloc.dart';
+import '../bloc/cohort/cohort_event.dart';
+import '../bloc/cohort/cohort_state.dart';
 import 'common_widgets.dart';
 
 class CohortSelectionWidget extends StatelessWidget {

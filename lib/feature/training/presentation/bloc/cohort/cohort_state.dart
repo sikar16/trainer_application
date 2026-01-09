@@ -1,4 +1,4 @@
-import '../../domain/entities/cohort_entity.dart';
+import '../../../domain/entities/cohort_entity.dart';
 
 abstract class CohortState {}
 

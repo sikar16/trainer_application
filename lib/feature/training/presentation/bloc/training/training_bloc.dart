@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/get_trainings_usecase.dart';
-import '../../domain/usecases/get_training_by_id_usecase.dart';
+import '../../../domain/usecases/get_trainings_usecase.dart';
+import '../../../domain/usecases/get_training_by_id_usecase.dart';
 import 'training_event.dart';
 import 'training_state.dart';
 

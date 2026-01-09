@@ -1,4 +1,4 @@
-import '../../domain/entities/training_entity.dart';
+import '../../../domain/entities/training_entity.dart';
 
 abstract class TrainingState {}
 

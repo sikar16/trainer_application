@@ -1,4 +1,4 @@
-import '../../domain/entities/session_entity.dart';
+import '../../../domain/entities/session_entity.dart';
 
 abstract class SessionState {}
 

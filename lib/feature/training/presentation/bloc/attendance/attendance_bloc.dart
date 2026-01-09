@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecases/get_attendance_by_session_usecase.dart';
-import '../../domain/usecases/save_attendance_usecase.dart';
+import '../../../domain/usecases/get_attendance_by_session_usecase.dart';
+import '../../../domain/usecases/save_attendance_usecase.dart';
 import 'attendance_event.dart';
 import 'attendance_state.dart';
 

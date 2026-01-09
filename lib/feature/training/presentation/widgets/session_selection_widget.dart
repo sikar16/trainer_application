@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/session_bloc.dart';
-import '../bloc/session_event.dart';
-import '../bloc/session_state.dart';
+import '../bloc/session/session_bloc.dart';
+import '../bloc/session/session_event.dart';
+import '../bloc/session/session_state.dart';
 import '../../domain/entities/session_entity.dart';
 import 'common_widgets.dart';
 import 'session_info_card_widget.dart';
