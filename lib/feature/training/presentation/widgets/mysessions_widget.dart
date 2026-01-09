@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainer_application/feature/training/presentation/widgets/view_report_widget.dart';
+import '../bloc/cohort_bloc.dart';
+import '../bloc/cohort_event.dart';
+import '../bloc/cohort_state.dart';
 
 class MysessionsWidget extends StatefulWidget {
-  const MysessionsWidget({super.key});
+  final String trainingId;
+
+  const MysessionsWidget({super.key, required this.trainingId});
 
   @override
   State<MysessionsWidget> createState() => _MysessionsWidgetState();
@@ -10,6 +16,15 @@ class MysessionsWidget extends StatefulWidget {
 
 class _MysessionsWidgetState extends State<MysessionsWidget> {
   bool _isAbsent = true;
+  String? _selectedCohortId;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<CohortBloc>().add(
+      GetCohortsEvent(trainingId: widget.trainingId),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,23 +45,106 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
 
           const SizedBox(height: 24),
 
-          _card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Cohorts"),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 12,
+          BlocBuilder<CohortBloc, CohortState>(
+            builder: (context, state) {
+              if (state is CohortLoading) {
+                return _card(
+                  child: const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                );
+              }
+
+              if (state is CohortError) {
+                return _card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Cohorts"),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Error: ${state.message}',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      const SizedBox(height: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          context.read<CohortBloc>().add(
+                            GetCohortsEvent(trainingId: widget.trainingId),
+                          );
+                        },
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              if (state is CohortLoaded) {
+                final cohorts = state.cohortList.cohorts;
+                if (cohorts.isEmpty) {
+                  return _card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Cohorts"),
+                        const SizedBox(height: 12),
+                        const Text('No cohorts available'),
+                      ],
+                    ),
+                  );
+                }
+
+                return _card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Cohorts"),
+                      const SizedBox(height: 12),
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          return Wrap(
+                            spacing: 12,
+                            runSpacing: 12,
+                            children: cohorts.map((cohort) {
+                              return SizedBox(
+                                width: (constraints.maxWidth - 24) / 2,
+                                child: _pill(
+                                  cohort.name,
+                                  selected: _selectedCohortId == cohort.id,
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedCohortId =
+                                          _selectedCohortId == cohort.id
+                                          ? null
+                                          : cohort.id;
+                                    });
+                                  },
+                                ),
+                              );
+                            }).toList(),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return _card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _pill("Test cohort 4", selected: true),
-                    _pill("Test cohort 3"),
-                    _pill("Test cohort 2"),
-                    _pill("Test cohort 1"),
+                    const Text("Cohorts"),
+                    const SizedBox(height: 12),
+                    const Text('Loading...'),
                   ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
 
           const SizedBox(height: 20),
@@ -130,6 +228,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                       horizontal: 20,
                       vertical: 12,
                     ),
+                    backgroundColor: colorScheme.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -141,7 +240,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                        backgroundColor: colorScheme.primary,
                       ),
                     ),
                   ),
@@ -226,9 +324,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     );
   }
 
-  Widget _pill(String label, {bool selected = false}) {
+  Widget _pill(String label, {bool selected = false, VoidCallback? onTap}) {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: onTap,
       style: OutlinedButton.styleFrom(
         backgroundColor: selected ? Colors.blue : Colors.white,
         foregroundColor: selected ? Colors.white : Colors.black,
