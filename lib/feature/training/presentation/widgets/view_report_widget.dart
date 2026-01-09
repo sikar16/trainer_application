@@ -249,6 +249,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
             TextField(
               controller: _topicsCoveredController,
+              readOnly: true,
               maxLines: 1,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -266,6 +267,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
             TextField(
               controller: _significantObservationController,
+              readOnly: true,
               maxLines: 1,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -309,6 +311,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _satisfactionController,
+              readOnly: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -331,6 +334,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _summaryController,
+              readOnly: true,
               maxLines: 3,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -354,6 +358,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _positiveFeedbackController,
+              readOnly: true,
               maxLines: 2,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -377,6 +382,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _improvementController,
+              readOnly: true,
               maxLines: 2,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -400,6 +406,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _specificFeedbackController,
+              readOnly: true,
               maxLines: 3,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -435,6 +442,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _effectivenessController,
+              readOnly: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -457,6 +465,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _strengthsController,
+              readOnly: true,
               maxLines: 2,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -480,6 +489,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _growthController,
+              readOnly: true,
               maxLines: 2,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -503,6 +513,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             const SizedBox(height: 12),
             TextField(
               controller: _goalsController,
+              readOnly: true,
               maxLines: 2,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -554,6 +565,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
         TextField(
           maxLines: 1,
+          readOnly: true,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             contentPadding: const EdgeInsets.all(12),
@@ -605,6 +617,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
         const SizedBox(height: 12),
         TextField(
           controller: controller,
+          readOnly: true,
           maxLines: 2,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
