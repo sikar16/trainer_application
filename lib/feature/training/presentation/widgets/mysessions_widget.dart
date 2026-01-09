@@ -7,7 +7,11 @@ import '../bloc/cohort_state.dart';
 import '../bloc/session_bloc.dart';
 import '../bloc/session_event.dart';
 import '../bloc/session_state.dart';
+import '../bloc/trainee_bloc.dart';
+import '../bloc/trainee_event.dart';
+import '../bloc/trainee_state.dart';
 import '../../domain/entities/session_entity.dart';
+import '../../domain/entities/trainee_entity.dart';
 
 class MysessionsWidget extends StatefulWidget {
   final String trainingId;
@@ -39,6 +43,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     if (cohortId != null) {
       context.read<SessionBloc>().add(
         GetSessionsByCohortEvent(cohortId: cohortId),
+      );
+      context.read<TraineeBloc>().add(
+        GetTraineesByCohortEvent(cohortId: cohortId),
       );
     }
   }
@@ -321,6 +328,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
                 ),
               ),
@@ -358,7 +368,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                   const SizedBox(width: 24),
 
                   SizedBox(
-                    width: 188,
+                    width: 235,
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: "Search students...",
@@ -378,42 +388,142 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
 
             const SizedBox(height: 16),
 
-            _card(
-              padding: EdgeInsets.zero,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  columns: const [
-                    DataColumn(label: Checkbox(value: false, onChanged: null)),
-                    DataColumn(label: Text("Full Name")),
-                    DataColumn(label: Text("Phone Number")),
-                    DataColumn(label: Text("Date")),
-                    DataColumn(label: Text("Attendance")),
-                    DataColumn(label: Text("ID & Consent Form")),
-                  ],
-                  rows: [
-                    DataRow(
-                      cells: [
-                        const DataCell(Checkbox(value: false, onChanged: null)),
-                        const DataCell(Text("student one test")),
-                        const DataCell(Text("+251920562362")),
-                        const DataCell(Text("07/10/2025")),
-                        DataCell(_attendanceChip()),
-                        DataCell(
-                          OutlinedButton.icon(
-                            onPressed: () {
-                              _showUploadIDDialog(context);
-                            },
-                            icon: const Icon(Icons.badge_outlined),
-                            label: const Text("Add ID & Consent"),
-                          ),
+            if (_selectedCohortId != null)
+              BlocBuilder<TraineeBloc, TraineeState>(
+                builder: (context, state) {
+                  if (state is TraineeLoading) {
+                    return _card(
+                      padding: EdgeInsets.zero,
+                      child: const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: CircularProgressIndicator(),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    );
+                  }
+
+                  if (state is TraineeError) {
+                    return _card(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Error: ${state.message}',
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                          const SizedBox(height: 8),
+                          OutlinedButton(
+                            onPressed: () {
+                              context.read<TraineeBloc>().add(
+                                GetTraineesByCohortEvent(
+                                  cohortId: _selectedCohortId!,
+                                ),
+                              );
+                            },
+                            child: const Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  if (state is TraineeLoaded) {
+                    final trainees = state.traineeList.trainees;
+                    String? sessionDate;
+                    // Get session date from SessionBloc state
+                    final sessionState = context.read<SessionBloc>().state;
+                    if (sessionState is SessionLoaded) {
+                      try {
+                        final selectedSession = sessionState
+                            .sessionList
+                            .sessions
+                            .firstWhere((s) => s.id == _selectedSessionId);
+                        sessionDate = selectedSession.formattedDate;
+                      } catch (e) {
+                        if (sessionState.sessionList.sessions.isNotEmpty) {
+                          sessionDate = sessionState
+                              .sessionList
+                              .sessions
+                              .first
+                              .formattedDate;
+                        }
+                      }
+                    }
+
+                    if (trainees.isEmpty) {
+                      return _card(
+                        padding: const EdgeInsets.all(20),
+                        child: const Text('No trainees available'),
+                      );
+                    }
+
+                    return _card(
+                      padding: EdgeInsets.zero,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          columns: const [
+                            DataColumn(
+                              label: Checkbox(value: false, onChanged: null),
+                            ),
+                            DataColumn(label: Text("Full Name")),
+                            DataColumn(label: Text("Phone Number")),
+                            DataColumn(label: Text("Date")),
+                            DataColumn(label: Text("Attendance")),
+                            DataColumn(label: Text("ID & Consent Form")),
+                          ],
+                          rows: trainees.map((trainee) {
+                            return DataRow(
+                              cells: [
+                                const DataCell(
+                                  Checkbox(value: false, onChanged: null),
+                                ),
+                                DataCell(Text(trainee.fullName)),
+                                DataCell(Text(trainee.contactPhone)),
+                                DataCell(Text(sessionDate ?? 'N/A')),
+                                DataCell(_attendanceChip()),
+                                DataCell(
+                                  OutlinedButton.icon(
+                                    onPressed: () {
+                                      _showUploadIDDialog(context, trainee);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                        horizontal: 20,
+                                      ),
+
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        side: BorderSide(
+                                          color: const Color.fromARGB(
+                                            255,
+                                            255,
+                                            255,
+                                            255,
+                                          ),
+                                        ),
+                                      ),
+                                      backgroundColor: const Color(0xFFE7F9EE),
+                                      foregroundColor: const Color(0xFF137333),
+                                    ),
+                                    icon: const Icon(Icons.badge_outlined),
+                                    label: const Text("Add ID & Consent"),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
               ),
-            ),
 
             const SizedBox(height: 12),
           ],
@@ -557,7 +667,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     );
   }
 
-  void _showUploadIDDialog(BuildContext context) {
+  void _showUploadIDDialog(BuildContext context, [TraineeEntity? trainee]) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -565,12 +675,12 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return _uploadIDBottomSheet();
+        return _uploadIDBottomSheet(trainee);
       },
     );
   }
 
-  Widget _uploadIDBottomSheet() {
+  Widget _uploadIDBottomSheet(TraineeEntity? trainee) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -582,7 +692,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Upload ID Document - student test",
+                "Upload ID Document - ${trainee?.fullName ?? 'student test'}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               IconButton(
