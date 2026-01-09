@@ -12,6 +12,7 @@ class SessionSelectionWidget extends StatelessWidget {
   final String? selectedSessionId;
   final Function(String?) onSessionSelected;
   final Function(List<SessionEntity>) onSessionsLoaded;
+  final Function(bool hasSessions)? onSessionsStateChanged;
 
   const SessionSelectionWidget({
     super.key,
@@ -19,6 +20,7 @@ class SessionSelectionWidget extends StatelessWidget {
     required this.selectedSessionId,
     required this.onSessionSelected,
     required this.onSessionsLoaded,
+    this.onSessionsStateChanged,
   });
 
   @override
@@ -29,6 +31,17 @@ class SessionSelectionWidget extends StatelessWidget {
       listener: (context, state) {
         if (state is SessionLoaded) {
           onSessionsLoaded(state.sessionList.sessions);
+          if (onSessionsStateChanged != null) {
+            onSessionsStateChanged!(state.sessionList.sessions.isNotEmpty);
+          }
+        } else if (state is SessionLoading) {
+          if (onSessionsStateChanged != null) {
+            onSessionsStateChanged!(false);
+          }
+        } else if (state is SessionError) {
+          if (onSessionsStateChanged != null) {
+            onSessionsStateChanged!(false);
+          }
         }
       },
       child: BlocBuilder<SessionBloc, SessionState>(
@@ -66,10 +79,8 @@ class SessionSelectionWidget extends StatelessWidget {
                   OutlinedButton(
                     onPressed: () {
                       context.read<SessionBloc>().add(
-                            GetSessionsByCohortEvent(
-                              cohortId: selectedCohortId!,
-                            ),
-                          );
+                        GetSessionsByCohortEvent(cohortId: selectedCohortId!),
+                      );
                     },
                     child: const Text('Retry'),
                   ),
@@ -85,9 +96,29 @@ class SessionSelectionWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Sessions"),
-                    const SizedBox(height: 12),
-                    const Text('No sessions available'),
+                    const Text(
+                      "Sessions",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'No Sessions Available',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'No sessions are available in this cohort for attendance tracking. Please add sessions to this cohort first.',
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
               );

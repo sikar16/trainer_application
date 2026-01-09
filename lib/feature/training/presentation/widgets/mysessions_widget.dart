@@ -27,6 +27,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   String? _selectedCohortId;
   String? _selectedSessionId;
   String _searchQuery = '';
+  bool _hasSessions = false;
 
   @override
   void initState() {
@@ -114,93 +115,100 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               selectedSessionId: _selectedSessionId,
               onSessionSelected: _onSessionSelected,
               onSessionsLoaded: _onSessionsLoaded,
+              onSessionsStateChanged: (hasSessions) {
+                setState(() {
+                  _hasSessions = hasSessions;
+                });
+              },
             ),
 
-            const SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerRight,
-              child: OutlinedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const ViewReportPage()),
-                  );
-                },
-                icon: const Icon(Icons.check_circle_outline),
-                label: const Text("View Report"),
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: const Color(0xFFE7F9EE),
-                  foregroundColor: const Color(0xFF137333),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(
-                      color: const Color.fromARGB(255, 255, 255, 255),
+            if (_hasSessions) ...[
+              const SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerRight,
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ViewReportPage()),
+                    );
+                  },
+                  icon: const Icon(Icons.check_circle_outline),
+                  label: const Text("View Report"),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: const Color(0xFFE7F9EE),
+                    foregroundColor: const Color(0xFF137333),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      side: BorderSide(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
-                      ),
-                      backgroundColor: colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: SizedBox(
-                      child: Text(
-                        "Save Attendance",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
                         ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(width: 24),
-
-                  SizedBox(
-                    width: 235,
-                    child: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          _searchQuery = value.toLowerCase();
-                        });
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Search students...",
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
+                        backgroundColor: colorScheme.primary,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        isDense: true,
+                        elevation: 0,
+                      ),
+                      child: SizedBox(
+                        child: Text(
+                          "Save Attendance",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(width: 12),
-                ],
+                    const SizedBox(width: 24),
+
+                    SizedBox(
+                      width: 235,
+                      child: TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            _searchQuery = value.toLowerCase();
+                          });
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Search students...",
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(width: 12),
+                  ],
+                ),
               ),
-            ),
 
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
+            ],
 
             TraineeDataTableWidget(
               selectedCohortId: _selectedCohortId,

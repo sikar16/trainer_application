@@ -41,31 +41,29 @@ class TraineeDataTableWidget extends StatelessWidget {
           );
         }
 
-        if (state is TraineeError) {
-          return CommonCard(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Error: ${state.message}',
-                  style: const TextStyle(color: Colors.red),
-                ),
-                const SizedBox(height: 8),
-                OutlinedButton(
-                  onPressed: () {
-                    context.read<TraineeBloc>().add(
-                          GetTraineesByCohortEvent(
-                            cohortId: selectedCohortId!,
-                          ),
-                        );
-                  },
-                  child: const Text('Retry'),
-                ),
-              ],
-            ),
-          );
-        }
+        // if (state is TraineeError) {
+        //   return CommonCard(
+        //     padding: const EdgeInsets.all(20),
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text(
+        //           'Error: ${state.message}',
+        //           style: const TextStyle(color: Colors.red),
+        //         ),
+        //         const SizedBox(height: 8),
+        //         OutlinedButton(
+        //           onPressed: () {
+        //             context.read<TraineeBloc>().add(
+        //               GetTraineesByCohortEvent(cohortId: selectedCohortId!),
+        //             );
+        //           },
+        //           child: const Text('Retry'),
+        //         ),
+        //       ],
+        //     ),
+        //   );
+        // }
 
         if (state is TraineeLoaded) {
           final trainees = state.traineeList.trainees;
@@ -79,7 +77,8 @@ class TraineeDataTableWidget extends StatelessWidget {
               sessionDate = selectedSession.formattedDate;
             } catch (e) {
               if (sessionState.sessionList.sessions.isNotEmpty) {
-                sessionDate = sessionState.sessionList.sessions.first.formattedDate;
+                sessionDate =
+                    sessionState.sessionList.sessions.first.formattedDate;
               }
             }
           }
@@ -97,9 +96,7 @@ class TraineeDataTableWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: DataTable(
                 columns: const [
-                  DataColumn(
-                    label: Checkbox(value: false, onChanged: null),
-                  ),
+                  DataColumn(label: Checkbox(value: false, onChanged: null)),
                   DataColumn(label: Text("Full Name")),
                   DataColumn(label: Text("Phone Number")),
                   DataColumn(label: Text("Date")),

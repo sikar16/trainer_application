@@ -56,8 +56,8 @@ class CohortSelectionWidget extends StatelessWidget {
                   OutlinedButton(
                     onPressed: () {
                       context.read<CohortBloc>().add(
-                            GetCohortsEvent(trainingId: trainingId),
-                          );
+                        GetCohortsEvent(trainingId: trainingId),
+                      );
                     },
                     child: const Text('Retry'),
                   ),
