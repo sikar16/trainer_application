@@ -22,7 +22,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
           await StorageService.saveUserData(profile.toJson());
         } catch (e) {
-          // ignore: avoid_print
           print("Error getting profile");
         }
 

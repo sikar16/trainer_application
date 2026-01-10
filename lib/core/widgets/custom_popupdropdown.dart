@@ -54,7 +54,6 @@ class CustomPopupDropdown<T> extends StatelessWidget {
   }
 
   String _getItemLabel(T item) {
-    // Find the label of the selected item
     final match = items.firstWhere((i) => i.value == item);
     if (match.child is Text) {
       return (match.child as Text).data ?? "";

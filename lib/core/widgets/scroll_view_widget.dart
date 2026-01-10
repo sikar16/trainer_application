@@ -24,35 +24,35 @@ class ScrollViewWidget extends StatelessWidget {
               const SizedBox(width: 40),
               _scrollItem(
                 context,
-                icon: Icons.school_outlined, // training/education
+                icon: Icons.school_outlined,
                 label: "Training Profile",
                 route: '/training-profile',
               ),
               const SizedBox(width: 40),
               _scrollItem(
                 context,
-                icon: Icons.group_outlined, // audience
+                icon: Icons.group_outlined,
                 label: "Audience Profile",
                 route: '/audience-profile',
               ),
               const SizedBox(width: 40),
               _scrollItem(
                 context,
-                icon: Icons.view_module_outlined, // module
+                icon: Icons.view_module_outlined,
                 label: "Module",
                 route: '/module',
               ),
               const SizedBox(width: 40),
               _scrollItem(
                 context,
-                icon: Icons.event_note_outlined, // my sessions
+                icon: Icons.event_note_outlined,
                 label: "My Sessions",
                 route: '/my-sessions',
               ),
               const SizedBox(width: 40),
               _scrollItem(
                 context,
-                icon: Icons.menu_book_outlined, // content
+                icon: Icons.menu_book_outlined,
                 label: "Content",
                 route: '/content',
               ),

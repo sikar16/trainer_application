@@ -46,7 +46,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   void _onCohortSelected(String? cohortId) {
     setState(() {
       _selectedCohortId = cohortId;
-      _selectedSessionId = null; // Reset session when cohort changes
+      _selectedSessionId = null;
     });
     if (cohortId != null) {
       context.read<SessionBloc>().add(
@@ -89,7 +89,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   void _onAttendanceChanged(String traineeId, bool isPresent) {
     setState(() {
       _attendanceChanges[traineeId] = isPresent;
-      // Check if the change is different from initial state
       _hasUnsavedChanges = _attendanceChanges.entries.any(
         (entry) => entry.value != (_initialAttendance[entry.key] ?? true),
       );
@@ -107,7 +106,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   Future<void> _saveAttendance() async {
     if (!_hasUnsavedChanges || _selectedSessionId == null) return;
 
-    // Save all attendance changes
     final attendanceBloc = context.read<AttendanceBloc>();
     for (var entry in _attendanceChanges.entries) {
       attendanceBloc.add(
@@ -119,10 +117,8 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
       );
     }
 
-    // Wait a bit for saves to complete, then reload
     await Future.delayed(const Duration(milliseconds: 500));
 
-    // Reload attendance after saving
     attendanceBloc.add(GetAttendanceBySessionEvent(_selectedSessionId!));
 
     setState(() {
@@ -130,7 +126,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
       _hasUnsavedChanges = false;
     });
 
-    // Reload attendance to get updated state
     if (_selectedSessionId != null) {
       context.read<AttendanceBloc>().add(
         GetAttendanceBySessionEvent(_selectedSessionId!),

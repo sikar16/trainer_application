@@ -55,7 +55,7 @@ class TraningProfileWidget extends StatelessWidget {
                           child: Text(
                             "Test key word 1",
                             style: textTheme.bodyLarge?.copyWith(
-                              color: Colors.black, // text color
+                              color: Colors.black,
                             ),
                           ),
                         ),
@@ -72,7 +72,7 @@ class TraningProfileWidget extends StatelessWidget {
                           child: Text(
                             "Test key word 1",
                             style: textTheme.bodyLarge?.copyWith(
-                              color: Colors.black, // text color
+                              color: Colors.black,
                             ),
                           ),
                         ),

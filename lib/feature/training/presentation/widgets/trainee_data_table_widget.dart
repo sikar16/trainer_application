@@ -80,7 +80,6 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
         if (traineeState is TraineeLoaded) {
           final trainees = traineeState.traineeList.trainees;
           String? sessionDate;
-          // Get session date from SessionBloc state
           final sessionState = context.read<SessionBloc>().state;
           if (sessionState is SessionLoaded) {
             try {

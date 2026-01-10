@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CostomDropDown extends StatefulWidget {
   final String title;
-  final Widget content; // The answer/content
+  final Widget content;
 
   const CostomDropDown({super.key, required this.title, required this.content});
 

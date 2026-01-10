@@ -246,7 +246,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
         const SizedBox(height: 24),
 
-        // Topics Covered
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -296,8 +295,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
         ),
 
         const SizedBox(height: 32),
-
-        // Information fields
       ],
     );
   }

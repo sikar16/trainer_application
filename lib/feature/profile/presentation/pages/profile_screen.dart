@@ -203,7 +203,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  /// Profile Header Widget
   Widget _buildProfileHeader(
     BuildContext context,
     ProfileEntity profile,
@@ -315,7 +314,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          /// Cancel Button
           OutlinedButton.icon(
             onPressed: _cancelEditing,
             icon: const Icon(Icons.close, size: 18),

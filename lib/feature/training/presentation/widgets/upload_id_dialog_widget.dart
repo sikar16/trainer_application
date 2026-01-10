@@ -6,10 +6,7 @@ import '../../domain/entities/trainee_entity.dart';
 class UploadIDDialogWidget extends StatefulWidget {
   final TraineeEntity? trainee;
 
-  const UploadIDDialogWidget({
-    super.key,
-    this.trainee,
-  });
+  const UploadIDDialogWidget({super.key, this.trainee});
 
   @override
   State<UploadIDDialogWidget> createState() => _UploadIDDialogWidgetState();
@@ -53,20 +50,21 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    
+
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "Upload ID Document - ${widget.trainee?.fullName ?? ''}",
-                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               IconButton(
                 icon: Icon(Icons.close),
@@ -84,7 +82,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
             children: [
               Text(
                 "ID Type",
-                style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 8),
               Container(
@@ -103,23 +103,23 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                   underline: const SizedBox(),
                   hint: Text(
                     "Select ID type",
-                    style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
-                  items: const [
-                    'Passport',
-                    'National ID',
-                    'Resident (Kebele) ID (Requires back image)',
-                    'Driving License (Requires back image)',
-                    'Consent Form',
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: textTheme.bodyMedium,
-                      ),
-                    );
-                  }).toList(),
+                  items:
+                      const [
+                        'Passport',
+                        'National ID',
+                        'Resident (Kebele) ID (Requires back image)',
+                        'Driving License (Requires back image)',
+                        'Consent Form',
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value, style: textTheme.bodyMedium),
+                        );
+                      }).toList(),
                   onChanged: (String? newValue) {
                     setState(() {
                       _selectedIdType = newValue;
@@ -149,7 +149,10 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                   height: 150,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    border: Border.all(color: colorScheme.outlineVariant, width: 2),
+                    border: Border.all(
+                      color: colorScheme.outlineVariant,
+                      width: 2,
+                    ),
                     borderRadius: BorderRadius.circular(12),
                     color: colorScheme.surfaceContainerHighest,
                   ),
@@ -211,7 +214,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
               children: [
                 Text(
                   "Back of ID",
-                  style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 GestureDetector(
@@ -220,7 +225,10 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                     height: 150,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      border: Border.all(color: colorScheme.outlineVariant, width: 2),
+                      border: Border.all(
+                        color: colorScheme.outlineVariant,
+                        width: 2,
+                      ),
                       borderRadius: BorderRadius.circular(12),
                       color: colorScheme.surfaceContainerHighest,
                     ),
@@ -322,8 +330,6 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                       );
                       return;
                     }
-                    // Handle upload logic here
-                    // You can use _frontImagePath, _backImagePath, and _selectedIdType
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('ID uploaded successfully')),

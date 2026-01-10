@@ -60,17 +60,23 @@ class AttendanceRemoteDataSource {
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = jsonDecode(response.body);
       if (data['code'] == 'OK' && data['attendance'] != null) {
-        return AttendanceModel.fromJson(data['attendance'] as Map<String, dynamic>);
+        return AttendanceModel.fromJson(
+          data['attendance'] as Map<String, dynamic>,
+        );
       } else {
         throw Exception(data['message'] ?? 'Failed to save attendance');
       }
     } else {
-      // Try to parse error message from response
       try {
         final errorData = jsonDecode(response.body);
-        throw Exception(errorData['message'] ?? 'Failed to save attendance: ${response.statusCode}');
+        throw Exception(
+          errorData['message'] ??
+              'Failed to save attendance: ${response.statusCode}',
+        );
       } catch (e) {
-        throw Exception('Failed to save attendance: ${response.statusCode} - ${response.body}');
+        throw Exception(
+          'Failed to save attendance: ${response.statusCode} - ${response.body}',
+        );
       }
     }
   }
