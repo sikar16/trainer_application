@@ -265,8 +265,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                         child: SizedBox(
                           child: Text(
                             "Save Attendance",
-                            style: textTheme.labelLarge?.copyWith(
-                              color: colorScheme.outline,
+                            style: textTheme.labelLarge,
                             ),
                           ),
                         ),
