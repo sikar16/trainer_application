@@ -110,13 +110,8 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
             const SizedBox(height: 24),
 
-           
-            AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: _buildStepContent(),
-          ),
-
-
+           _buildStepContent(),
+          
             const SizedBox(height: 32),
 
             _buildNavigationButtons(),
