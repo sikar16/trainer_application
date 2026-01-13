@@ -28,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen> {
       final profileBloc = context.read<ProfileBloc>();
       profileBloc.add(GetProfileEvent());
     } else {
-      // No token → go to login
       if (mounted) context.go('/login');
     }
   }
@@ -39,10 +38,8 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
-            // Profile loaded → go to dashboard
             context.go('/dashboard');
           } else if (state is ProfileError) {
-            // Profile failed → go to login
             context.go('/login');
           }
         },
@@ -50,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('asset/images/logo.png', width: 200, height: 100),
+              Image.asset('asset/images/gheero.png', width: 200, height: 100),
               const SizedBox(height: 10),
               const SizedBox(
                 width: 30,
