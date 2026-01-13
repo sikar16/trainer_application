@@ -7,3 +7,5 @@ class EditProfileEvent extends ProfileEvent {
 
   EditProfileEvent(this.profileData);
 }
+
+class LogoutEvent extends ProfileEvent {}

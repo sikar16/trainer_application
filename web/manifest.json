@@ -1,6 +1,6 @@
 {
-    "name": "trainer_application",
-    "short_name": "trainer_application",
+    "name": "training",
+    "short_name": "training",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

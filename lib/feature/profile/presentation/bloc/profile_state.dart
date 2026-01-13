@@ -12,14 +12,16 @@ class ProfileLoaded extends ProfileState {
   ProfileLoaded(this.profile);
 }
 
+class ProfileEditSuccess extends ProfileState {
+  final ProfileEntity profile;
+
+  ProfileEditSuccess(this.profile);
+}
+
 class ProfileError extends ProfileState {
   final String message;
 
   ProfileError(this.message);
 }
 
-class ProfileEditSuccess extends ProfileState {
-  final ProfileEntity profile;
-
-  ProfileEditSuccess(this.profile);
-}
+class LogoutSuccess extends ProfileState {}

@@ -1,16 +1,27 @@
 import 'package:go_router/go_router.dart';
-import 'package:trainer_application/feature/auth/presentation/pages/login_screen.dart';
-import 'package:trainer_application/feature/dashborad/presentation/pages/dashboard_screen.dart';
-import 'package:trainer_application/feature/job/presentation/pages/job_screen.dart';
-import 'package:trainer_application/feature/profile/presentation/pages/profile_screen.dart';
-import 'package:trainer_application/feature/setting/presentation/pages/setting_screen.dart';
-import 'package:trainer_application/feature/splash/presentation/pages/splash_screen.dart';
-import 'package:trainer_application/feature/training/presentation/pages/traning_screen.dart';
-import 'package:trainer_application/feature/training/presentation/widgets/training_detail_screen.dart';
+import 'package:training/core/router/error_page.dart';
+import 'package:training/core/storage/storage_service.dart';
+import 'package:training/feature/auth/presentation/pages/login_screen.dart';
+import 'package:training/feature/dashborad/presentation/pages/dashboard_screen.dart';
+import 'package:training/feature/job/presentation/pages/job_screen.dart';
+import 'package:training/feature/profile/presentation/pages/profile_screen.dart';
+import 'package:training/feature/setting/presentation/pages/setting_screen.dart';
+import 'package:training/feature/splash/presentation/pages/splash_screen.dart';
+import 'package:training/feature/training/presentation/pages/traning_screen.dart';
+import 'package:training/feature/training/presentation/widgets/training_detail_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/splash',
+  // Error page
+  errorBuilder: (context, state) => ErrorPage(error: state.error),
+  redirect: (context, state) async {
+    final token = await StorageService.getToken();
+    if (token == null) return '/login';
+    if (state.path == '/splash') return null;
+    return null;
+  },
   routes: [
+    // public routes
     GoRoute(
       path: '/splash',
       name: "splash",
@@ -21,6 +32,7 @@ final GoRouter router = GoRouter(
       name: "login",
       builder: (context, state) => const LoginScreen(),
     ),
+    // private routes
     GoRoute(
       path: '/dashboard',
       name: "dashboard",

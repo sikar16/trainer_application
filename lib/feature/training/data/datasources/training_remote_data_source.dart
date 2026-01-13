@@ -1,63 +1,41 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
+import '../../../../core/network/api_client.dart';
 import '../models/training_model.dart';
-import '../../../../core/storage/storage_service.dart';
 
 class TrainingRemoteDataSource {
+  final ApiClient apiClient;
+
+  TrainingRemoteDataSource({required this.apiClient});
+
+  /// Get trainings (paginated)
   Future<TrainingListModel> getTrainings({
     int page = 1,
     int pageSize = 10,
   }) async {
-    final token = await StorageService.getToken();
-    if (token == null) {
-      throw Exception('No authentication token found');
-    }
+    try {
+      final response = await apiClient.get(
+        '/api/training',
+        queryParameters: {'page': page, 'page-size': pageSize},
+      );
 
-    final response = await http.get(
-      Uri.parse(
-        'https://stg-training-api.icogacc.com/api/training?page=$page&page-size=$pageSize',
-      ),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data['code'] == 'OK') {
-        return TrainingListModel.fromJson(data);
-      } else {
-        throw Exception(data['message'] ?? 'Failed to fetch trainings');
-      }
-    } else {
-      throw Exception('Failed to fetch trainings: ${response.statusCode}');
+      final data = response.data;
+      return TrainingListModel.fromJson(data);
+    } catch (e) {
+      debugPrint('getTrainings error: $e');
+      rethrow;
     }
   }
 
+  /// Get training by ID
   Future<TrainingModel> getTrainingById(String id) async {
-    final token = await StorageService.getToken();
-    if (token == null) {
-      throw Exception('No authentication token found');
-    }
+    try {
+      final response = await apiClient.get('/api/training/$id');
 
-    final response = await http.get(
-      Uri.parse('https://stg-training-api.icogacc.com/api/training/$id'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data['code'] == 'OK' && data['training'] != null) {
-        return TrainingModel.fromJson(data['training'] as Map<String, dynamic>);
-      } else {
-        throw Exception(data['message'] ?? 'Failed to fetch training');
-      }
-    } else {
-      throw Exception('Failed to fetch training: ${response.statusCode}');
+      final data = response.data;
+      return TrainingModel.fromJson(data['training'] as Map<String, dynamic>);
+    } catch (e) {
+      debugPrint('getTrainingById error: $e');
+      rethrow;
     }
   }
 }

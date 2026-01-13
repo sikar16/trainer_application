@@ -1,38 +1,29 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
+import '../../../../core/network/api_client.dart';
 import '../models/session_model.dart';
-import '../../../../core/storage/storage_service.dart';
 
 class SessionRemoteDataSource {
+  final ApiClient apiClient;
+
+  SessionRemoteDataSource({required this.apiClient});
+
+  /// Get sessions by cohort
   Future<SessionListModel> getSessionsByCohort({
     required String cohortId,
     int page = 1,
     int pageSize = 20,
   }) async {
-    final token = await StorageService.getToken();
-    if (token == null) {
-      throw Exception('No authentication token found');
-    }
+    try {
+      final response = await apiClient.get(
+        '/api/session/cohort/$cohortId',
+        queryParameters: {'page': page, 'pageSize': pageSize},
+      );
 
-    final response = await http.get(
-      Uri.parse(
-        'https://stg-training-api.icogacc.com/api/session/cohort/$cohortId?page=$page&pageSize=$pageSize',
-      ),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data['code'] == 'OK') {
-        return SessionListModel.fromJson(data);
-      } else {
-        throw Exception(data['message'] ?? 'Failed to fetch sessions');
-      }
-    } else {
-      throw Exception('Failed to fetch sessions: ${response.statusCode}');
+      final data = response.data;
+      return SessionListModel.fromJson(data);
+    } catch (e) {
+      debugPrint('getSessionsByCohort error: $e');
+      rethrow;
     }
   }
 }

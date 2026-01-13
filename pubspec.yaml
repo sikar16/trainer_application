@@ -1,4 +1,4 @@
-name: trainer_application
+name: training
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -41,6 +41,10 @@ dependencies:
   shared_preferences: ^2.2.2
   file_picker: ^8.1.4
   dotenv: ^4.2.0
+  dio: ^5.9.0
+  flutter_dotenv: ^6.0.0
+  equatable: ^2.0.8
+  get_it: ^9.2.0
 
 dev_dependencies:
   flutter_test:

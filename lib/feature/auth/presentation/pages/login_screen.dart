@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:trainer_application/feature/auth/presentation/bloc/login_bloc.dart';
-import 'package:trainer_application/feature/auth/presentation/bloc/login_event.dart';
-import 'package:trainer_application/feature/auth/presentation/bloc/login_state.dart';
+import 'package:training/feature/auth/presentation/bloc/login_bloc.dart';
+import 'package:training/feature/auth/presentation/bloc/login_event.dart';
+import 'package:training/feature/auth/presentation/bloc/login_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('asset/images/logo.png', width: 200, height: 50),
+                  Image.asset('asset/images/logo.png', width: 150, height: 50),
                   const SizedBox(height: 20),
 
                   Text(

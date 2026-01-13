@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trainer_application/feature/training/presentation/widgets/view_report_widget.dart';
+import 'package:training/feature/training/presentation/widgets/view_report_widget.dart';
 import '../bloc/cohort_bloc/cohort_bloc.dart';
 import '../bloc/cohort_bloc/cohort_event.dart';
 import '../bloc/session_bloc/session_bloc.dart';
@@ -31,7 +31,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   String? _selectedSessionId;
   String _searchQuery = '';
   bool _hasSessions = false;
-  Map<String, bool> _attendanceChanges = {};
+  final Map<String, bool> _attendanceChanges = {};
   Map<String, bool> _initialAttendance = {};
   bool _hasUnsavedChanges = false;
 
@@ -127,6 +127,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     });
 
     if (_selectedSessionId != null) {
+      // ignore: use_build_context_synchronously
       context.read<AttendanceBloc>().add(
         GetAttendanceBySessionEvent(_selectedSessionId!),
       );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trainer_application/core/widgets/custom_dropdown.dart';
+import 'package:training/core/widgets/custom_dropdown.dart';
 import '../../domain/entities/training_entity.dart';
 
 class AudienceProfileWidget extends StatelessWidget {

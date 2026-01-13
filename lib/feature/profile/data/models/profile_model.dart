@@ -18,11 +18,11 @@ class ProfileModel extends ProfileEntity {
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
-      id: json['id'] as String,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-      phoneNumber: json['phoneNumber'] as String,
-      email: json['email'] as String,
+      id: json['id']?.toString() ?? '',
+      firstName: json['firstName']?.toString() ?? '',
+      lastName: json['lastName']?.toString() ?? '',
+      phoneNumber: json['phoneNumber']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
       username: json['username'] as String?,
       role: RoleModel.fromJson(json['role'] as Map<String, dynamic>),
       profilePictureUrl: json['profilePictureUrl'] as String?,
@@ -53,19 +53,19 @@ class ProfileModel extends ProfileEntity {
   }
 }
 
+// ---------------------- Nested Models ----------------------
+
 class RoleModel extends RoleEntity {
   RoleModel({required super.name, required super.colorCode});
 
   factory RoleModel.fromJson(Map<String, dynamic> json) {
     return RoleModel(
-      name: json['name'] as String,
-      colorCode: json['colorCode'] as String,
+      name: json['name']?.toString() ?? '',
+      colorCode: json['colorCode']?.toString() ?? '',
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {'name': name, 'colorCode': colorCode};
-  }
+  Map<String, dynamic> toJson() => {'name': name, 'colorCode': colorCode};
 }
 
 class TrainerModel extends TrainerEntity {
@@ -93,22 +93,22 @@ class TrainerModel extends TrainerEntity {
 
   factory TrainerModel.fromJson(Map<String, dynamic> json) {
     return TrainerModel(
-      id: json['id'] as String,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
-      email: json['email'] as String,
-      phoneNumber: json['phoneNumber'] as String,
-      faydaId: json['faydaId'] as String? ?? '',
-      gender: json['gender'] as String,
-      dateOfBirth: json['dateOfBirth'] as String,
+      id: json['id']?.toString() ?? '',
+      firstName: json['firstName']?.toString() ?? '',
+      lastName: json['lastName']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      phoneNumber: json['phoneNumber']?.toString() ?? '',
+      faydaId: json['faydaId']?.toString() ?? '',
+      gender: json['gender']?.toString() ?? '',
+      dateOfBirth: json['dateOfBirth']?.toString() ?? '',
       language: LanguageModel.fromJson(
         json['language'] as Map<String, dynamic>,
       ),
       zone: ZoneModel.fromJson(json['zone'] as Map<String, dynamic>),
       city: json['city'] as String?,
-      woreda: json['woreda'] as String? ?? '',
-      houseNumber: json['houseNumber'] as String? ?? '',
-      location: json['location'] as String? ?? '',
+      woreda: json['woreda']?.toString() ?? '',
+      houseNumber: json['houseNumber']?.toString() ?? '',
+      location: json['location']?.toString() ?? '',
       academicLevel: AcademicLevelModel.fromJson(
         json['academicLevel'] as Map<String, dynamic>,
       ),
@@ -122,12 +122,12 @@ class TrainerModel extends TrainerEntity {
       experienceYears: json['experienceYears'] as int? ?? 0,
       coursesTaught:
           (json['coursesTaught'] as List<dynamic>?)
-              ?.map((course) => course as String)
+              ?.map((e) => e.toString())
               .toList() ??
           [],
       certifications:
           (json['certifications'] as List<dynamic>?)
-              ?.map((cert) => cert as String)
+              ?.map((e) => e.toString())
               .toList() ??
           [],
     );
@@ -170,11 +170,11 @@ class LanguageModel extends LanguageEntity {
 
   factory LanguageModel.fromJson(Map<String, dynamic> json) {
     return LanguageModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       alternateNames: Map<String, String>.from(
-        json['alternateNames'] as Map<String, dynamic>,
+        json['alternateNames'] as Map<String, dynamic>? ?? {},
       ),
     );
   }
@@ -200,12 +200,12 @@ class ZoneModel extends ZoneEntity {
 
   factory ZoneModel.fromJson(Map<String, dynamic> json) {
     return ZoneModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       region: RegionModel.fromJson(json['region'] as Map<String, dynamic>),
       alternateNames: Map<String, String>.from(
-        json['alternateNames'] as Map<String, dynamic>,
+        json['alternateNames'] as Map<String, dynamic>? ?? {},
       ),
     );
   }
@@ -232,12 +232,12 @@ class RegionModel extends RegionEntity {
 
   factory RegionModel.fromJson(Map<String, dynamic> json) {
     return RegionModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       country: CountryModel.fromJson(json['country'] as Map<String, dynamic>),
       alternateNames: Map<String, String>.from(
-        json['alternateNames'] as Map<String, dynamic>,
+        json['alternateNames'] as Map<String, dynamic>? ?? {},
       ),
     );
   }
@@ -262,15 +262,17 @@ class CountryModel extends CountryEntity {
 
   factory CountryModel.fromJson(Map<String, dynamic> json) {
     return CountryModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'description': description};
-  }
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'description': description,
+  };
 }
 
 class AcademicLevelModel extends AcademicLevelEntity {
@@ -283,11 +285,11 @@ class AcademicLevelModel extends AcademicLevelEntity {
 
   factory AcademicLevelModel.fromJson(Map<String, dynamic> json) {
     return AcademicLevelModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       alternateNames: Map<String, String>.from(
-        json['alternateNames'] as Map<String, dynamic>,
+        json['alternateNames'] as Map<String, dynamic>? ?? {},
       ),
     );
   }
@@ -311,13 +313,15 @@ class TrainingTagModel extends TrainingTagEntity {
 
   factory TrainingTagModel.fromJson(Map<String, dynamic> json) {
     return TrainingTagModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'description': description};
-  }
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'description': description,
+  };
 }

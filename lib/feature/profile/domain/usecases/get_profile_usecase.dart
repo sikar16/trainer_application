@@ -6,7 +6,11 @@ class GetProfileUseCase {
 
   GetProfileUseCase(this.repository);
 
-  Future<ProfileEntity> call() {
-    return repository.getProfile();
+  Future<ProfileEntity> call() async {
+    try {
+      return await repository.getProfile();
+    } catch (e) {
+      rethrow; // let BLoC handle errors
+    }
   }
 }

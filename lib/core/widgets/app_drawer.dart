@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:training/core/widgets/showLogoutWarningDialog.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -45,6 +46,13 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             const Spacer(),
+            ListTile(
+              leading: const Icon(Icons.logout_outlined),
+              title: const Text('Logout'),
+              onTap: () {
+                showLogoutWarningDialog(context);
+              },
+            ),
           ],
         ),
       ),

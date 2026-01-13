@@ -6,7 +6,11 @@ class EditProfileUseCase {
 
   EditProfileUseCase(this.repository);
 
-  Future<ProfileEntity> call(Map<String, dynamic> profileData) {
-    return repository.editProfile(profileData);
+  Future<ProfileEntity> call(Map<String, dynamic> profileData) async {
+    try {
+      return await repository.editProfile(profileData);
+    } catch (e) {
+      rethrow; // let BLoC handle errors
+    }
   }
 }
