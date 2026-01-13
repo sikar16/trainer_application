@@ -15,7 +15,12 @@ class AppDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
-            Image.asset('asset/images/logo.png', width: 100, height: 100),
+            Row(
+              children: [
+                Image.asset('asset/images/gheero.png', width: 60, height: 60),
+                Image.asset('asset/images/gheeroH.png', width: 70, height: 50),
+              ],
+            ),
             ListTile(
               leading: const Icon(Icons.dashboard_outlined),
               title: const Text('Dashboard'),
