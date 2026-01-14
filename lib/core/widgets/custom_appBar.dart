@@ -41,10 +41,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w300)),
         centerTitle: false,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none_outlined),
-            onPressed: onNotificationTap,
-          ),
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: InkWell(
