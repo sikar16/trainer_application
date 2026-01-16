@@ -37,7 +37,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
 
   String _formatAgeGroups(List<AgeGroupEntity> ageGroups) {
     if (ageGroups.isEmpty) return 'N/A';
-    return ageGroups.map((age) => age.range).join(', ');
+    return ageGroups.first.name;
   }
 
   String _formatDuration(double duration, String durationType) {
@@ -163,6 +163,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                         training.durationType,
                       ),
                       age: _formatAgeGroups(training.ageGroups),
+                      rationale: training.rationale,
                       nextpage: 'View training',
                       onNextTap: () {
                         context.go('/trainingDetails/${training.id}');

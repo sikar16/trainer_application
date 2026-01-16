@@ -5,6 +5,7 @@ class CustomCard extends StatelessWidget {
   final String locaton;
   final String time;
   final String age;
+  final String rationale;
   final String nextpage;
   final VoidCallback onNextTap;
 
@@ -14,6 +15,7 @@ class CustomCard extends StatelessWidget {
     required this.locaton,
     required this.time,
     required this.age,
+    required this.rationale,
     required this.nextpage,
     required this.onNextTap,
   });
@@ -57,7 +59,7 @@ class CustomCard extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          Text(traningName, style: textTheme.bodyMedium),
+          Text(rationale, style: textTheme.bodyMedium),
 
           const SizedBox(height: 16),
 
