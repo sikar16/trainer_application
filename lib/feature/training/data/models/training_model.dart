@@ -323,8 +323,32 @@ class DisabilityPercentageModel extends DisabilityPercentageEntity {
 
   factory DisabilityPercentageModel.fromJson(Map<String, dynamic> json) {
     return DisabilityPercentageModel(
-      disability: json['disability'] as String,
+      disability: DisabilityModel.fromJson(
+        json['disability'] as Map<String, dynamic>,
+      ),
       percentage: (json['percentage'] as num).toDouble(),
+    );
+  }
+}
+
+class DisabilityModel extends DisabilityEntity {
+  DisabilityModel({
+    required super.id,
+    required super.name,
+    required super.description,
+    super.alternateNames,
+  });
+
+  factory DisabilityModel.fromJson(Map<String, dynamic> json) {
+    return DisabilityModel(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      alternateNames: json['alternateNames'] != null
+          ? Map<String, String>.from(
+              json['alternateNames'] as Map<String, dynamic>,
+            )
+          : null,
     );
   }
 }
@@ -338,8 +362,32 @@ class MarginalizedGroupPercentageModel
 
   factory MarginalizedGroupPercentageModel.fromJson(Map<String, dynamic> json) {
     return MarginalizedGroupPercentageModel(
-      group: json['group'] as String,
+      group: MarginalizedGroupModel.fromJson(
+        json['marginalizedGroup'] as Map<String, dynamic>,
+      ),
       percentage: (json['percentage'] as num).toDouble(),
+    );
+  }
+}
+
+class MarginalizedGroupModel extends MarginalizedGroupEntity {
+  MarginalizedGroupModel({
+    required super.id,
+    required super.name,
+    required super.description,
+    super.alternateNames,
+  });
+
+  factory MarginalizedGroupModel.fromJson(Map<String, dynamic> json) {
+    return MarginalizedGroupModel(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      alternateNames: json['alternateNames'] != null
+          ? Map<String, String>.from(
+              json['alternateNames'] as Map<String, dynamic>,
+            )
+          : null,
     );
   }
 }

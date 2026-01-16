@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training/core/widgets/custom_dropdown.dart';
 import '../../domain/entities/training_entity.dart';
+import 'package:intl/intl.dart';
 
 class OverviewWiget extends StatelessWidget {
   final TrainingEntity? training;
@@ -10,6 +11,12 @@ class OverviewWiget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
+    String formatDate(String? date) {
+      if (date == null || date.isEmpty) return "N/A";
+      final parsedDate = DateTime.parse(date);
+      return DateFormat('dd/MM/yyyy').format(parsedDate);
+    }
 
     return SingleChildScrollView(
       child: ConstrainedBox(
@@ -123,6 +130,17 @@ class OverviewWiget extends StatelessWidget {
                         Text("Delivery Method:", style: textTheme.titleMedium),
                         const SizedBox(height: 10),
                         Text(training?.deliveryMethod ?? "N/A"),
+
+                        const SizedBox(height: 20),
+                        Text("Start Date:", style: textTheme.titleMedium),
+                        const SizedBox(height: 10),
+                        Text(formatDate(training?.startDate) ?? "N/A"),
+
+                        const SizedBox(height: 20),
+                        Text("End Date:", style: textTheme.titleMedium),
+                        const SizedBox(height: 10),
+                        Text(formatDate(training?.endDate) ?? "N/A"),
+
                         const SizedBox(height: 20),
                         Text("Training Type:", style: textTheme.titleMedium),
                         const SizedBox(height: 10),
@@ -168,12 +186,19 @@ class OverviewWiget extends StatelessWidget {
                         Text("Age Groups:", style: textTheme.titleMedium),
                         const SizedBox(height: 10),
                         Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
                           children: (training?.ageGroups ?? [])
-                              .map((age) => Text(age.name))
+                              .asMap()
+                              .entries
+                              .map(
+                                (entry) => Text(
+                                  entry.key == 0
+                                      ? entry.value.name
+                                      : ', ${entry.value.name}',
+                                ),
+                              )
                               .toList(),
                         ),
+
                         const SizedBox(height: 20),
                         Text(
                           "Economic Backgrounds:",
@@ -198,6 +223,44 @@ class OverviewWiget extends StatelessWidget {
                           runSpacing: 8,
                           children: (training?.academicQualifications ?? [])
                               .map((aq) => Text(aq.name))
+                              .toList(),
+                        ),
+
+                        const SizedBox(height: 20),
+                        Text(
+                          "Disability Distribution:",
+                          style: textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 10),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: (training?.disabilityPercentages ?? [])
+                              .map(
+                                (dp) => Text(
+                                  "${dp.disability.name} (${dp.percentage.toStringAsFixed(0)}%)",
+                                ),
+                              )
+                              .toList(),
+                        ),
+
+                        const SizedBox(height: 20),
+                        Text(
+                          "Marginalized Groups:",
+                          style: textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 10),
+                        Wrap(
+                          children: (training?.marginalizedGroupPercentages ?? [])
+                              .asMap()
+                              .entries
+                              .map(
+                                (entry) => Text(
+                                  entry.key == 0
+                                      ? "${entry.value.group.name} (${entry.value.percentage.toStringAsFixed(1)}%)"
+                                      : ", ${entry.value.group.name} (${entry.value.percentage.toStringAsFixed(1)}%)",
+                                ),
+                              )
                               .toList(),
                         ),
                       ],

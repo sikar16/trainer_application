@@ -165,8 +165,22 @@ class AcademicQualificationEntity {
   });
 }
 
+class DisabilityEntity {
+  final String id;
+  final String name;
+  final String description;
+  final Map<String, String>? alternateNames;
+
+  DisabilityEntity({
+    required this.id,
+    required this.name,
+    required this.description,
+    this.alternateNames,
+  });
+}
+
 class DisabilityPercentageEntity {
-  final String disability;
+  final DisabilityEntity disability;
   final double percentage;
 
   DisabilityPercentageEntity({
@@ -175,8 +189,22 @@ class DisabilityPercentageEntity {
   });
 }
 
+class MarginalizedGroupEntity {
+  final String id;
+  final String name;
+  final String description;
+  final Map<String, String>? alternateNames;
+
+  MarginalizedGroupEntity({
+    required this.id,
+    required this.name,
+    required this.description,
+    this.alternateNames,
+  });
+}
+
 class MarginalizedGroupPercentageEntity {
-  final String group;
+  final MarginalizedGroupEntity group;
   final double percentage;
 
   MarginalizedGroupPercentageEntity({
