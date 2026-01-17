@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:training/core/widgets/app_drawer.dart';
 import 'package:training/core/widgets/custom_appbar.dart';
 import 'package:training/feature/training/presentation/widgets/audience_profile_widget.dart';
@@ -58,9 +59,15 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
           drawer: const AppDrawer(),
           appBar: CustomAppBar(
             title: title,
-            onMenuTap: () {
-              scaffoldKey.currentState?.openDrawer();
+            showBackButton: true,
+            onBackTap: () {
+              if (GoRouter.of(context).canPop()) {
+                context.pop();
+              } else {
+                context.go('/training');
+              }
             },
+
             onNotificationTap: () {},
             onProfileTap: () {},
           ),

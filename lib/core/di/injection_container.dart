@@ -34,12 +34,17 @@ import 'package:training/feature/training/domain/usecases/get_trainees_by_cohort
 import 'package:training/feature/training/domain/usecases/get_training_by_id_usecase.dart';
 import 'package:training/feature/training/domain/usecases/get_trainings_usecase.dart';
 import 'package:training/feature/training/domain/usecases/save_attendance_usecase.dart';
+import 'package:training/feature/training/data/datasources/training_profile_remote_data_source.dart';
+import 'package:training/feature/training/data/repositories/training_profile_repository_impl.dart';
+import 'package:training/feature/training/domain/repositories/training_profile_repository.dart';
+import 'package:training/feature/training/domain/usecases/get_training_profile_usecase.dart';
 
 import 'package:training/feature/training/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:training/feature/training/presentation/bloc/cohort_bloc/cohort_bloc.dart';
 import 'package:training/feature/training/presentation/bloc/session_bloc/session_bloc.dart';
 import 'package:training/feature/training/presentation/bloc/trainee_bloc/trainee_bloc.dart';
 import 'package:training/feature/training/presentation/bloc/training_bloc/training_bloc.dart';
+import 'package:training/feature/training/presentation/bloc/training_profile_bloc.dart';
 
 import '../network/api_client.dart';
 
@@ -78,6 +83,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<TrainingRemoteDataSource>(
     () => TrainingRemoteDataSource(apiClient: sl()),
   );
+  sl.registerLazySingleton<TrainingProfileRemoteDataSource>(
+    () => TrainingProfileRemoteDataSourceImpl(sl()),
+  );
 
   /* =======================
      REPOSITORIES
@@ -101,6 +109,9 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<TrainingRepository>(
     () => TrainingRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<TrainingProfileRepository>(
+    () => TrainingProfileRepositoryImpl(sl()),
   );
 
   /* =======================
@@ -131,6 +142,9 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<GetTrainingByIdUseCase>(
     () => GetTrainingByIdUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetTrainingProfileUseCase>(
+    () => GetTrainingProfileUseCase(sl()),
   );
 
   /* =======================
@@ -163,4 +177,5 @@ Future<void> initDependencies() async {
       saveAttendanceUseCase: sl(),
     ),
   );
+  sl.registerFactory<TrainingProfileBloc>(() => TrainingProfileBloc(sl()));
 }

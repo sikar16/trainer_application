@@ -11,6 +11,7 @@ class OverviewWiget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final colorTheme = Theme.of(context).colorScheme;
 
     String formatDate(String? date) {
       if (date == null || date.isEmpty) return "N/A";
@@ -63,12 +64,23 @@ class OverviewWiget extends StatelessWidget {
                           runSpacing: 8,
                           children: (training?.trainingTags ?? [])
                               .map(
-                                (tag) => ElevatedButton(
-                                  onPressed: () {},
+                                (tag) => Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: colorTheme.surfaceContainer,
+                                    border: Border.all(
+                                      color: colorTheme.surfaceContainer,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                   child: Text(
                                     tag.name,
                                     style: textTheme.bodySmall?.copyWith(
                                       color: Colors.black,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ),
@@ -134,12 +146,12 @@ class OverviewWiget extends StatelessWidget {
                         const SizedBox(height: 20),
                         Text("Start Date:", style: textTheme.titleMedium),
                         const SizedBox(height: 10),
-                        Text(formatDate(training?.startDate) ?? "N/A"),
+                        Text(formatDate(training?.startDate)),
 
                         const SizedBox(height: 20),
                         Text("End Date:", style: textTheme.titleMedium),
                         const SizedBox(height: 10),
-                        Text(formatDate(training?.endDate) ?? "N/A"),
+                        Text(formatDate(training?.endDate)),
 
                         const SizedBox(height: 20),
                         Text("Training Type:", style: textTheme.titleMedium),
@@ -205,12 +217,11 @@ class OverviewWiget extends StatelessWidget {
                           style: textTheme.titleMedium,
                         ),
                         const SizedBox(height: 10),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: (training?.economicBackgrounds ?? [])
-                              .map((eb) => Text(eb.name))
-                              .toList(),
+                        Text(
+                          (training?.economicBackgrounds ?? [])
+                              .map((eb) => eb.name)
+                              .join(', '),
+                          style: textTheme.bodyMedium,
                         ),
                         const SizedBox(height: 20),
                         Text(
@@ -218,14 +229,12 @@ class OverviewWiget extends StatelessWidget {
                           style: textTheme.titleMedium,
                         ),
                         const SizedBox(height: 10),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: (training?.academicQualifications ?? [])
-                              .map((aq) => Text(aq.name))
-                              .toList(),
+                        Text(
+                          (training?.academicQualifications ?? [])
+                              .map((aq) => aq.name)
+                              .join(', '),
+                          style: textTheme.bodyMedium,
                         ),
-
                         const SizedBox(height: 20),
                         Text(
                           "Disability Distribution:",

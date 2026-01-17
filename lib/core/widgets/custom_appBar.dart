@@ -6,6 +6,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onMenuTap;
   final VoidCallback? onNotificationTap;
   final VoidCallback? onProfileTap;
+  final VoidCallback? onBackTap;
+  final bool showBackButton;
 
   const CustomAppBar({
     super.key,
@@ -13,6 +15,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onMenuTap,
     this.onNotificationTap,
     this.onProfileTap,
+    this.onBackTap,
+    this.showBackButton = false,
   });
 
   @override
@@ -34,10 +38,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: colorScheme.surface,
 
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.notes_sharp),
-          onPressed: onMenuTap,
-        ),
+        leading: showBackButton
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: onBackTap ?? () => Navigator.of(context).pop(),
+              )
+            : IconButton(
+                icon: const Icon(Icons.notes_sharp),
+                onPressed: onMenuTap,
+              ),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w300)),
         centerTitle: false,
         actions: [
