@@ -178,6 +178,7 @@ class _JobListWidgetState extends State<JobListWidget> {
 
               final job = jobs[index];
               return JobCard(
+                id: job.id,
                 title: job.title,
                 createdAt: _formatDate(job.createdAt),
                 deadlineDate: _formatDate(job.deadlineDate),
@@ -226,6 +227,7 @@ class _JobListWidgetState extends State<JobListWidget> {
 }
 
 class JobCard extends StatelessWidget {
+  final String id;
   final String title;
   final String createdAt;
   final String deadlineDate;
@@ -236,6 +238,7 @@ class JobCard extends StatelessWidget {
 
   const JobCard({
     super.key,
+    required this.id,
     required this.title,
     required this.createdAt,
     required this.deadlineDate,
@@ -335,7 +338,7 @@ class JobCard extends StatelessWidget {
                 ),
               ),
               child: InkWell(
-                onTap: () => GoRouter.of(context).go('/job_detail'),
+                onTap: () => GoRouter.of(context).go('/job_detail/$id'),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(

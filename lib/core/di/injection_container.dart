@@ -55,6 +55,11 @@ import 'package:training/feature/job/data/repositories/job_repository_impl.dart'
 import 'package:training/feature/job/domain/repositories/job_repository.dart';
 import 'package:training/feature/job/domain/usecases/get_jobs_usecase.dart';
 import 'package:training/feature/job/presentation/bloc/job_bloc.dart';
+import 'package:training/feature/job/data/datasources/job_detail_remote_data_source.dart';
+import 'package:training/feature/job/data/repositories/job_detail_repository_impl.dart';
+import 'package:training/feature/job/domain/repositories/job_detail_repository.dart';
+import 'package:training/feature/job/domain/usecases/get_job_detail_usecase.dart';
+import 'package:training/feature/job/presentation/bloc/job_detail_bloc.dart';
 import 'package:training/feature/training/data/datasources/module_remote_data_source.dart';
 import 'package:training/feature/training/data/repositories/module_repository_impl.dart';
 import 'package:training/feature/training/domain/repositories/module_repository.dart';
@@ -107,6 +112,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<JobRemoteDataSource>(
     () => JobRemoteDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<JobDetailRemoteDataSource>(
+    () => JobDetailRemoteDataSourceImpl(sl()),
+  );
   sl.registerLazySingleton<ModuleRemoteDataSource>(
     () => ModuleRemoteDataSourceImpl(sl()),
   );
@@ -141,6 +149,9 @@ Future<void> initDependencies() async {
     () => AudienceProfileRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<JobRepository>(() => JobRepositoryImpl(sl()));
+  sl.registerLazySingleton<JobDetailRepository>(
+    () => JobDetailRepositoryImpl(sl()),
+  );
   sl.registerLazySingleton<ModuleRepository>(() => ModuleRepositoryImpl(sl()));
 
   /* =======================
@@ -179,6 +190,9 @@ Future<void> initDependencies() async {
     () => GetAudienceProfileUseCase(sl()),
   );
   sl.registerLazySingleton<GetJobsUseCase>(() => GetJobsUseCase(sl()));
+  sl.registerLazySingleton<GetJobDetailUseCase>(
+    () => GetJobDetailUseCase(sl()),
+  );
   sl.registerLazySingleton<GetModulesUseCase>(() => GetModulesUseCase(sl()));
 
   /* =======================
@@ -214,5 +228,6 @@ Future<void> initDependencies() async {
   sl.registerFactory<TrainingProfileBloc>(() => TrainingProfileBloc(sl()));
   sl.registerFactory<AudienceProfileBloc>(() => AudienceProfileBloc(sl()));
   sl.registerFactory<JobBloc>(() => JobBloc(sl()));
+  sl.registerFactory<JobDetailBloc>(() => JobDetailBloc(sl()));
   sl.registerFactory<ModuleBloc>(() => ModuleBloc(sl()));
 }
