@@ -1,16 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:training/core/widgets/custom_dropdown.dart';
 import '../../domain/entities/training_entity.dart';
+import '../../domain/entities/audience_profile_entity.dart';
+import '../../domain/usecases/get_audience_profile_usecase.dart';
+import '../bloc/audience_profile_bloc.dart';
+import '../../../../core/di/injection_container.dart' as sl;
 
-class AudienceProfileWidget extends StatelessWidget {
+class AudienceProfileWidget extends StatefulWidget {
   final TrainingEntity? training;
 
   const AudienceProfileWidget({super.key, this.training});
 
   @override
+  State<AudienceProfileWidget> createState() => _AudienceProfileWidgetState();
+}
+
+class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
+  late AudienceProfileBloc _audienceProfileBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _audienceProfileBloc = AudienceProfileBloc(
+      sl.sl<GetAudienceProfileUseCase>(),
+    );
+    if (widget.training?.id != null) {
+      _audienceProfileBloc.add(FetchAudienceProfile(widget.training!.id));
+    }
+  }
+
+  @override
+  void dispose() {
+    _audienceProfileBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
+    return BlocBuilder<AudienceProfileBloc, AudienceProfileState>(
+      bloc: _audienceProfileBloc,
+      builder: (context, state) {
+        if (state is AudienceProfileLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is AudienceProfileError) {
+          return Center(child: Text('Error: ${state.message}'));
+        } else if (state is AudienceProfileLoaded) {
+          return _buildProfileContent(
+            context,
+            state.audienceProfile,
+            textTheme,
+          );
+        }
+        return _buildProfileContent(context, null, textTheme);
+      },
+    );
+  }
+
+  Widget _buildProfileContent(
+    BuildContext context,
+    AudienceProfileResponseEntity? audienceProfile,
+    TextTheme textTheme,
+  ) {
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -41,33 +94,73 @@ class AudienceProfileWidget extends StatelessWidget {
                     title: "Learner Characteristics",
                     content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Learning Level", style: textTheme.titleMedium),
+                        Text(
+                          "Learning Level",
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(height: 10),
-                        Text("Intermediate"),
+                        if (audienceProfile
+                                ?.audienceProfile
+                                ?.learnerLevel
+                                ?.name !=
+                            null)
+                          Text(
+                            audienceProfile!
+                                .audienceProfile!
+                                .learnerLevel!
+                                .name!,
+                            style: textTheme.bodyLarge,
+                          ),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),
                   const SizedBox(height: 16),
                   CostomDropDown(
                     title: "Prerequisites",
-                    content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("Language", style: textTheme.titleMedium),
-                        const SizedBox(height: 10),
-                        Text('Amharic'),
-                        const SizedBox(height: 20),
-                        Text("Education Level", style: textTheme.titleMedium),
-                        const SizedBox(height: 10),
-                        Text("Secondary School"),
-                        const SizedBox(height: 20),
-                        Text("Work Experience", style: textTheme.titleMedium),
-                        const SizedBox(height: 10),
-                        Text("Volunteer Work"),
-                      ],
+  content: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "Language",
+        style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 10),
+      if (audienceProfile?.audienceProfile?.language?.name != null)
+        Text(
+          audienceProfile!.audienceProfile!.language!.name!,
+          style: textTheme.bodyLarge,
+        ),
+      const SizedBox(height: 20),
+
+      Text(
+        "Education Level",
+        style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 10),
+      if (audienceProfile?.audienceProfile?.educationLevel?.name != null)
+        Text(
+          audienceProfile!.audienceProfile!.educationLevel!.name!,
+          style: textTheme.bodyLarge,
+        ),
+      const SizedBox(height: 20),
+
+      Text(
+        "Work Experience",
+        style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      const SizedBox(height: 10),
+      if (audienceProfile?.audienceProfile?.workExperience?.name != null)
+        Text(
+          audienceProfile!.audienceProfile!.workExperience!.name!,
+          style: textTheme.bodyLarge,
+        ),
+      const SizedBox(height: 10),
+    ],
+  ),
                     ),
                   ),
                   const SizedBox(height: 16),
