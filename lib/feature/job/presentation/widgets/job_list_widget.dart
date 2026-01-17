@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../bloc/job_bloc.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 
@@ -326,16 +327,22 @@ class JobCard extends StatelessWidget {
                 side: BorderSide(color: themeColor),
                 foregroundColor: themeColor,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 14,
+                  horizontal: 16,
+                  vertical: 6,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: const Text(
-                "View Detail",
-                style: TextStyle(fontWeight: FontWeight.w600),
+              child: InkWell(
+                onTap: () => GoRouter.of(context).go('/job_detail'),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "View Detaile",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ),
               ),
             ),
           ),

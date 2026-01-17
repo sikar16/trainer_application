@@ -55,6 +55,11 @@ import 'package:training/feature/job/data/repositories/job_repository_impl.dart'
 import 'package:training/feature/job/domain/repositories/job_repository.dart';
 import 'package:training/feature/job/domain/usecases/get_jobs_usecase.dart';
 import 'package:training/feature/job/presentation/bloc/job_bloc.dart';
+import 'package:training/feature/training/data/datasources/module_remote_data_source.dart';
+import 'package:training/feature/training/data/repositories/module_repository_impl.dart';
+import 'package:training/feature/training/domain/repositories/module_repository.dart';
+import 'package:training/feature/training/domain/usecases/get_modules_usecase.dart';
+import 'package:training/feature/training/presentation/bloc/module_bloc.dart';
 
 import '../network/api_client.dart';
 
@@ -102,6 +107,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<JobRemoteDataSource>(
     () => JobRemoteDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<ModuleRemoteDataSource>(
+    () => ModuleRemoteDataSourceImpl(sl()),
+  );
 
   /* =======================
      REPOSITORIES
@@ -133,6 +141,7 @@ Future<void> initDependencies() async {
     () => AudienceProfileRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<JobRepository>(() => JobRepositoryImpl(sl()));
+  sl.registerLazySingleton<ModuleRepository>(() => ModuleRepositoryImpl(sl()));
 
   /* =======================
      USE CASES
@@ -170,6 +179,7 @@ Future<void> initDependencies() async {
     () => GetAudienceProfileUseCase(sl()),
   );
   sl.registerLazySingleton<GetJobsUseCase>(() => GetJobsUseCase(sl()));
+  sl.registerLazySingleton<GetModulesUseCase>(() => GetModulesUseCase(sl()));
 
   /* =======================
      BLOCS
@@ -204,4 +214,5 @@ Future<void> initDependencies() async {
   sl.registerFactory<TrainingProfileBloc>(() => TrainingProfileBloc(sl()));
   sl.registerFactory<AudienceProfileBloc>(() => AudienceProfileBloc(sl()));
   sl.registerFactory<JobBloc>(() => JobBloc(sl()));
+  sl.registerFactory<ModuleBloc>(() => ModuleBloc(sl()));
 }

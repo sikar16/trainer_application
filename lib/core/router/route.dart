@@ -8,6 +8,7 @@ import 'package:training/feature/profile/presentation/pages/profile_screen.dart'
 import 'package:training/feature/setting/presentation/pages/setting_screen.dart';
 import 'package:training/feature/splash/presentation/pages/splash_screen.dart';
 import 'package:training/feature/training/presentation/pages/traning_screen.dart';
+import 'package:training/feature/job/presentation/widgets/job_detail_screen.dart';
 import 'package:training/feature/training/presentation/widgets/training_detail_screen.dart';
 
 final GoRouter router = GoRouter(
@@ -42,6 +43,11 @@ final GoRouter router = GoRouter(
       path: '/training',
       name: "training",
       builder: (context, state) => const TrainingScreen(),
+    ),
+    GoRoute(
+      path: '/job_detail',
+      name: "job_detail",
+      builder: (context, state) => const JobDetailScreen(),
     ),
     GoRoute(
       path: '/job',
