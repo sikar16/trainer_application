@@ -215,7 +215,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
       case 2:
         return Center(child: AudienceProfileWidget(training: training));
       case 3:
-        return const Center(child: ModuleWidget());
+        return Center(child: ModuleWidget(trainingId: widget.trainingId));
       case 4:
         return Center(child: MysessionsWidget(trainingId: widget.trainingId));
       case 5:

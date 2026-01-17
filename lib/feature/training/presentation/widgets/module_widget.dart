@@ -6,7 +6,9 @@ import '../../../../core/di/injection_container.dart' as sl;
 import '../../../../core/widgets/custom_dropdown.dart';
 
 class ModuleWidget extends StatefulWidget {
-  const ModuleWidget({super.key});
+  final String trainingId;
+
+  const ModuleWidget({super.key, required this.trainingId});
 
   @override
   State<ModuleWidget> createState() => _ModuleWidgetState();
@@ -14,13 +16,12 @@ class ModuleWidget extends StatefulWidget {
 
 class _ModuleWidgetState extends State<ModuleWidget> {
   late ModuleBloc _moduleBloc;
-  static const String trainingId = 'd4daffc5-7606-4787-b7af-406fce2e61c3';
 
   @override
   void initState() {
     super.initState();
     _moduleBloc = sl.sl<ModuleBloc>();
-    _moduleBloc.add(FetchModules(trainingId));
+    _moduleBloc.add(FetchModules(widget.trainingId));
   }
 
   @override
@@ -88,38 +89,6 @@ class _ModuleWidgetState extends State<ModuleWidget> {
             content: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  module.description,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-                const SizedBox(height: 8),
-                if (module.trainingTag.name.isNotEmpty)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      module.trainingTag.name,
-                      style: TextStyle(
-                        color: Colors.blue.shade800,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                const SizedBox(height: 8),
-                if (module.trainingTag.description.isNotEmpty)
-                  Text(
-                    module.trainingTag.description,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-              ],
             ),
           ),
         );
