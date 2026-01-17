@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+
 import '../bloc/job_detail_bloc.dart';
 import '../../domain/entities/job_detail_entity.dart';
 import '../../../../core/di/injection_container.dart' as sl;
@@ -24,30 +26,26 @@ class JobDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: BlocBuilder<JobDetailBloc, JobDetailState>(
         builder: (context, state) {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
-                title: Align(
+                pinned: true,
+                floating: true,
+                title: const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    state is JobDetailLoaded
-                        ? state.jobDetail.job.title
-                        : 'Job Details',
-                  ),
+                  child: Text('Job Details'),
                 ),
-
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () => context.go('/job'),
                 ),
-                floating: true,
-                pinned: true,
               ),
+
               if (state is JobDetailLoading)
                 const SliverFillRemaining(
                   child: Center(child: CircularProgressIndicator()),
@@ -58,20 +56,18 @@ class JobDetailView extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           'Error loading job details',
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(height: 16),
-                        Text(
-                          state.message,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                          textAlign: TextAlign.center,
-                        ),
+                        const SizedBox(height: 12),
+                        Text(state.message, textAlign: TextAlign.center),
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () {
-                            // Get the jobId from the bloc or pass it differently
                             context.read<JobDetailBloc>().add(
                               FetchJobDetail(''),
                             );
@@ -98,185 +94,156 @@ class JobDetailView extends StatelessWidget {
     );
   }
 
+  // ================= JOB CONTENT =================
+
   Widget _buildJobContent(JobDetailEntity job, ColorScheme colorScheme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Title
         Text(
           job.title,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
         Text(
-          'Number of Sessions - ${job.numberOfSessions}',
-          style: const TextStyle(fontSize: 16, color: Colors.grey),
+          'Number of Sessions • ${job.numberOfSessions}',
+          style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
         ),
-        const Divider(height: 32, thickness: 1),
-        Text(
-          job.description,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-        ),
-        const Divider(height: 32, thickness: 1),
-        if (job.sessions.isNotEmpty) ...[
-          Text(
-            'Session 1',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+
+        const SizedBox(height: 16),
+
+        // Description Card
+        Card(
+          elevation: 0,
+          color: Colors.grey.shade100,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.blue.shade50,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.blue.shade100),
-            ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
             child: Text(
-              job.sessions.first.deliveryMethod == 'OFFLINE'
-                  ? 'In Person'
-                  : 'Online',
-              style: const TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.w500,
-              ),
+              job.description,
+              style: const TextStyle(fontSize: 16, height: 1.5),
             ),
           ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildDetailRow(
-                  icon: Icons.calendar_today,
-                  text: _formatDate(job.sessions.first.startDate),
-                ),
-              ),
-              Expanded(
-                child: _buildDetailRow(
-                  icon: Icons.schedule,
-                  text: _formatTime(job.sessions.first.startDate),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                child: _buildDetailRow(
-                  icon: Icons.timer,
-                  text:
-                      '${_calculateDuration(job.sessions.first.startDate, job.sessions.first.endDate)} mins',
-                ),
-              ),
-              Expanded(
-                child: _buildDetailRow(
-                  icon: Icons.location_on,
-                  text: job.sessions.first.trainingVenue.location,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            job.sessions.first.name,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-          const Divider(height: 32, thickness: 1),
-        ],
-        _buildTablesSection(job),
+        ),
+
+        const SizedBox(height: 24),
+
+        // Session Card
+        if (job.sessions.isNotEmpty) _buildSessionCard(job),
+
+        const SizedBox(height: 24),
+
+        // Detail Section
+        _buildDetailSection(job),
+
         const SizedBox(height: 32),
+
+        // Action Buttons
         _buildActionButtons(colorScheme),
       ],
     );
   }
 
-  Widget _buildDetailRow({required IconData icon, required String text}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: Colors.grey.shade600),
-          const SizedBox(width: 8),
-          Text(
-            text,
-            style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
-          ),
-        ],
+  // ================= SESSION CARD =================
+
+  Widget _buildSessionCard(JobDetailEntity job) {
+    final session = job.sessions.first;
+
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  '${job.numberOfSessions} Sessions',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: 12),
+
+                _buildChip(
+                  session.deliveryMethod == 'OFFLINE' ? 'In Person' : 'Online',
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 26),
+
+            Row(
+              children: [
+                Expanded(
+                  child: _buildJobDetailRow(
+                    icon: Icons.calendar_today,
+                    text: _formatDate(session.startDate),
+                  ),
+                ),
+
+                Expanded(
+                  child: _buildJobDetailRow(
+                    icon: Icons.schedule,
+                    text: _formatTime(session.startDate),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildJobDetailRow(
+                    icon: Icons.group,
+                    text: '${session.numberOfStudents} ',
+                  ),
+                ),
+                Expanded(
+                  child: _buildJobDetailRow(
+                    icon: Icons.location_on,
+                    text: session.trainingVenue.location,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildTablesSection(JobDetailEntity job) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildDetailSection(JobDetailEntity job) {
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
           children: [
-            Expanded(
-              child: _buildTableColumn(
-                title: 'Start On',
-                value: _formatDate(job.createdAt),
-              ),
+            _buildInfoRow(
+              leftTitle: 'Start On',
+              leftValue: _formatDate(job.createdAt),
+              rightTitle: 'Ends On',
+              rightValue: _formatDate(job.deadlineDate),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildTableColumn(
-                title: 'Ends On',
-                value: _formatDate(job.deadlineDate),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: _buildTableColumn(
-                title: 'Number of Sessions',
-                value: job.numberOfSessions.toString(),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildTableColumn(
-                title: 'Applicants Required',
-                value: job.applicantsRequired.toString(),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+            const SizedBox(height: 20),
 
-  Widget _buildTableColumn({required String title, required String value}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade600,
-            fontWeight: FontWeight.w500,
-          ),
+            _buildInfoRow(
+              leftTitle: 'Number of Sessions',
+              leftValue: job.numberOfSessions.toString(),
+              rightTitle: 'Applicants Required',
+              rightValue: job.applicantsRequired.toString(),
+            ),
+          ],
         ),
-        const SizedBox(height: 8),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade50,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade200),
-          ),
-          child: Text(
-            value,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -287,10 +254,7 @@ class JobDetailView extends StatelessWidget {
           child: OutlinedButton(
             onPressed: () {},
             style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.red,
               padding: const EdgeInsets.symmetric(vertical: 16),
-              side: const BorderSide(color: Colors.red),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -298,9 +262,9 @@ class JobDetailView extends StatelessWidget {
             child: const Text(
               'Decline',
               style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
                 fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -319,9 +283,9 @@ class JobDetailView extends StatelessWidget {
             child: const Text(
               'Apply',
               style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
                 fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
             ),
           ),
@@ -330,10 +294,69 @@ class JobDetailView extends StatelessWidget {
     );
   }
 
+  Widget _buildChip(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.blue.shade50,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.blue.shade100),
+      ),
+      child: Text(text, style: const TextStyle(color: Colors.blue)),
+    );
+  }
+
+  Widget _buildJobDetailRow({required IconData icon, required String text}) {
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: Colors.grey.shade600),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 15, color: Colors.grey.shade700),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoRow({
+    required String leftTitle,
+    required String leftValue,
+    required String rightTitle,
+    required String rightValue,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildInfoColumn(leftTitle, leftValue),
+        _buildInfoColumn(rightTitle, rightValue),
+      ],
+    );
+  }
+
+  Widget _buildInfoColumn(String title, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+      ],
+    );
+  }
+
   String _formatDate(String dateString) {
     try {
       final date = DateTime.parse(dateString);
-      return '${date.day}/${date.month}/${date.year}';
+      return DateFormat('MMM d, y').format(date);
     } catch (e) {
       return dateString;
     }
@@ -343,18 +366,8 @@ class JobDetailView extends StatelessWidget {
     try {
       final date = DateTime.parse(dateString);
       return '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-    } catch (e) {
+    } catch (_) {
       return dateString;
-    }
-  }
-
-  int _calculateDuration(String startDate, String endDate) {
-    try {
-      final start = DateTime.parse(startDate);
-      final end = DateTime.parse(endDate);
-      return end.difference(start).inMinutes;
-    } catch (e) {
-      return 0;
     }
   }
 }
