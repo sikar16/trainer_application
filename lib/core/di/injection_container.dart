@@ -50,6 +50,11 @@ import 'package:training/feature/training/presentation/bloc/trainee_bloc/trainee
 import 'package:training/feature/training/presentation/bloc/training_bloc/training_bloc.dart';
 import 'package:training/feature/training/presentation/bloc/training_profile_bloc.dart';
 import 'package:training/feature/training/presentation/bloc/audience_profile_bloc.dart';
+import 'package:training/feature/job/data/datasources/job_remote_data_source.dart';
+import 'package:training/feature/job/data/repositories/job_repository_impl.dart';
+import 'package:training/feature/job/domain/repositories/job_repository.dart';
+import 'package:training/feature/job/domain/usecases/get_jobs_usecase.dart';
+import 'package:training/feature/job/presentation/bloc/job_bloc.dart';
 
 import '../network/api_client.dart';
 
@@ -94,6 +99,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<AudienceProfileRemoteDataSource>(
     () => AudienceProfileRemoteDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<JobRemoteDataSource>(
+    () => JobRemoteDataSourceImpl(sl()),
+  );
 
   /* =======================
      REPOSITORIES
@@ -124,6 +132,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<AudienceProfileRepository>(
     () => AudienceProfileRepositoryImpl(sl()),
   );
+  sl.registerLazySingleton<JobRepository>(() => JobRepositoryImpl(sl()));
 
   /* =======================
      USE CASES
@@ -160,6 +169,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<GetAudienceProfileUseCase>(
     () => GetAudienceProfileUseCase(sl()),
   );
+  sl.registerLazySingleton<GetJobsUseCase>(() => GetJobsUseCase(sl()));
 
   /* =======================
      BLOCS
@@ -193,4 +203,5 @@ Future<void> initDependencies() async {
   );
   sl.registerFactory<TrainingProfileBloc>(() => TrainingProfileBloc(sl()));
   sl.registerFactory<AudienceProfileBloc>(() => AudienceProfileBloc(sl()));
+  sl.registerFactory<JobBloc>(() => JobBloc(sl()));
 }

@@ -121,46 +121,66 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                   const SizedBox(height: 16),
                   CostomDropDown(
                     title: "Prerequisites",
-  content: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        "Language",
-        style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      if (audienceProfile?.audienceProfile?.language?.name != null)
-        Text(
-          audienceProfile!.audienceProfile!.language!.name!,
-          style: textTheme.bodyLarge,
-        ),
-      const SizedBox(height: 20),
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Language",
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        if (audienceProfile?.audienceProfile?.language?.name !=
+                            null)
+                          Text(
+                            audienceProfile!.audienceProfile!.language!.name!,
+                            style: textTheme.bodyLarge,
+                          ),
+                        const SizedBox(height: 20),
 
-      Text(
-        "Education Level",
-        style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      if (audienceProfile?.audienceProfile?.educationLevel?.name != null)
-        Text(
-          audienceProfile!.audienceProfile!.educationLevel!.name!,
-          style: textTheme.bodyLarge,
-        ),
-      const SizedBox(height: 20),
+                        Text(
+                          "Education Level",
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        if (audienceProfile
+                                ?.audienceProfile
+                                ?.educationLevel
+                                ?.name !=
+                            null)
+                          Text(
+                            audienceProfile!
+                                .audienceProfile!
+                                .educationLevel!
+                                .name!,
+                            style: textTheme.bodyLarge,
+                          ),
+                        const SizedBox(height: 20),
 
-      Text(
-        "Work Experience",
-        style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      if (audienceProfile?.audienceProfile?.workExperience?.name != null)
-        Text(
-          audienceProfile!.audienceProfile!.workExperience!.name!,
-          style: textTheme.bodyLarge,
-        ),
-      const SizedBox(height: 10),
-    ],
-  ),
+                        Text(
+                          "Work Experience",
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        if (audienceProfile
+                                ?.audienceProfile
+                                ?.workExperience
+                                ?.name !=
+                            null)
+                          Text(
+                            audienceProfile!
+                                .audienceProfile!
+                                .workExperience!
+                                .name!,
+                            style: textTheme.bodyLarge,
+                          ),
+                        const SizedBox(height: 10),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 16),
