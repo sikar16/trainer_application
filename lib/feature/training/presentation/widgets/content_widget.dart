@@ -24,7 +24,6 @@ class _ContentWidgetState extends State<ContentWidget> {
   @override
   void initState() {
     super.initState();
-    // Don't fetch content here - it will be handled by BlocBuilder
   }
 
   @override
@@ -64,7 +63,6 @@ class _ContentWidgetState extends State<ContentWidget> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
     return BlocProvider(
       create: (context) => sl.sl<ContentBloc>()
         ..add(
@@ -75,7 +73,6 @@ class _ContentWidgetState extends State<ContentWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title
             Text(
               "Content",
               style: textTheme.headlineSmall?.copyWith(
@@ -84,7 +81,6 @@ class _ContentWidgetState extends State<ContentWidget> {
             ),
             const SizedBox(height: 16),
 
-            // Search bar below title
             TextField(
               controller: _searchController,
               onChanged: _onSearchChanged,
@@ -101,12 +97,10 @@ class _ContentWidgetState extends State<ContentWidget> {
             ),
             const SizedBox(height: 24),
 
-            // Content list with proper height management
             Expanded(
               child: BlocListener<ContentBloc, ContentState>(
                 listener: (context, state) {
                   if (state is ContentLoaded) {
-                    // Update current page from response to fix search
                     setState(() {
                       _currentPage = state.contentResponse.currentPage;
                       _isLoadingMore = false;
@@ -156,21 +150,18 @@ class _ContentWidgetState extends State<ContentWidget> {
 
                       return Column(
                         children: [
-                          // Table with fixed height container
                           Expanded(
                             child: IntrinsicHeight(
                               child: _buildContentTable(contents),
                             ),
                           ),
 
-                          // Pagination controls
                           if (hasMore || _currentPage > 1)
                             Container(
                               padding: const EdgeInsets.all(16),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  // Previous button with icon
                                   if (_currentPage > 1)
                                     ElevatedButton.icon(
                                       icon: const Icon(
@@ -188,7 +179,6 @@ class _ContentWidgetState extends State<ContentWidget> {
 
                                   const SizedBox(width: 16),
 
-                                  // Page number display
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 16,
@@ -221,7 +211,6 @@ class _ContentWidgetState extends State<ContentWidget> {
 
                                   const SizedBox(width: 16),
 
-                                  // Next button with icon
                                   if (hasMore)
                                     _isLoadingMore
                                         ? const SizedBox(
@@ -347,13 +336,14 @@ class _ContentWidgetState extends State<ContentWidget> {
           _BodyChip(
             text: content.contentLevel,
             color: content.contentLevel == "LESSON"
-                ? Colors.blue.shade50
-                : Colors.green.shade50,
+                ? const Color(0xFFE7F2FF)
+                : const Color(0xFFF0FDF4),
             textColor: content.contentLevel == "LESSON"
-                ? Colors.blue
-                : Colors.green,
+                ? const Color(0xFF3B82F6)
+                : const Color(0xFF22C55E),
             flex: 2,
           ),
+
           const SizedBox(width: 20),
 
           _BodyCell(content.contentDeveloper.email, flex: 3),
@@ -367,16 +357,16 @@ class _ContentWidgetState extends State<ContentWidget> {
 
           _StatusChip(
             text: content.contentStatus,
-            color: isAccepted
-                ? Colors.green.shade50
+            color: content.contentStatus == "ACCEPTED"
+                ? const Color(0xFFF0FDF4)
                 : content.contentStatus == "REJECTED"
-                ? Colors.red.shade50
-                : Colors.orange.shade50,
-            textColor: isAccepted
-                ? Colors.green
+                ? const Color(0xFFFEF2F2)
+                : const Color(0xFFE7F2FF),
+            textColor: content.contentStatus == "ACCEPTED"
+                ? const Color(0xFF22C55E)
                 : content.contentStatus == "REJECTED"
-                ? Colors.red
-                : Colors.orange,
+                ? const Color(0xFFEF4444)
+                : const Color(0xFF3B82F6),
             flex: 2,
           ),
         ],
@@ -436,19 +426,25 @@ class _BodyChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Expanded(
       flex: flex,
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Text(
             text,
-            style: TextStyle(color: textColor, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: textColor,
+              fontSize: textTheme.labelSmall?.fontSize,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),
@@ -504,19 +500,25 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Expanded(
       flex: flex,
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Text(
             text,
-            style: TextStyle(color: textColor, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: textColor,
+              fontSize: textTheme.labelSmall?.fontSize,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),
