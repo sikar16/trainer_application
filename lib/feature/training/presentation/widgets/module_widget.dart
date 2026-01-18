@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../bloc/module_bloc.dart';
 import '../../domain/entities/module_entity.dart';
 import '../../../../core/di/injection_container.dart' as sl;
@@ -7,8 +8,13 @@ import '../../../../core/widgets/custom_dropdown.dart';
 
 class ModuleWidget extends StatefulWidget {
   final String trainingId;
+  final String trainingTitle;
 
-  const ModuleWidget({super.key, required this.trainingId});
+  const ModuleWidget({
+    super.key,
+    required this.trainingId,
+    required this.trainingTitle,
+  });
 
   @override
   State<ModuleWidget> createState() => _ModuleWidgetState();
@@ -86,10 +92,12 @@ class _ModuleWidgetState extends State<ModuleWidget> {
           padding: const EdgeInsets.only(bottom: 16),
           child: CostomDropDown(
             title: module.name,
-            content: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-            ),
+            onTap: () {
+              context.go(
+                '/module-detail/${module.id}',
+                extra: widget.trainingTitle,
+              );
+            },
           ),
         );
       }).toList(),

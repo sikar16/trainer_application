@@ -65,6 +65,16 @@ import 'package:training/feature/training/data/repositories/module_repository_im
 import 'package:training/feature/training/domain/repositories/module_repository.dart';
 import 'package:training/feature/training/domain/usecases/get_modules_usecase.dart';
 import 'package:training/feature/training/presentation/bloc/module_bloc.dart';
+import 'package:training/feature/training/data/datasources/module_detail_remote_data_source.dart';
+import 'package:training/feature/training/data/repositories/module_detail_repository_impl.dart';
+import 'package:training/feature/training/domain/repositories/module_detail_repository.dart';
+import 'package:training/feature/training/domain/usecases/get_module_detail_usecase.dart';
+import 'package:training/feature/training/presentation/bloc/module_detail_bloc.dart';
+
+import 'package:training/feature/training/data/datasources/module_assessment_methods_remote_data_source.dart';
+import 'package:training/feature/training/data/repositories/module_assessment_methods_repository_impl.dart';
+import 'package:training/feature/training/domain/repositories/module_assessment_methods_repository.dart';
+import 'package:training/feature/training/domain/usecases/get_module_assessment_methods_usecase.dart';
 
 import '../network/api_client.dart';
 
@@ -118,6 +128,12 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<ModuleRemoteDataSource>(
     () => ModuleRemoteDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<ModuleDetailRemoteDataSource>(
+    () => ModuleDetailRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<ModuleAssessmentMethodsRemoteDataSource>(
+    () => ModuleAssessmentMethodsRemoteDataSourceImpl(sl()),
+  );
 
   /* =======================
      REPOSITORIES
@@ -153,6 +169,12 @@ Future<void> initDependencies() async {
     () => JobDetailRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<ModuleRepository>(() => ModuleRepositoryImpl(sl()));
+  sl.registerLazySingleton<ModuleDetailRepository>(
+    () => ModuleDetailRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<ModuleAssessmentMethodsRepository>(
+    () => ModuleAssessmentMethodsRepositoryImpl(sl()),
+  );
 
   /* =======================
      USE CASES
@@ -194,6 +216,12 @@ Future<void> initDependencies() async {
     () => GetJobDetailUseCase(sl()),
   );
   sl.registerLazySingleton<GetModulesUseCase>(() => GetModulesUseCase(sl()));
+  sl.registerLazySingleton<GetModuleDetailUseCase>(
+    () => GetModuleDetailUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetModuleAssessmentMethodsUseCase>(
+    () => GetModuleAssessmentMethodsUseCase(sl()),
+  );
 
   /* =======================
      BLOCS
@@ -230,4 +258,5 @@ Future<void> initDependencies() async {
   sl.registerFactory<JobBloc>(() => JobBloc(sl()));
   sl.registerFactory<JobDetailBloc>(() => JobDetailBloc(sl()));
   sl.registerFactory<ModuleBloc>(() => ModuleBloc(sl()));
+  sl.registerFactory<ModuleDetailBloc>(() => ModuleDetailBloc(sl(), sl()));
 }
