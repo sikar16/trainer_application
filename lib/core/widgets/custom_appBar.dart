@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.only(bottom: 10),
@@ -47,7 +47,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 icon: const Icon(Icons.notes_sharp),
                 onPressed: onMenuTap,
               ),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w300)),
+        title: Text(title, style: textTheme.titleMedium),
         centerTitle: false,
         actions: [
           Padding(

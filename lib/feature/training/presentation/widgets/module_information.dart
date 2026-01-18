@@ -28,7 +28,7 @@ class ModuleInformation extends StatelessWidget {
                   children: [
                     Text(
                       "Module Information",
-                      style: textTheme.headlineSmall?.copyWith(
+                      style: textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),

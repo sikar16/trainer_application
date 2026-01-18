@@ -76,6 +76,12 @@ import 'package:training/feature/training/data/repositories/module_assessment_me
 import 'package:training/feature/training/domain/repositories/module_assessment_methods_repository.dart';
 import 'package:training/feature/training/domain/usecases/get_module_assessment_methods_usecase.dart';
 
+import 'package:training/feature/training/data/datasources/content_remote_data_source.dart';
+import 'package:training/feature/training/data/repositories/content_repository_impl.dart';
+import 'package:training/feature/training/domain/repositories/content_repository.dart';
+import 'package:training/feature/training/domain/usecases/get_content_usecase.dart';
+import 'package:training/feature/training/presentation/bloc/content_bloc.dart';
+
 import '../network/api_client.dart';
 
 final sl = GetIt.instance;
@@ -134,6 +140,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<ModuleAssessmentMethodsRemoteDataSource>(
     () => ModuleAssessmentMethodsRemoteDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<ContentRemoteDataSource>(
+    () => ContentRemoteDataSourceImpl(sl()),
+  );
 
   /* =======================
      REPOSITORIES
@@ -174,6 +183,9 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<ModuleAssessmentMethodsRepository>(
     () => ModuleAssessmentMethodsRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<ContentRepository>(
+    () => ContentRepositoryImpl(sl()),
   );
 
   /* =======================
@@ -222,6 +234,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<GetModuleAssessmentMethodsUseCase>(
     () => GetModuleAssessmentMethodsUseCase(sl()),
   );
+  sl.registerLazySingleton<GetContentUseCase>(() => GetContentUseCase(sl()));
 
   /* =======================
      BLOCS
@@ -259,4 +272,5 @@ Future<void> initDependencies() async {
   sl.registerFactory<JobDetailBloc>(() => JobDetailBloc(sl()));
   sl.registerFactory<ModuleBloc>(() => ModuleBloc(sl()));
   sl.registerFactory<ModuleDetailBloc>(() => ModuleDetailBloc(sl(), sl()));
+  sl.registerFactory<ContentBloc>(() => ContentBloc(sl()));
 }

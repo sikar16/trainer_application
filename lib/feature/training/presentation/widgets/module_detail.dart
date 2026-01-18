@@ -74,11 +74,7 @@ class _ModuleDetailViewState extends State<ModuleDetailView> {
                     style: textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    state.message,
-                    style: textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
+                  Text(state.message, style: textTheme.bodyMedium),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
@@ -174,7 +170,7 @@ class _ModuleDetailViewState extends State<ModuleDetailView> {
           Text(
             title,
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
               color: selected ? primaryColor : Colors.grey,
             ),
