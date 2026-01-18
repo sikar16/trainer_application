@@ -337,9 +337,13 @@ class _ContentWidgetState extends State<ContentWidget> {
             text: content.contentLevel,
             color: content.contentLevel == "LESSON"
                 ? const Color(0xFFE7F2FF)
+                : content.contentLevel == "ASSESSMENT"
+                ? const Color.fromARGB(255, 246, 236, 255)
                 : const Color(0xFFF0FDF4),
             textColor: content.contentLevel == "LESSON"
                 ? const Color(0xFF3B82F6)
+                : content.contentLevel == "ASSESSMENT"
+                ? const Color(0xFF8B5CF6)
                 : const Color(0xFF22C55E),
             flex: 2,
           ),
@@ -460,12 +464,17 @@ class _LinkCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final ColorScheme = Theme.of(context).colorScheme;
     if (link == null || link!.isEmpty) {
       return Expanded(
         flex: flex,
         child: Text(
           "Awaiting Link",
-          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: textTheme.bodyMedium?.fontSize,
+          ),
         ),
       );
     }
@@ -477,8 +486,8 @@ class _LinkCell extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w600,
+            color: ColorScheme.primary,
+            fontSize: textTheme.bodyMedium?.fontSize,
           ),
         ),
       ),
