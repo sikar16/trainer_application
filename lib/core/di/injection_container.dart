@@ -48,28 +48,28 @@ import 'package:training/feature/training/presentation/bloc/cohort_bloc/cohort_b
 import 'package:training/feature/training/presentation/bloc/session_bloc/session_bloc.dart';
 import 'package:training/feature/training/presentation/bloc/trainee_bloc/trainee_bloc.dart';
 import 'package:training/feature/training/presentation/bloc/training_bloc/training_bloc.dart';
-import 'package:training/feature/training/presentation/bloc/training_profile_bloc.dart';
-import 'package:training/feature/training/presentation/bloc/audience_profile_bloc.dart';
+import 'package:training/feature/training/presentation/bloc/training_profile_bloc/training_profile_bloc.dart';
+import 'package:training/feature/training/presentation/bloc/audience_profile_bloc/audience_profile_bloc.dart';
 import 'package:training/feature/job/data/datasources/job_remote_data_source.dart';
 import 'package:training/feature/job/data/repositories/job_repository_impl.dart';
 import 'package:training/feature/job/domain/repositories/job_repository.dart';
 import 'package:training/feature/job/domain/usecases/get_jobs_usecase.dart';
-import 'package:training/feature/job/presentation/bloc/job_bloc.dart';
+import 'package:training/feature/job/presentation/bloc/job_bloc/job_bloc.dart';
 import 'package:training/feature/job/data/datasources/job_detail_remote_data_source.dart';
 import 'package:training/feature/job/data/repositories/job_detail_repository_impl.dart';
 import 'package:training/feature/job/domain/repositories/job_detail_repository.dart';
 import 'package:training/feature/job/domain/usecases/get_job_detail_usecase.dart';
-import 'package:training/feature/job/presentation/bloc/job_detail_bloc.dart';
+import 'package:training/feature/job/presentation/bloc/job_detail_bloc/job_detail_bloc.dart';
 import 'package:training/feature/training/data/datasources/module_remote_data_source.dart';
 import 'package:training/feature/training/data/repositories/module_repository_impl.dart';
 import 'package:training/feature/training/domain/repositories/module_repository.dart';
 import 'package:training/feature/training/domain/usecases/get_modules_usecase.dart';
-import 'package:training/feature/training/presentation/bloc/module_bloc.dart';
+import 'package:training/feature/training/presentation/bloc/module_bloc/module_bloc.dart';
 import 'package:training/feature/training/data/datasources/module_detail_remote_data_source.dart';
 import 'package:training/feature/training/data/repositories/module_detail_repository_impl.dart';
 import 'package:training/feature/training/domain/repositories/module_detail_repository.dart';
 import 'package:training/feature/training/domain/usecases/get_module_detail_usecase.dart';
-import 'package:training/feature/training/presentation/bloc/module_detail_bloc.dart';
+import 'package:training/feature/training/presentation/bloc/module_detail_bloc/module_detail_bloc.dart';
 
 import 'package:training/feature/training/data/datasources/module_assessment_methods_remote_data_source.dart';
 import 'package:training/feature/training/data/repositories/module_assessment_methods_repository_impl.dart';
@@ -80,7 +80,7 @@ import 'package:training/feature/training/data/datasources/content_remote_data_s
 import 'package:training/feature/training/data/repositories/content_repository_impl.dart';
 import 'package:training/feature/training/domain/repositories/content_repository.dart';
 import 'package:training/feature/training/domain/usecases/get_content_usecase.dart';
-import 'package:training/feature/training/presentation/bloc/content_bloc.dart';
+import 'package:training/feature/training/presentation/bloc/content_bloc/content_bloc.dart';
 
 import '../network/api_client.dart';
 

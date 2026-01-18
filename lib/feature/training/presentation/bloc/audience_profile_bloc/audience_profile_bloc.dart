@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/audience_profile_entity.dart';
-import '../../domain/usecases/get_audience_profile_usecase.dart';
+import '../../../domain/entities/audience_profile_entity.dart';
+import '../../../domain/usecases/get_audience_profile_usecase.dart';
 
 part 'audience_profile_event.dart';
 part 'audience_profile_state.dart';

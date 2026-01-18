@@ -42,7 +42,7 @@ void showLogoutWarningDialog(BuildContext context) {
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.of(context).pop();
                   },
                   child: Text('Cancel', style: TextStyle(color: Colors.grey)),
                 ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../bloc/module_bloc.dart';
+import '../bloc/module_bloc/module_bloc.dart';
+import '../bloc/module_bloc/module_event.dart';
+import '../bloc/module_bloc/module_state.dart';
 import '../../domain/entities/module_entity.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 import '../../../../core/widgets/custom_dropdown.dart';

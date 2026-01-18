@@ -127,7 +127,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     });
 
     if (_selectedSessionId != null) {
-      // ignore: use_build_context_synchronously
       context.read<AttendanceBloc>().add(
         GetAttendanceBySessionEvent(_selectedSessionId!),
       );

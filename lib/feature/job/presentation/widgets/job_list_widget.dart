@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../bloc/job_bloc.dart';
+import '../bloc/job_bloc/job_bloc.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 
 class JobListWidget extends StatefulWidget {

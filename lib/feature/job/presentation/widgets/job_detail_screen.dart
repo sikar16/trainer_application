@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../bloc/job_detail_bloc.dart';
+import '../bloc/job_detail_bloc/job_detail_bloc.dart';
 import '../../domain/entities/job_detail_entity.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 
@@ -94,13 +94,10 @@ class JobDetailView extends StatelessWidget {
     );
   }
 
-  // ================= JOB CONTENT =================
-
   Widget _buildJobContent(JobDetailEntity job, ColorScheme colorScheme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Title
         Text(
           job.title,
           style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -113,7 +110,6 @@ class JobDetailView extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // Description Card
         Card(
           elevation: 0,
           color: Colors.grey.shade100,
@@ -131,23 +127,18 @@ class JobDetailView extends StatelessWidget {
 
         const SizedBox(height: 24),
 
-        // Session Card
         if (job.sessions.isNotEmpty) _buildSessionCard(job),
 
         const SizedBox(height: 24),
 
-        // Detail Section
         _buildDetailSection(job),
 
         const SizedBox(height: 32),
 
-        // Action Buttons
         _buildActionButtons(colorScheme),
       ],
     );
   }
-
-  // ================= SESSION CARD =================
 
   Widget _buildSessionCard(JobDetailEntity job) {
     final session = job.sessions.first;

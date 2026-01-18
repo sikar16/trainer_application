@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/job_entity.dart';
-import '../../domain/usecases/get_jobs_usecase.dart';
+import '../../../domain/entities/job_entity.dart';
+import '../../../domain/usecases/get_jobs_usecase.dart';
 
 part 'job_event.dart';
 part 'job_state.dart';

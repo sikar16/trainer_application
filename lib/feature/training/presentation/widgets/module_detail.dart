@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../bloc/module_detail_bloc.dart';
+import '../bloc/module_detail_bloc/module_detail_bloc.dart';
 import '../../domain/entities/module_detail_entity.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 import 'module_information.dart';

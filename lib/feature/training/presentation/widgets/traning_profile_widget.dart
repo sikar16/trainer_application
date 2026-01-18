@@ -4,7 +4,7 @@ import 'package:training/core/widgets/custom_dropdown.dart';
 import '../../domain/entities/training_entity.dart';
 import '../../domain/entities/training_profile_entity.dart';
 import '../../domain/usecases/get_training_profile_usecase.dart';
-import '../bloc/training_profile_bloc.dart';
+import '../bloc/training_profile_bloc/training_profile_bloc.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 
 class TraningProfileWidget extends StatefulWidget {
@@ -324,11 +324,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "• ",
-                                        style:
-                                            textTheme.bodyLarge, // bullet style
-                                      ),
+                                      Text("• ", style: textTheme.bodyLarge),
                                       Expanded(
                                         child: Text(
                                           tool.name,

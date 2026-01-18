@@ -4,7 +4,7 @@ import 'package:training/core/widgets/custom_dropdown.dart';
 import '../../domain/entities/training_entity.dart';
 import '../../domain/entities/audience_profile_entity.dart';
 import '../../domain/usecases/get_audience_profile_usecase.dart';
-import '../bloc/audience_profile_bloc.dart';
+import '../bloc/audience_profile_bloc/audience_profile_bloc.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 
 class AudienceProfileWidget extends StatefulWidget {
