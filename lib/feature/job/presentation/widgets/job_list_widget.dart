@@ -94,45 +94,67 @@ class _JobListWidgetState extends State<JobListWidget> {
     );
   }
 
-  Widget _filterTabs() {
-    return Row(
-      children: [
-        _filterItem("View All", () {
-          setState(() => _selectedFilter = "View All");
-          _jobBloc.add(FetchJobs());
-        }),
-        const SizedBox(width: 12),
-        _filterItem("Active", () {
-          setState(() => _selectedFilter = "Active");
-          _jobBloc.add(FilterJobsByStatus('ACTIVE'));
-        }),
-        const SizedBox(width: 12),
-        _filterItem("Inactive", () {
-          setState(() => _selectedFilter = "Inactive");
-          _jobBloc.add(FilterJobsByStatus('INACTIVE'));
-        }),
-      ],
-    );
+  Widget _verticalDivider() {
+    return Container(width: 1, height: 28, color: Colors.grey.shade300);
   }
 
-  Widget _filterItem(String title, VoidCallback onTap) {
+  Widget _segmentItem(
+    String title, {
+    bool isFirst = false,
+    bool isLast = false,
+  }) {
     final bool selected = _selectedFilter == title;
 
-    return GestureDetector(
-      onTap: onTap,
+    return InkWell(
+      onTap: () {
+        setState(() => _selectedFilter = title);
+
+        if (title == "View All") {
+          _jobBloc.add(FetchJobs());
+        } else if (title == "Active") {
+          _jobBloc.add(FilterJobsByStatus('ACTIVE'));
+        }
+      },
+      borderRadius: BorderRadius.horizontal(
+        left: isFirst ? const Radius.circular(12) : Radius.zero,
+        right: isLast ? const Radius.circular(12) : Radius.zero,
+      ),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         decoration: BoxDecoration(
-          color: selected ? Colors.grey.shade200 : Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(20),
+          color: selected ? Colors.grey.shade200 : Colors.transparent,
+          borderRadius: BorderRadius.horizontal(
+            left: isFirst ? const Radius.circular(12) : Radius.zero,
+            right: isLast ? const Radius.circular(12) : Radius.zero,
+          ),
         ),
         child: Text(
           title,
           style: TextStyle(
+            fontSize: 15,
+            fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
             color: Colors.black,
-            fontWeight: selected ? FontWeight.bold : FontWeight.normal,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _filterTabs() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _segmentItem("View All", isFirst: true),
+          _verticalDivider(),
+          _segmentItem("Active"),
+          _verticalDivider(),
+          _segmentItem("New", isLast: true),
+        ],
       ),
     );
   }

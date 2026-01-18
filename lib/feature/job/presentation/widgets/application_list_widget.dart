@@ -24,39 +24,63 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
   }
 
   Widget _filterTabs() {
-    return Row(
-      children: [
-        _filterItem("View All", ApplicationFilter.all),
-        const SizedBox(width: 12),
-        _filterItem("Accepted", ApplicationFilter.accepted),
-        const SizedBox(width: 12),
-        _filterItem("Rejected", ApplicationFilter.rejected),
-        const SizedBox(width: 12),
-        _filterItem("Pending", ApplicationFilter.pending),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _segmentItem("View All", ApplicationFilter.all, isFirst: true),
+          _verticalDivider(),
+          _segmentItem("Accepted", ApplicationFilter.accepted),
+          _verticalDivider(),
+          _segmentItem("Rejected", ApplicationFilter.rejected),
+          _verticalDivider(),
+          _segmentItem("Pending", ApplicationFilter.pending, isLast: true),
+        ],
+      ),
     );
   }
 
-  Widget _filterItem(String title, ApplicationFilter filter) {
+  Widget _segmentItem(
+    String title,
+    ApplicationFilter filter, {
+    bool isFirst = false,
+    bool isLast = false,
+  }) {
     final bool selected = selectedFilter == filter;
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => setState(() => selectedFilter = filter),
+      borderRadius: BorderRadius.horizontal(
+        left: isFirst ? const Radius.circular(12) : Radius.zero,
+        right: isLast ? const Radius.circular(12) : Radius.zero,
+      ),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         decoration: BoxDecoration(
-          color: selected ? Colors.grey.shade200 : Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(20),
+          color: selected ? Colors.grey.shade200 : Colors.transparent,
+          borderRadius: BorderRadius.horizontal(
+            left: isFirst ? const Radius.circular(12) : Radius.zero,
+            right: isLast ? const Radius.circular(12) : Radius.zero,
+          ),
         ),
         child: Text(
           title,
           style: TextStyle(
-            color: selected ? Colors.black : Colors.black,
-            fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+            fontSize: 14,
+            fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+            color: Colors.black,
           ),
         ),
       ),
     );
+  }
+
+  Widget _verticalDivider() {
+    return Container(width: 1, height: 28, color: Colors.grey.shade300);
   }
 
   Widget _content() {
