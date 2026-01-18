@@ -336,10 +336,10 @@ class _ContentWidgetState extends State<ContentWidget> {
           _BodyChip(
             text: content.contentLevel,
             color: content.contentLevel == "LESSON"
-                ? const Color(0xFFE7F2FF)
+                ? const Color.fromARGB(255, 211, 226, 245)
                 : content.contentLevel == "ASSESSMENT"
                 ? const Color.fromARGB(255, 246, 236, 255)
-                : const Color(0xFFF0FDF4),
+                : const Color.fromARGB(255, 223, 249, 231),
             textColor: content.contentLevel == "LESSON"
                 ? const Color(0xFF3B82F6)
                 : content.contentLevel == "ASSESSMENT"
@@ -362,10 +362,10 @@ class _ContentWidgetState extends State<ContentWidget> {
           _StatusChip(
             text: content.contentStatus,
             color: content.contentStatus == "ACCEPTED"
-                ? const Color(0xFFF0FDF4)
+                ? const Color.fromARGB(255, 223, 249, 231)
                 : content.contentStatus == "REJECTED"
-                ? const Color(0xFFFEF2F2)
-                : const Color(0xFFE7F2FF),
+                ? const Color.fromARGB(255, 247, 220, 220)
+                : const Color.fromARGB(255, 209, 228, 251),
             textColor: content.contentStatus == "ACCEPTED"
                 ? const Color(0xFF22C55E)
                 : content.contentStatus == "REJECTED"
