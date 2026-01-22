@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import '../../../../core/di/injection_container.dart';
+import '../../../../core/network/api_client.dart';
+import '../../data/datasources/session_report_remote_data_source.dart';
+import '../../data/models/session_report_model.dart';
 
 class ViewReportPage extends StatefulWidget {
-  const ViewReportPage({super.key});
+  final String sessionId;
+
+  const ViewReportPage({super.key, required this.sessionId});
 
   @override
   State<ViewReportPage> createState() => _ViewReportPageState();
@@ -9,54 +15,42 @@ class ViewReportPage extends StatefulWidget {
 
 class _ViewReportPageState extends State<ViewReportPage> {
   int _currentStep = 0;
+  bool _isLoading = true;
+  String? _error;
 
-  final TextEditingController _topicsCoveredController = TextEditingController(
-    text: "training report",
-  );
+  late final SessionReportRemoteDataSource _reportDataSource;
+  SessionReportModel? _reportData;
+
+  final TextEditingController _topicsCoveredController =
+      TextEditingController();
   final TextEditingController _significantObservationController =
-      TextEditingController(text: "none");
-  final TextEditingController _satisfactionController = TextEditingController(
-    text: "5 - Very Satisfied",
-  );
-  final TextEditingController _summaryController = TextEditingController(
-    text: "report summary",
-  );
+      TextEditingController();
+  final TextEditingController _satisfactionController = TextEditingController();
+  final TextEditingController _summaryController = TextEditingController();
   final TextEditingController _positiveFeedbackController =
-      TextEditingController(text: "very good");
-  final TextEditingController _improvementController = TextEditingController(
-    text: "time management",
-  );
+      TextEditingController();
+  final TextEditingController _improvementController = TextEditingController();
   final TextEditingController _specificFeedbackController =
-      TextEditingController(text: "example");
+      TextEditingController();
 
-  final TextEditingController _effectivenessController = TextEditingController(
-    text: "4 - Very Effective",
-  );
-  final TextEditingController _strengthsController = TextEditingController(
-    text: "time",
-  );
-  final TextEditingController _growthController = TextEditingController(
-    text: "time",
-  );
-  final TextEditingController _goalsController = TextEditingController(
-    text: "to be the best",
-  );
+  final TextEditingController _effectivenessController =
+      TextEditingController();
+  final TextEditingController _strengthsController = TextEditingController();
+  final TextEditingController _growthController = TextEditingController();
+  final TextEditingController _goalsController = TextEditingController();
 
-  final TextEditingController _curriculumController = TextEditingController(
-    text: "It could be longer",
-  );
-  final TextEditingController _deliveryController = TextEditingController(
-    text: "both online and offline",
-  );
-  final TextEditingController _assessmentController = TextEditingController(
-    text: "It should work online",
-  );
-  final TextEditingController _supportController = TextEditingController(
-    text: "digital tool access is needed",
-  );
-  final TextEditingController _otherController = TextEditingController(
-    text: "Provide any other recommendations",
-  );
+  final TextEditingController _curriculumController = TextEditingController();
+  final TextEditingController _deliveryController = TextEditingController();
+  final TextEditingController _assessmentController = TextEditingController();
+  final TextEditingController _supportController = TextEditingController();
+  final TextEditingController _otherController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _reportDataSource = SessionReportRemoteDataSource(sl<ApiClient>());
+    _fetchSessionReport();
+  }
 
   @override
   void dispose() {
@@ -79,6 +73,99 @@ class _ViewReportPageState extends State<ViewReportPage> {
     super.dispose();
   }
 
+  Future<void> _fetchSessionReport() async {
+    try {
+      final reportData = await _reportDataSource.getSessionReport(
+        widget.sessionId,
+      );
+      setState(() {
+        _reportData = reportData;
+        _isLoading = false;
+        _populateControllers();
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _populateControllers() {
+    if (_reportData == null) return;
+
+    _topicsCoveredController.text = _reportData!.topicsCovered.isNotEmpty
+        ? _reportData!.topicsCovered.join(', ')
+        : 'No topics covered';
+    _significantObservationController.text =
+        _reportData!.significantObservations.isNotEmpty
+        ? _reportData!.significantObservations.join(', ')
+        : 'No significant observations';
+    _satisfactionController.text =
+        '${_reportData!.overallSatisfactionScore.toString()} - ${_getSatisfactionText(_reportData!.overallSatisfactionScore)}';
+    _summaryController.text = _reportData!.learnerFeedbackSummary.isNotEmpty
+        ? _reportData!.learnerFeedbackSummary
+        : 'No summary available';
+    _positiveFeedbackController.text = _reportData!.positiveFeedback.isNotEmpty
+        ? _reportData!.positiveFeedback
+        : 'No positive feedback';
+    _improvementController.text = _reportData!.areasForImprovement.isNotEmpty
+        ? _reportData!.areasForImprovement
+        : 'No areas for improvement';
+    _specificFeedbackController.text =
+        _reportData!.specificFeedbackExamples.isNotEmpty
+        ? _reportData!.specificFeedbackExamples
+        : 'No specific feedback examples';
+
+    _effectivenessController.text =
+        '${_reportData!.teachingMethodEffectiveness.toString()} - ${_getEffectivenessText(_reportData!.teachingMethodEffectiveness)}';
+    _strengthsController.text = _reportData!.trainerStrengths.isNotEmpty
+        ? _reportData!.trainerStrengths
+        : 'No strengths identified';
+    _growthController.text = _reportData!.trainerAreasForGrowth.isNotEmpty
+        ? _reportData!.trainerAreasForGrowth
+        : 'No areas for growth';
+    _goalsController.text = _reportData!.trainerProfessionalGoals.isNotEmpty
+        ? _reportData!.trainerProfessionalGoals
+        : 'No professional goals';
+
+    _curriculumController.text =
+        _reportData!.curriculumRecommendations.isNotEmpty
+        ? _reportData!.curriculumRecommendations
+        : 'No curriculum recommendations';
+    _deliveryController.text =
+        _reportData!.deliveryMethodRecommendations.isNotEmpty
+        ? _reportData!.deliveryMethodRecommendations
+        : 'No delivery method recommendations';
+    _assessmentController.text =
+        _reportData!.assessmentRecommendations.isNotEmpty
+        ? _reportData!.assessmentRecommendations
+        : 'No assessment recommendations';
+    _supportController.text =
+        _reportData!.learnerSupportRecommendations.isNotEmpty
+        ? _reportData!.learnerSupportRecommendations
+        : 'No learner support recommendations';
+    _otherController.text = _reportData!.otherRecommendations.isNotEmpty
+        ? _reportData!.otherRecommendations
+        : 'No other recommendations';
+  }
+
+  String _getSatisfactionText(double score) {
+    if (score >= 4.5) return 'Very Satisfied';
+    if (score >= 3.5) return 'Satisfied';
+    if (score >= 2.5) return 'Neutral';
+    if (score >= 1.5) return 'Dissatisfied';
+    return 'Very Dissatisfied';
+  }
+
+  String _getEffectivenessText(double score) {
+    if (score >= 4.5) return 'Very Effective';
+    if (score >= 3.5) return 'Effective';
+    if (score >= 2.5) return 'Moderately Effective';
+    if (score >= 1.5) return 'Somewhat Effective';
+    return 'Not Effective';
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -95,29 +182,60 @@ class _ViewReportPageState extends State<ViewReportPage> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(
-                5,
-                (index) => _buildStepIndicator(index, context),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 64,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Error loading report',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _error!,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: _fetchSessionReport,
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            )
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(
+                      5,
+                      (index) => _buildStepIndicator(index, context),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  _buildStepContent(),
+
+                  const SizedBox(height: 32),
+
+                  _buildNavigationButtons(),
+                ],
               ),
             ),
-
-            const SizedBox(height: 24),
-
-            _buildStepContent(),
-
-            const SizedBox(height: 32),
-
-            _buildNavigationButtons(),
-          ],
-        ),
-      ),
     );
   }
 
@@ -244,7 +362,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 40),
 
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,11 +407,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
         const SizedBox(height: 32),
 
-        Container(
-          height: 1,
-          color: Theme.of(context).colorScheme.outlineVariant,
-        ),
-
         const SizedBox(height: 32),
       ],
     );
@@ -308,7 +421,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 40),
 
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,7 +552,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 40),
 
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -546,7 +659,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 40),
 
         _buildTextFieldSection("Curriculum and Content", _curriculumController),
         const SizedBox(height: 24),
@@ -570,9 +683,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
 
-        const SizedBox(height: 32),
-
-        const SizedBox(height: 32),
+        const SizedBox(height: 40),
       ],
     );
   }

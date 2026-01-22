@@ -194,12 +194,18 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               Align(
                 alignment: Alignment.centerRight,
                 child: OutlinedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const ViewReportPage()),
-                    );
-                  },
+                  onPressed: _selectedSessionId != null
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ViewReportPage(
+                                sessionId: _selectedSessionId!,
+                              ),
+                            ),
+                          );
+                        }
+                      : null,
                   icon: const Icon(Icons.check_circle_outline),
                   label: const Text("View Report"),
                   style: OutlinedButton.styleFrom(
