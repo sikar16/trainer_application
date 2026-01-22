@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../bloc/job_detail_bloc/job_detail_bloc.dart';
+import '../bloc/job_application_bloc/job_application_bloc.dart';
 import '../../domain/entities/job_detail_entity.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 
@@ -14,87 +15,140 @@ class JobDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl.sl<JobDetailBloc>()..add(FetchJobDetail(jobId)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              sl.sl<JobDetailBloc>()..add(FetchJobDetail(jobId)),
+        ),
+        BlocProvider(create: (context) => sl.sl<JobApplicationBloc>()),
+      ],
       child: const JobDetailView(),
     );
   }
 }
 
-class JobDetailView extends StatelessWidget {
+class JobDetailView extends StatefulWidget {
   const JobDetailView({super.key});
+
+  @override
+  State<JobDetailView> createState() => _JobDetailViewState();
+}
+
+class _JobDetailViewState extends State<JobDetailView> {
+  bool _showApplicationForm = false;
+  String _selectedApplicationType = 'Main Trainer';
+  final TextEditingController _reasonController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _reasonController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final jobId =
+        (context.findAncestorWidgetOfExactType<JobDetailScreen>()?.jobId) ?? '';
 
     return Scaffold(
-      body: BlocBuilder<JobDetailBloc, JobDetailState>(
-        builder: (context, state) {
-          return CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                pinned: true,
-                floating: true,
-                title: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Job Details'),
-                ),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => context.go('/job'),
-                ),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/job');
+          },
+        ),
+        title: const Text('Job Details'),
+        centerTitle: true,
+      ),
+      body: BlocListener<JobApplicationBloc, JobApplicationState>(
+        listener: (context, state) {
+          if (state is JobApplicationSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Application submitted successfully!'),
+                duration: Duration(seconds: 2),
               ),
-
-              if (state is JobDetailLoading)
-                const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              else if (state is JobDetailError)
-                SliverFillRemaining(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Error loading job details',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+            );
+            setState(() {
+              _showApplicationForm = false;
+              _reasonController.clear();
+            });
+          } else if (state is JobApplicationFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<JobDetailBloc, JobDetailState>(
+          builder: (context, state) {
+            if (state is JobDetailLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is JobDetailError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Error loading job details',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(state.message, textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<JobDetailBloc>().add(
+                          FetchJobDetail(jobId),
+                        );
+                      },
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              );
+            } else if (state is JobDetailLoaded) {
+              return CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.all(16),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate([
+                        _buildJobContent(
+                          context,
+                          state.jobDetail.job,
+                          colorScheme,
                         ),
-                        const SizedBox(height: 12),
-                        Text(state.message, textAlign: TextAlign.center),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {
-                            context.read<JobDetailBloc>().add(
-                              FetchJobDetail(''),
-                            );
-                          },
-                          child: const Text('Retry'),
-                        ),
-                      ],
+                        if (_showApplicationForm) _buildApplicationForm(),
+                      ]),
                     ),
                   ),
-                )
-              else if (state is JobDetailLoaded)
-                SliverPadding(
-                  padding: const EdgeInsets.all(16),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate([
-                      _buildJobContent(state.jobDetail.job, colorScheme),
-                    ]),
-                  ),
-                ),
-            ],
-          );
-        },
+                ],
+              );
+            } else {
+              return const Center(child: Text('No job data available'));
+            }
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildJobContent(JobDetailEntity job, ColorScheme colorScheme) {
+  Widget _buildJobContent(
+    BuildContext context,
+    JobDetailEntity job,
+    ColorScheme colorScheme,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -135,7 +189,7 @@ class JobDetailView extends StatelessWidget {
 
         const SizedBox(height: 32),
 
-        _buildActionButtons(colorScheme),
+        _buildActionButtons(context, colorScheme),
       ],
     );
   }
@@ -238,7 +292,11 @@ class JobDetailView extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(ColorScheme colorScheme) {
+  Widget _buildActionButtons(BuildContext context, ColorScheme colorScheme) {
+    if (_showApplicationForm) {
+      return const SizedBox();
+    }
+
     return Row(
       children: [
         Expanded(
@@ -263,7 +321,11 @@ class JobDetailView extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                _showApplicationForm = true;
+              });
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: colorScheme.primary,
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -282,6 +344,165 @@ class JobDetailView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildApplicationForm() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Application Type',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            DropdownButtonFormField<String>(
+              initialValue: _selectedApplicationType,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+              ),
+              items: const [
+                DropdownMenuItem(
+                  value: 'Main Trainer',
+                  child: Text('Main Trainer'),
+                ),
+                DropdownMenuItem(
+                  value: 'Assistant Trainer',
+                  child: Text('Assistant Trainer'),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  _selectedApplicationType = value!;
+                });
+              },
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Why do you want to apply for this position?',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _reasonController,
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: 'Enter your reason',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                contentPadding: const EdgeInsets.all(16),
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'Please enter your reason';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        _showApplicationForm = false;
+                        _reasonController.clear();
+                      });
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: BlocBuilder<JobApplicationBloc, JobApplicationState>(
+                    builder: (context, state) {
+                      return ElevatedButton(
+                        onPressed: state is JobApplicationLoading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  final jobId =
+                                      (context
+                                          .findAncestorWidgetOfExactType<
+                                            JobDetailScreen
+                                          >()
+                                          ?.jobId) ??
+                                      '';
+                                  context.read<JobApplicationBloc>().add(
+                                    SubmitJobApplication(
+                                      jobId: jobId,
+                                      reason: _reasonController.text.trim(),
+                                      applicationType: _selectedApplicationType,
+                                    ),
+                                  );
+                                }
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: state is JobApplicationLoading
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                ),
+                              )
+                            : const Text(
+                                'Submit Application',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 

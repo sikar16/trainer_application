@@ -7,7 +7,7 @@ class AuthRemoteDataSource {
   AuthRemoteDataSource(this.apiClient);
 
   Future<UserModel> login(String email, String password) async {
-    final response = await apiClient.post(
+    final response = await apiClient.postCurriculum(
       '/api/auth/login',
       data: {'email': email, 'password': password},
     );

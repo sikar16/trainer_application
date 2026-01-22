@@ -26,11 +26,7 @@ class Env {
     try {
       return dotenv.get(key, fallback: fallback);
     } catch (e) {
-      if (kDebugMode) {
-        print(
-          'Warning: Environment variable $key not found, using fallback: $fallback',
-        );
-      }
+      if (kDebugMode) {}
       return fallback;
     }
   }

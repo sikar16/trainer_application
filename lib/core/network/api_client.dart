@@ -16,6 +16,8 @@ class ApiClient {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
+        validateStatus: (status) =>
+            true, // Don't throw exceptions for any status code
       ),
     );
 
@@ -28,6 +30,8 @@ class ApiClient {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
+        validateStatus: (status) =>
+            true, // Don't throw exceptions for any status code
       ),
     );
 
