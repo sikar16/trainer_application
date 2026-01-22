@@ -209,8 +209,8 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                   icon: const Icon(Icons.check_circle_outline),
                   label: const Text("View Report"),
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: colorScheme.primaryContainer,
-                    foregroundColor: colorScheme.onPrimaryContainer,
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 12,

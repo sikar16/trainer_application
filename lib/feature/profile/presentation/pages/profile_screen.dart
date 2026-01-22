@@ -14,6 +14,7 @@ import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';
 import '../bloc/profile_state.dart';
 import '../../domain/entities/profile_entity.dart';
+import '../../data/models/edit_profile_request_model.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -72,14 +73,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _saveProfile() {
     if (!_formKey.currentState!.validate() || _currentProfile == null) return;
-    final payload = {
-      "firstName": _firstNameController.text.trim(),
-      "lastName": _lastNameController.text.trim(),
-      "email": _emailController.text.trim(),
-      "phoneNumber": _phoneController.text.trim(),
-    };
+    final request = EditProfileRequestModel(
+      firstName: _firstNameController.text.trim(),
+      lastName: _lastNameController.text.trim(),
+      email: _emailController.text.trim(),
+      phoneNumber: _phoneController.text.trim(),
+    );
 
-    context.read<ProfileBloc>().add(EditProfileEvent(payload));
+    context.read<ProfileBloc>().add(EditProfileEvent(request));
   }
 
   @override

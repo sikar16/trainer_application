@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:training/feature/training/domain/usecases/get_modules_usecase.dart';
 import 'module_event.dart';
 import 'module_state.dart';

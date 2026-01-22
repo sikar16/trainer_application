@@ -15,7 +15,6 @@ class AssessmentMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final colorTheme = Theme.of(context).colorScheme;
 
     final formativeAssessments = assessmentMethods.assessmentMethods
         .where((method) => method.assessmentSubType == 'FORMATIVE')
@@ -149,6 +148,5 @@ class AssessmentMethods extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

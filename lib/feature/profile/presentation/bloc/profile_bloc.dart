@@ -6,6 +6,8 @@ import 'profile_event.dart';
 import 'profile_state.dart';
 import '../../../../core/storage/storage_service.dart';
 import '../../data/models/profile_model.dart';
+import '../../data/models/edit_profile_response_model.dart';
+import '../../data/models/edit_profile_request_model.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetProfileUseCase getProfileUseCase;
@@ -37,14 +39,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<EditProfileEvent>((event, emit) async {
       emit(ProfileLoading());
       try {
-        final profile = await editProfileUseCase(event.profileData);
+        final response = await editProfileUseCase(event.profileData);
 
-        // Save only if it's a ProfileModel
-        if (profile is ProfileModel) {
-          await StorageService.saveUserData(profile.toJson());
-        }
+        // Save the updated profile data
+        await StorageService.saveUserData(response.user.toJson());
 
-        emit(ProfileEditSuccess(profile));
+        emit(
+          ProfileEditSuccess(
+            response.user,
+            response.message,
+            response.isPhoneChanged,
+            response.isEmailChanged,
+          ),
+        );
       } catch (e) {
         emit(ProfileError(e.toString()));
       }

@@ -1,16 +1,19 @@
-import '../entities/profile_entity.dart';
 import '../repositories/profile_repository.dart';
+import '../../data/models/edit_profile_response_model.dart';
+import '../../data/models/edit_profile_request_model.dart';
 
 class EditProfileUseCase {
   final ProfileRepository repository;
 
   EditProfileUseCase(this.repository);
 
-  Future<ProfileEntity> call(Map<String, dynamic> profileData) async {
+  Future<EditProfileResponseModel> call(
+    EditProfileRequestModel profileData,
+  ) async {
     try {
       return await repository.editProfile(profileData);
     } catch (e) {
-      rethrow; // let BLoC handle errors
+      rethrow;
     }
   }
 }

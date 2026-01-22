@@ -2,6 +2,8 @@ import '../../domain/entities/profile_entity.dart';
 import '../../domain/repositories/profile_repository.dart';
 import '../datasources/profile_remote_data_source.dart';
 import '../models/profile_model.dart';
+import '../models/edit_profile_response_model.dart';
+import '../models/edit_profile_request_model.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileRemoteDataSource remoteDataSource;
@@ -15,11 +17,12 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<ProfileEntity> editProfile(Map<String, dynamic> profileData) async {
-    final ProfileModel profile = await remoteDataSource.editProfile(
-      profileData,
-    );
-    return profile;
+  Future<EditProfileResponseModel> editProfile(
+    EditProfileRequestModel profileData,
+  ) async {
+    final EditProfileResponseModel response = await remoteDataSource
+        .editProfile(profileData);
+    return response;
   }
 
   @override

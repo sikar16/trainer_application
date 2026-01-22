@@ -316,7 +316,6 @@ class _ContentWidgetState extends State<ContentWidget> {
   }
 
   Widget _tableRow(ContentEntity content) {
-    final isAccepted = content.contentStatus == "ACCEPTED";
     final contentFor = content.lessonName ?? content.moduleName ?? "";
 
     return Container(
@@ -468,6 +467,7 @@ class _LinkCell extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final ColorScheme = Theme.of(context).colorScheme;
+
     if (link == null || link!.isEmpty) {
       return Expanded(
         flex: flex,

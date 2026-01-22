@@ -14,8 +14,16 @@ class ProfileLoaded extends ProfileState {
 
 class ProfileEditSuccess extends ProfileState {
   final ProfileEntity profile;
+  final String message;
+  final bool isPhoneChanged;
+  final bool isEmailChanged;
 
-  ProfileEditSuccess(this.profile);
+  ProfileEditSuccess(
+    this.profile,
+    this.message,
+    this.isPhoneChanged,
+    this.isEmailChanged,
+  );
 }
 
 class ProfileError extends ProfileState {
