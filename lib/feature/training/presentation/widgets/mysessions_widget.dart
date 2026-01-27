@@ -252,7 +252,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                           child: Text(
                             "Save Attendance",
                             style: textTheme.labelLarge?.copyWith(
-                              color: colorScheme.outline,
+                              color: _hasUnsavedChanges
+                                  ? colorScheme.onPrimary
+                                  : colorScheme.onSurfaceVariant,
                             ),
                           ),
                         ),
