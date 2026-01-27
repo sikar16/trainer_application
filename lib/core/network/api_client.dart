@@ -23,7 +23,7 @@ class ApiClient {
 
     _curriculumApi = Dio(
       BaseOptions(
-        baseUrl: Env.curriculumBaseUrl,
+        baseUrl: Env.baseUrl,
         connectTimeout: Duration(milliseconds: Env.connectTimeout),
         receiveTimeout: Duration(milliseconds: Env.receiveTimeout),
         headers: {

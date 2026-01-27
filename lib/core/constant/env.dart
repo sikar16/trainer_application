@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Env {
   static String get baseUrl => _get('BASE_URL');
-  static String get curriculumBaseUrl => _get('CURRICULUM_BASE_URL');
   static String get apiKey => _get('API_KEY');
   static String get appVersion => _get('APP_VERSION', fallback: '1.0.0');
   static String get buildNumber => _get('BUILD_NUMBER', fallback: '1');

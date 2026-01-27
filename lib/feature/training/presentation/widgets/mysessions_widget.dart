@@ -229,27 +229,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                 child: Row(
                   children: [
                     BlocListener<AttendanceBloc, AttendanceState>(
-                      listener: (context, state) {
-                        if (state is AttendanceSaved) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text(
-                                'Attendance saved successfully',
-                              ),
-                              backgroundColor: colorScheme.primaryContainer,
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        } else if (state is AttendanceError) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Error: ${state.message}'),
-                              backgroundColor: colorScheme.errorContainer,
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        }
-                      },
+                      listener: (context, state) {},
                       child: ElevatedButton(
                         onPressed: _hasUnsavedChanges ? _saveAttendance : null,
                         style: ElevatedButton.styleFrom(
