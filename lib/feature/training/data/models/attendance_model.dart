@@ -10,6 +10,7 @@ class AttendanceModel extends AttendanceEntity {
   });
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) {
+    print(json['isPresent']);
     return AttendanceModel(
       id: json['id'] as String,
       trainee: TraineeModel.fromJson(json['trainee'] as Map<String, dynamic>),
@@ -28,17 +29,16 @@ class AttendanceModel extends AttendanceEntity {
 }
 
 class AttendanceListModel extends AttendanceListEntity {
-  AttendanceListModel({
-    required super.attendance,
-    required super.message,
-  });
+  AttendanceListModel({required super.attendance, required super.message});
 
   factory AttendanceListModel.fromJson(Map<String, dynamic> json) {
     return AttendanceListModel(
-      attendance: (json['attendance'] as List<dynamic>?)
+      attendance:
+          (json['attendance'] as List<dynamic>?)
               ?.map(
-                (attendance) =>
-                    AttendanceModel.fromJson(attendance as Map<String, dynamic>),
+                (attendance) => AttendanceModel.fromJson(
+                  attendance as Map<String, dynamic>,
+                ),
               )
               .toList() ??
           [],

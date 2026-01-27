@@ -14,6 +14,7 @@ class AttendanceRemoteDataSource {
         '/api/attendance/session/$sessionId',
       );
       final data = response.data;
+
       return AttendanceListModel.fromJson(data);
     } catch (e) {
       debugPrint('getAttendanceBySession error: $e');
@@ -29,12 +30,15 @@ class AttendanceRemoteDataSource {
     String comment = '',
   }) async {
     try {
+      print(isPresent);
+      print(sessionId);
+      print(traineeId);
       final response = await apiClient.post(
         '/api/attendance',
         data: {
           'sessionId': sessionId,
           'traineeId': traineeId,
-          'isPresent': isPresent,
+          'present': isPresent,
           'comment': comment,
         },
       );
