@@ -1,16 +1,16 @@
 import 'package:go_router/go_router.dart';
-import 'package:training/core/router/error_page.dart';
-import 'package:training/core/storage/storage_service.dart';
-import 'package:training/feature/auth/presentation/pages/login_screen.dart';
-import 'package:training/feature/dashborad/presentation/pages/dashboard_screen.dart';
-import 'package:training/feature/job/presentation/pages/job_screen.dart';
-import 'package:training/feature/profile/presentation/pages/profile_screen.dart';
-import 'package:training/feature/setting/presentation/pages/setting_screen.dart';
-import 'package:training/feature/splash/presentation/pages/splash_screen.dart';
-import 'package:training/feature/training/presentation/pages/traning_screen.dart';
-import 'package:training/feature/job/presentation/widgets/job_detail_screen.dart';
-import 'package:training/feature/training/presentation/widgets/module_detail.dart';
-import 'package:training/feature/training/presentation/widgets/training_detail_screen.dart';
+import 'package:gheero/core/router/error_page.dart';
+import 'package:gheero/core/storage/storage_service.dart';
+import 'package:gheero/feature/auth/presentation/pages/login_screen.dart';
+import 'package:gheero/feature/dashborad/presentation/pages/dashboard_screen.dart';
+import 'package:gheero/feature/job/presentation/pages/job_screen.dart';
+import 'package:gheero/feature/profile/presentation/pages/profile_screen.dart';
+import 'package:gheero/feature/setting/presentation/pages/setting_screen.dart';
+import 'package:gheero/feature/splash/presentation/pages/splash_screen.dart';
+import 'package:gheero/feature/training/presentation/pages/traning_screen.dart';
+import 'package:gheero/feature/job/presentation/widgets/job_detail_screen.dart';
+import 'package:gheero/feature/training/presentation/widgets/module_detail.dart';
+import 'package:gheero/feature/training/presentation/widgets/training_detail_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/splash',

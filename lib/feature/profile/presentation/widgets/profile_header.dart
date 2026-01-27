@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training/feature/profile/domain/entities/profile_entity.dart';
+import 'package:gheero/feature/profile/domain/entities/profile_entity.dart';
 
 class ProfileHeader extends StatelessWidget {
   final ProfileEntity profile;

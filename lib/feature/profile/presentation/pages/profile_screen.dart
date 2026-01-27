@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training/core/snack_bar/snack_bar_widget.dart';
+import 'package:gheero/core/snack_bar/snack_bar_widget.dart';
 
-import 'package:training/core/widgets/app_drawer.dart';
-import 'package:training/core/widgets/custom_appbar.dart';
-import 'package:training/feature/profile/presentation/widgets/edit_mode_actions.dart';
-import 'package:training/feature/profile/presentation/widgets/error_state.dart';
-import 'package:training/feature/profile/presentation/widgets/loading_state.dart';
-import 'package:training/feature/profile/presentation/widgets/profile_header.dart';
-import 'package:training/feature/profile/presentation/widgets/profile_info.dart';
+import 'package:gheero/core/widgets/app_drawer.dart';
+import 'package:gheero/core/widgets/custom_appbar.dart';
+import 'package:gheero/feature/profile/presentation/widgets/edit_mode_actions.dart';
+import 'package:gheero/feature/profile/presentation/widgets/error_state.dart';
+import 'package:gheero/feature/profile/presentation/widgets/loading_state.dart';
+import 'package:gheero/feature/profile/presentation/widgets/profile_header.dart';
+import 'package:gheero/feature/profile/presentation/widgets/profile_info.dart';
 
 import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';

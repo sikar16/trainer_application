@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training/core/widgets/custom_dropdown.dart';
+import 'package:gheero/core/widgets/custom_dropdown.dart';
 import '../../domain/entities/module_detail_entity.dart';
 
 class AssessmentMethods extends StatelessWidget {

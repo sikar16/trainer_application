@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:training/core/widgets/showLogoutWarningDialog.dart';
+import 'package:gheero/core/widgets/showLogoutWarningDialog.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});

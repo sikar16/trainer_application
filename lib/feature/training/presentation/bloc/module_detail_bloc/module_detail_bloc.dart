@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:training/feature/training/domain/entities/module_detail_entity.dart';
-import 'package:training/feature/training/domain/usecases/get_module_detail_usecase.dart';
-import 'package:training/feature/training/domain/usecases/get_module_assessment_methods_usecase.dart';
+import 'package:gheero/feature/training/domain/entities/module_detail_entity.dart';
+import 'package:gheero/feature/training/domain/usecases/get_module_detail_usecase.dart';
+import 'package:gheero/feature/training/domain/usecases/get_module_assessment_methods_usecase.dart';
 
 part 'module_detail_event.dart';
 part 'module_detail_state.dart';

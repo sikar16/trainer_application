@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training/core/di/injection_container.dart';
-import 'package:training/feature/auth/presentation/bloc/login_bloc.dart';
-import 'package:training/feature/profile/presentation/bloc/profile_bloc.dart';
-import 'package:training/feature/training/presentation/bloc/training_bloc/training_bloc.dart';
-import 'package:training/feature/training/presentation/bloc/cohort_bloc/cohort_bloc.dart';
-import 'package:training/feature/training/presentation/bloc/session_bloc/session_bloc.dart';
-import 'package:training/feature/training/presentation/bloc/trainee_bloc/trainee_bloc.dart';
-import 'package:training/feature/training/presentation/bloc/attendance_bloc/attendance_bloc.dart';
+import 'package:gheero/core/di/injection_container.dart';
+import 'package:gheero/feature/auth/presentation/bloc/login_bloc.dart';
+import 'package:gheero/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/training_bloc/training_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/cohort_bloc/cohort_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/session_bloc/session_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/trainee_bloc/trainee_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 
 class AppBlocProviders extends StatelessWidget {
   final Widget child;

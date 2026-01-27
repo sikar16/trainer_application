@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:training/feature/training/domain/entities/module_entity.dart';
+import 'package:gheero/feature/training/domain/entities/module_entity.dart';
 
 abstract class ModuleState extends Equatable {
   const ModuleState();

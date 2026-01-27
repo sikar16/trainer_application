@@ -1,4 +1,4 @@
-import 'package:training/feature/training/domain/entities/module_detail_entity.dart';
+import 'package:gheero/feature/training/domain/entities/module_detail_entity.dart';
 
 class ModuleDetailModel {
   final String moduleId;

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:training/feature/auth/presentation/bloc/login_bloc.dart';
-import 'package:training/feature/auth/presentation/bloc/login_event.dart';
-import 'package:training/feature/auth/presentation/bloc/login_state.dart';
+import 'package:gheero/feature/auth/presentation/bloc/login_bloc.dart';
+import 'package:gheero/feature/auth/presentation/bloc/login_event.dart';
+import 'package:gheero/feature/auth/presentation/bloc/login_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

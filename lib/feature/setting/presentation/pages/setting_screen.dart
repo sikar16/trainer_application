@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:training/core/widgets/app_drawer.dart';
-import 'package:training/core/widgets/custom_appbar.dart';
+import 'package:gheero/core/widgets/app_drawer.dart';
+import 'package:gheero/core/widgets/custom_appbar.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});

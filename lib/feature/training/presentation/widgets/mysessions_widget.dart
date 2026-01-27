@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training/feature/training/presentation/widgets/view_report_widget.dart';
+import 'package:gheero/feature/training/presentation/widgets/view_report_widget.dart';
 import '../bloc/cohort_bloc/cohort_bloc.dart';
 import '../bloc/cohort_bloc/cohort_event.dart';
 import '../bloc/session_bloc/session_bloc.dart';

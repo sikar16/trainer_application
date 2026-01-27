@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:training/app_bloc_provider.dart';
-import 'package:training/core/router/route.dart';
-import 'package:training/core/theme/theme.dart';
-import 'package:training/core/theme/util.dart';
+import 'package:gheero/app_bloc_provider.dart';
+import 'package:gheero/core/router/route.dart';
+import 'package:gheero/core/theme/theme.dart';
+import 'package:gheero/core/theme/util.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

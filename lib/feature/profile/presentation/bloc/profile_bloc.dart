@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training/feature/profile/domain/usecases/logout_usecase.dart';
+import 'package:gheero/feature/profile/domain/usecases/logout_usecase.dart';
 import '../../domain/usecases/get_profile_usecase.dart';
 import '../../domain/usecases/edit_profile_usecase.dart';
 import 'profile_event.dart';

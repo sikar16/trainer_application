@@ -30,9 +30,6 @@ class AttendanceRemoteDataSource {
     String comment = '',
   }) async {
     try {
-      print(isPresent);
-      print(sessionId);
-      print(traineeId);
       final response = await apiClient.post(
         '/api/attendance',
         data: {

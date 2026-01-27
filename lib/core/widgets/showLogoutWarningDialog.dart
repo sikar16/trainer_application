@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:training/core/snack_bar/snack_bar_widget.dart';
-import 'package:training/feature/profile/presentation/bloc/profile_bloc.dart';
-import 'package:training/feature/profile/presentation/bloc/profile_event.dart';
-import 'package:training/feature/profile/presentation/bloc/profile_state.dart';
+import 'package:gheero/core/snack_bar/snack_bar_widget.dart';
+import 'package:gheero/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:gheero/feature/profile/presentation/bloc/profile_event.dart';
+import 'package:gheero/feature/profile/presentation/bloc/profile_state.dart';
 
 void showLogoutWarningDialog(BuildContext context) {
   showDialog(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:training/core/widgets/custom_dropdown.dart';
+import 'package:gheero/core/widgets/custom_dropdown.dart';
 import '../../domain/entities/training_entity.dart';
 import '../../domain/entities/training_profile_entity.dart';
 import '../../domain/usecases/get_training_profile_usecase.dart';

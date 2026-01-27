@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:training/core/storage/storage_service.dart';
-import 'package:training/feature/profile/presentation/bloc/profile_bloc.dart';
-import 'package:training/feature/profile/presentation/bloc/profile_event.dart';
-import 'package:training/feature/profile/presentation/bloc/profile_state.dart';
+import 'package:gheero/core/storage/storage_service.dart';
+import 'package:gheero/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:gheero/feature/profile/presentation/bloc/profile_event.dart';
+import 'package:gheero/feature/profile/presentation/bloc/profile_state.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

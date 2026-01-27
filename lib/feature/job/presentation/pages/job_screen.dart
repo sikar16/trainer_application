@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:training/core/widgets/app_drawer.dart';
-import 'package:training/core/widgets/custom_appbar.dart';
+import 'package:gheero/core/widgets/app_drawer.dart';
+import 'package:gheero/core/widgets/custom_appbar.dart';
 import '../widgets/job_list_widget.dart';
 import '../widgets/application_list_widget.dart';
 
