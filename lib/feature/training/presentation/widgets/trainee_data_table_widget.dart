@@ -154,6 +154,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                       isPresent,
                                     );
                                   },
+                                  onCommentChanged: (comment) {},
                                 ),
                               ),
                               DataCell(

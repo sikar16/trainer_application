@@ -10,7 +10,6 @@ class AttendanceModel extends AttendanceEntity {
   });
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) {
-    print(json['isPresent']);
     return AttendanceModel(
       id: json['id'] as String,
       trainee: TraineeModel.fromJson(json['trainee'] as Map<String, dynamic>),
