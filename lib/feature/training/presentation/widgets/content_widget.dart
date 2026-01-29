@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:gheero/feature/training/presentation/bloc/content_bloc/content_event.dart';
 import '../bloc/content_bloc/content_bloc.dart';
 import '../bloc/content_bloc/content_state.dart';
@@ -484,12 +485,23 @@ class _LinkCell extends StatelessWidget {
     return Expanded(
       flex: flex,
       child: GestureDetector(
-        onTap: () {},
+        onTap: () async {
+          if (link != null && link!.isNotEmpty) {
+            final Uri uri = Uri.parse(link!);
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+            } else {
+              // Could show a snackbar or dialog here if needed
+              debugPrint('Could not launch $link');
+            }
+          }
+        },
         child: Text(
           text,
           style: TextStyle(
             color: ColorScheme.primary,
             fontSize: textTheme.bodyMedium?.fontSize,
+            decoration: TextDecoration.underline,
           ),
         ),
       ),
