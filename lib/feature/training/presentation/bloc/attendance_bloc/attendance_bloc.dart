@@ -27,13 +27,18 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<SaveAttendanceEvent>((event, emit) async {
       emit(AttendanceLoading());
       try {
-        final attendance = await saveAttendanceUseCase.call(
+        await saveAttendanceUseCase.call(
           sessionId: event.sessionId,
           traineeId: event.traineeId,
           isPresent: event.isPresent,
           comment: event.comment,
         );
-        emit(AttendanceSaved(attendance));
+
+        final attendanceList = await getAttendanceBySessionUseCase(
+          event.sessionId,
+        );
+
+        emit(AttendanceLoaded(attendanceList));
       } catch (e) {
         emit(AttendanceError(e.toString()));
       }

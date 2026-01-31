@@ -10,7 +10,7 @@ class GetProfileUseCase {
     try {
       return await repository.getProfile();
     } catch (e) {
-      rethrow; // let BLoC handle errors
+      rethrow;
     }
   }
 }

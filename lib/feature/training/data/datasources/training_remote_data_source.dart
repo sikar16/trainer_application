@@ -7,7 +7,6 @@ class TrainingRemoteDataSource {
 
   TrainingRemoteDataSource({required this.apiClient});
 
-  /// Get trainings (paginated)
   Future<TrainingListModel> getTrainings({
     int page = 1,
     int pageSize = 10,
@@ -26,7 +25,6 @@ class TrainingRemoteDataSource {
     }
   }
 
-  /// Get training by ID
   Future<TrainingModel> getTrainingById(String id) async {
     try {
       final response = await apiClient.get('/api/training/$id');

@@ -53,7 +53,6 @@ class ProfileModel extends ProfileEntity {
   }
 }
 
-// ---------------------- Nested Models ----------------------
 
 class RoleModel extends RoleEntity {
   RoleModel({required super.name, required super.colorCode});

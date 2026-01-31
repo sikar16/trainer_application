@@ -57,13 +57,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _startEditing(ProfileEntity profile) {
-    // Split phone number into country code and phone number
     final phoneNumber = profile.phoneNumber;
-    String countryCode = '+251'; // default
+    String countryCode = '+251';
     String phone = phoneNumber;
 
     if (phoneNumber.startsWith('+')) {
-      // Find where the country code ends (typically after 3-4 digits)
       for (int i = 4; i <= 5; i++) {
         if (phoneNumber.length > i) {
           countryCode = phoneNumber.substring(0, i);
@@ -355,18 +353,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             return 'This field is required';
                           }
 
-                          // Remove any non-digit characters for validation
                           final cleanPhone = value.replaceAll(
                             RegExp(r'\D'),
                             '',
                           );
 
-                          // Check if exactly 9 digits
                           if (cleanPhone.length != 9) {
                             return 'Phone number must be 9 digits';
                           }
 
-                          // Check if starts with 7 or 9
                           if (!cleanPhone.startsWith('7') &&
                               !cleanPhone.startsWith('9')) {
                             return 'Phone number must start with 7 or 9';
@@ -376,14 +371,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         errorMaxLines: 2,
                         onChanged: (value) {
-                          // Trigger real-time validation
                           _phoneController.value = TextEditingValue(
                             text: value,
                             selection: TextSelection.collapsed(
                               offset: value.length,
                             ),
                           );
-                          setState(() {}); // Rebuild to show validation errors
+                          setState(() {});
                         },
                       ),
                     ),
@@ -520,7 +514,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             if (state is ProfileLoading) {
               isLoading = true;
-              // Keep the previous profile data if available
               if (_currentProfile != null) {
                 profile = _currentProfile;
               }
@@ -529,13 +522,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               if (!_isEditing) {
                 _currentProfile = profile;
 
-                // Parse phone number when profile is initially loaded
                 final phoneNumber = profile.phoneNumber;
-                String countryCode = '+251'; // default
+                String countryCode = '+251';
                 String phone = phoneNumber;
 
                 if (phoneNumber.startsWith('+')) {
-                  // Find where the country code ends (typically after 3-4 digits)
                   for (int i = 4; i <= 5; i++) {
                     if (phoneNumber.length > i) {
                       countryCode = phoneNumber.substring(0, i);
@@ -545,7 +536,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   }
                 }
 
-                // Update controllers with parsed phone data
                 _firstNameController.text = profile.firstName;
                 _lastNameController.text = profile.lastName;
                 _emailController.text = profile.email;
@@ -554,7 +544,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }
             } else if (state is ProfileError) {
               errorMessage = state.message;
-              // Keep the previous profile data if available
               if (_currentProfile != null) {
                 profile = _currentProfile;
               }
@@ -594,7 +583,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             IconButton(
                               onPressed: () {
-                                setState(() {}); // Clear error by rebuilding
+                                setState(() {});
                               },
                               icon: Icon(Icons.close, color: colorScheme.error),
                             ),

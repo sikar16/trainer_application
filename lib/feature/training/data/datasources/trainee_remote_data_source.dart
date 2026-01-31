@@ -7,7 +7,6 @@ class TraineeRemoteDataSource {
 
   TraineeRemoteDataSource({required this.apiClient});
 
-  /// Get trainees by cohort
   Future<TraineeListModel> getTraineesByCohort({
     required String cohortId,
     int page = 1,

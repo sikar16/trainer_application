@@ -23,8 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkTokenAndLoadProfile() async {
     final token = await StorageService.getToken();
     if (token != null) {
-      // Token exists → fetch profile
-      // ignore: use_build_context_synchronously
       final profileBloc = context.read<ProfileBloc>();
       profileBloc.add(GetProfileEvent());
     } else {

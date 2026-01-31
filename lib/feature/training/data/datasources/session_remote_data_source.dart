@@ -7,7 +7,6 @@ class SessionRemoteDataSource {
 
   SessionRemoteDataSource({required this.apiClient});
 
-  /// Get sessions by cohort
   Future<SessionListModel> getSessionsByCohort({
     required String cohortId,
     int page = 1,

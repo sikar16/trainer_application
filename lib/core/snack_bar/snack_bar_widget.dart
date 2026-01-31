@@ -27,7 +27,6 @@ class CustomSnackBar {
         padding: const EdgeInsets.all(2),
         child: Row(
           children: [
-            // Icon Container with subtle background
             if (showIcon) ...[
               Container(
                 width: 40,
@@ -41,13 +40,11 @@ class CustomSnackBar {
               const SizedBox(width: 16),
             ],
 
-            // Content
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Title
                   Text(
                     title,
                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -59,7 +56,6 @@ class CustomSnackBar {
                     overflow: TextOverflow.ellipsis,
                   ),
 
-                  // Subtitle
                   if (subtitle != null) ...[
                     const SizedBox(height: 4),
                     Text(
@@ -77,11 +73,9 @@ class CustomSnackBar {
               ),
             ),
 
-            // Action Button and Close Button
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Action Button
                 if (actionLabel != null && onActionPressed != null)
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
@@ -113,7 +107,6 @@ class CustomSnackBar {
                     ),
                   ),
 
-                // Close Button
                 if (showCloseButton)
                   GestureDetector(
                     onTap: () {
@@ -154,7 +147,6 @@ class CustomSnackBar {
           ? DismissDirection.horizontal
           : DismissDirection.none,
       elevation: 8,
-      // shadowColor: colors.backgroundColor.withValues(alpha: 0.3),
     );
 
     ScaffoldMessenger.of(context)
@@ -247,7 +239,6 @@ class CustomSnackBar {
     }
   }
 
-  // Optional: Method for quick usage
   static void success(
     BuildContext context,
     String message, {

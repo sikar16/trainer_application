@@ -9,7 +9,7 @@ class LogoutUseCase {
     try {
       return await repository.logout();
     } catch (e) {
-      rethrow; // let BLoC handle errors
+      rethrow;
     }
   }
 }

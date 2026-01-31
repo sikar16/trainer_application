@@ -16,7 +16,6 @@ class UserModel extends UserEntity {
       isFirstTimeLogin: json['isFirstTimeLogin'],
     );
   }
-  // to json
   Map<String, dynamic> toJson() {
     return {
       'email': email,

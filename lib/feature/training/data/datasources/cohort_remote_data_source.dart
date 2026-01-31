@@ -7,7 +7,6 @@ class CohortRemoteDataSource {
 
   CohortRemoteDataSource({required this.apiClient});
 
-  /// Get cohorts by training
   Future<CohortListModel> getCohorts({
     required String trainingId,
     int page = 1,

@@ -8,10 +8,8 @@ import '../models/edit_profile_request_model.dart';
 class ProfileRemoteDataSource {
   final ApiClient _apiClient;
 
-  // Inject ApiClient via constructor (DI)
   ProfileRemoteDataSource(this._apiClient);
 
-  /// Fetch the current user profile
   Future<ProfileModel> getProfile() async {
     try {
       final response = await _apiClient.get('/api/user/me');
@@ -25,7 +23,6 @@ class ProfileRemoteDataSource {
     }
   }
 
-  /// Edit the current user profile
   Future<EditProfileResponseModel> editProfile(
     EditProfileRequestModel profileData,
   ) async {
@@ -44,7 +41,6 @@ class ProfileRemoteDataSource {
     }
   }
 
-  // logout
   Future<void> logout() async {
     try {
       await _apiClient.postCurriculum('/api/auth/logout', data: {});

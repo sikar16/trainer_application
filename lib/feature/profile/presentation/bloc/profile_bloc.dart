@@ -19,12 +19,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     required this.editProfileUseCase,
     required this.logoutUseCase,
   }) : super(ProfileInitial()) {
-    // -------- Get Profile --------
     on<GetProfileEvent>((event, emit) async {
       emit(ProfileLoading());
       try {
         final profile = await getProfileUseCase();
-        // Save only if it's a ProfileModel (has toJson)
         if (profile is ProfileModel) {
           await StorageService.saveUserData(profile.toJson());
         }
@@ -35,13 +33,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
 
-    // -------- Edit Profile --------
     on<EditProfileEvent>((event, emit) async {
       emit(ProfileLoading());
       try {
         final response = await editProfileUseCase(event.profileData);
 
-        // Save the updated profile data
         await StorageService.saveUserData(response.user.toJson());
 
         emit(
@@ -57,7 +53,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
 
-    //  -------- logout  -------------
     on<LogoutEvent>((event, emit) async {
       emit(ProfileLoading());
       try {

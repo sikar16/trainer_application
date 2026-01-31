@@ -7,7 +7,6 @@ class AttendanceRemoteDataSource {
 
   AttendanceRemoteDataSource({required this.apiClient});
 
-  /// Get attendance by session
   Future<AttendanceListModel> getAttendanceBySession(String sessionId) async {
     try {
       final response = await apiClient.get(
@@ -22,7 +21,6 @@ class AttendanceRemoteDataSource {
     }
   }
 
-  /// Save attendance
   Future<AttendanceModel> saveAttendance({
     required String sessionId,
     required String traineeId,

@@ -33,6 +33,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   bool _hasSessions = false;
   final Map<String, bool> _attendanceChanges = {};
   Map<String, bool> _initialAttendance = {};
+  Map<String, String> _attendanceComments = {};
   bool _hasUnsavedChanges = false;
 
   @override
@@ -89,15 +90,36 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   void _onAttendanceChanged(String traineeId, bool isPresent) {
     setState(() {
       _attendanceChanges[traineeId] = isPresent;
-      _hasUnsavedChanges = _attendanceChanges.entries.any(
-        (entry) => entry.value != (_initialAttendance[entry.key] ?? true),
-      );
+      _hasUnsavedChanges =
+          _attendanceChanges.entries.any(
+            (entry) => entry.value != (_initialAttendance[entry.key] ?? true),
+          ) ||
+          _attendanceComments.isNotEmpty;
     });
   }
 
-  void _onAttendanceLoaded(Map<String, bool> attendanceMap) {
+  void _onCommentChanged(String traineeId, String comment) {
+    setState(() {
+      if (comment.isNotEmpty) {
+        _attendanceComments[traineeId] = comment;
+      } else {
+        _attendanceComments.remove(traineeId);
+      }
+      _hasUnsavedChanges =
+          _attendanceChanges.entries.any(
+            (entry) => entry.value != (_initialAttendance[entry.key] ?? true),
+          ) ||
+          _attendanceComments.isNotEmpty;
+    });
+  }
+
+  void _onAttendanceLoaded(
+    Map<String, bool> attendanceMap,
+    Map<String, String> commentMap,
+  ) {
     setState(() {
       _initialAttendance = Map<String, bool>.from(attendanceMap);
+      _attendanceComments = Map<String, String>.from(commentMap);
       _attendanceChanges.clear();
       _hasUnsavedChanges = false;
     });
@@ -107,14 +129,30 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
     if (!_hasUnsavedChanges || _selectedSessionId == null) return;
 
     final attendanceBloc = context.read<AttendanceBloc>();
+
     for (var entry in _attendanceChanges.entries) {
       attendanceBloc.add(
         SaveAttendanceEvent(
           sessionId: _selectedSessionId!,
           traineeId: entry.key,
           isPresent: entry.value,
+          comment: _attendanceComments[entry.key] ?? '',
         ),
       );
+    }
+
+    for (var entry in _attendanceComments.entries) {
+      if (!_attendanceChanges.containsKey(entry.key)) {
+        final currentAttendance = _initialAttendance[entry.key] ?? true;
+        attendanceBloc.add(
+          SaveAttendanceEvent(
+            sessionId: _selectedSessionId!,
+            traineeId: entry.key,
+            isPresent: currentAttendance,
+            comment: entry.value,
+          ),
+        );
+      }
     }
 
     await Future.delayed(const Duration(milliseconds: 500));
@@ -123,6 +161,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
 
     setState(() {
       _attendanceChanges.clear();
+      _attendanceComments.clear();
       _hasUnsavedChanges = false;
     });
 
@@ -294,10 +333,14 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               listener: (context, state) {
                 if (state is AttendanceLoaded) {
                   final attendanceMap = <String, bool>{};
+                  final commentMap = <String, String>{};
                   for (var attendance in state.attendanceList.attendance) {
                     attendanceMap[attendance.trainee.id] = attendance.isPresent;
+                    if (attendance.comment.isNotEmpty) {
+                      commentMap[attendance.trainee.id] = attendance.comment;
+                    }
                   }
-                  _onAttendanceLoaded(attendanceMap);
+                  _onAttendanceLoaded(attendanceMap, commentMap);
                 }
               },
               child: TraineeDataTableWidget(
@@ -306,6 +349,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                 searchQuery: _searchQuery,
                 onUploadID: (trainee) => _showUploadIDDialog(context, trainee),
                 onAttendanceChanged: _onAttendanceChanged,
+                onCommentChanged: _onCommentChanged,
               ),
             ),
 

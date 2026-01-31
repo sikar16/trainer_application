@@ -11,7 +11,6 @@ class JobApplicationRemoteDataSource {
     required String reason,
     required String applicationType,
   }) async {
-    // Convert application type to the expected format
     String convertedApplicationType;
     if (applicationType.toLowerCase().contains('assistant')) {
       convertedApplicationType = 'ASSISTANT';

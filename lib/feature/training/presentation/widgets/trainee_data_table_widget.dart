@@ -17,6 +17,7 @@ class TraineeDataTableWidget extends StatefulWidget {
   final String searchQuery;
   final Function(TraineeEntity) onUploadID;
   final Function(String traineeId, bool isPresent) onAttendanceChanged;
+  final Function(String traineeId, String comment)? onCommentChanged;
 
   const TraineeDataTableWidget({
     super.key,
@@ -25,6 +26,7 @@ class TraineeDataTableWidget extends StatefulWidget {
     required this.searchQuery,
     required this.onUploadID,
     required this.onAttendanceChanged,
+    this.onCommentChanged,
   });
 
   @override
@@ -104,10 +106,14 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
           return BlocBuilder<AttendanceBloc, AttendanceState>(
             builder: (context, attendanceState) {
               Map<String, bool> attendanceMap = {};
+              Map<String, String> commentMap = {};
               if (attendanceState is AttendanceLoaded) {
                 for (var attendance
                     in attendanceState.attendanceList.attendance) {
                   attendanceMap[attendance.trainee.id] = attendance.isPresent;
+                  if (attendance.comment.isNotEmpty) {
+                    commentMap[attendance.trainee.id] = attendance.comment;
+                  }
                 }
               }
 
@@ -148,13 +154,20 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                               DataCell(
                                 AttendanceChipWidget(
                                   initialIsPresent: initialIsPresent,
+                                  initialComment: commentMap[trainee.id],
                                   onChanged: (isPresent) {
                                     widget.onAttendanceChanged(
                                       trainee.id,
                                       isPresent,
                                     );
                                   },
-                                  onCommentChanged: (comment) {},
+                                  onCommentChanged:
+                                      widget.onCommentChanged != null
+                                      ? (comment) => widget.onCommentChanged!(
+                                          trainee.id,
+                                          comment,
+                                        )
+                                      : null,
                                 ),
                               ),
                               DataCell(

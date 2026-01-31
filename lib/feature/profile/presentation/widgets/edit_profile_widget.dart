@@ -24,8 +24,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   @override
   void initState() {
     super.initState();
-    _countryCodeController.text = '+251'; // Default country code
-    // Load current profile data
+    _countryCodeController.text = '+251';
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ProfileBloc>().add(GetProfileEvent());
     });
@@ -107,19 +106,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               if (state is ProfileError) {
                 errorMessage = state.message;
               } else if (state is ProfileLoaded) {
-                // Populate form fields with current profile data
                 final profile = state.profile;
                 _firstNameController.text = profile.firstName;
                 _lastNameController.text = profile.lastName;
                 _emailController.text = profile.email;
 
-                // Split phone number into country code and phone number
                 final phoneNumber = profile.phoneNumber;
-                String countryCode = '+251'; // default
+                String countryCode = '+251';
                 String phone = phoneNumber;
 
                 if (phoneNumber.startsWith('+')) {
-                  // Find where the country code ends (typically after 3-4 digits)
                   for (int i = 4; i <= 5; i++) {
                     if (phoneNumber.length > i) {
                       countryCode = phoneNumber.substring(0, i);
@@ -170,7 +166,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  setState(() {}); // Clear error by rebuilding
+                                  setState(() {});
                                 },
                                 icon: Icon(
                                   Icons.close,
@@ -278,16 +274,13 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               ),
                               keyboardType: TextInputType.phone,
                               onChanged: (value) {
-                                // Trigger real-time validation
                                 _phoneController.value = TextEditingValue(
                                   text: value,
                                   selection: TextSelection.collapsed(
                                     offset: value.length,
                                   ),
                                 );
-                                setState(
-                                  () {},
-                                ); // Rebuild to show validation errors
+                                setState(() {});
                               },
                               validator: (value) {
                                 if (value == null || value.trim().isEmpty) {
