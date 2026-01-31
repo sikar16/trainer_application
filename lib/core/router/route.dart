@@ -60,8 +60,13 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/job_detail/:jobId',
       name: "job_detail",
-      builder: (context, state) =>
-          JobDetailScreen(jobId: state.pathParameters['jobId']!),
+      builder: (context, state) {
+        final isApplied = state.uri.queryParameters['applied'] == 'true';
+        return JobDetailScreen(
+          jobId: state.pathParameters['jobId']!,
+          isApplied: isApplied,
+        );
+      },
     ),
 
     GoRoute(

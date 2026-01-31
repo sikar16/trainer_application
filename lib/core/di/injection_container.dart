@@ -65,6 +65,10 @@ import 'package:gheero/feature/job/data/datasources/job_application_remote_data_
 import 'package:gheero/feature/job/data/repositories/job_application_repository_impl.dart';
 import 'package:gheero/feature/job/domain/repositories/job_application_repository.dart';
 import 'package:gheero/feature/job/domain/usecases/submit_job_application_usecase.dart';
+import 'package:gheero/feature/job/data/datasources/application_remote_data_source.dart';
+import 'package:gheero/feature/job/data/repositories/application_repository_impl.dart';
+import 'package:gheero/feature/job/domain/repositories/application_repository.dart';
+import 'package:gheero/feature/job/domain/usecases/get_applications_usecase.dart';
 import 'package:gheero/feature/training/data/datasources/module_remote_data_source.dart';
 import 'package:gheero/feature/training/data/repositories/module_repository_impl.dart';
 import 'package:gheero/feature/training/domain/repositories/module_repository.dart';
@@ -139,6 +143,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<JobApplicationRemoteDataSource>(
     () => JobApplicationRemoteDataSource(sl()),
   );
+  sl.registerLazySingleton<ApplicationRemoteDataSource>(
+    () => ApplicationRemoteDataSourceImpl(sl()),
+  );
   sl.registerLazySingleton<ModuleRemoteDataSource>(
     () => ModuleRemoteDataSourceImpl(sl()),
   );
@@ -187,6 +194,9 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<JobApplicationRepository>(
     () => JobApplicationRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<ApplicationRepository>(
+    () => ApplicationRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<ModuleRepository>(() => ModuleRepositoryImpl(sl()));
   sl.registerLazySingleton<ModuleDetailRepository>(
@@ -240,6 +250,9 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<SubmitJobApplicationUseCase>(
     () => SubmitJobApplicationUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetApplicationsUseCase>(
+    () => GetApplicationsUseCase(sl()),
   );
   sl.registerLazySingleton<GetModulesUseCase>(() => GetModulesUseCase(sl()));
   sl.registerLazySingleton<GetModuleDetailUseCase>(

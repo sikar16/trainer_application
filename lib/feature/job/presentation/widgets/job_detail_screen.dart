@@ -11,8 +11,13 @@ import '../../../../core/snack_bar/snack_bar_widget.dart';
 
 class JobDetailScreen extends StatelessWidget {
   final String jobId;
+  final bool isApplied;
 
-  const JobDetailScreen({super.key, required this.jobId});
+  const JobDetailScreen({
+    super.key,
+    required this.jobId,
+    this.isApplied = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +46,12 @@ class _JobDetailViewState extends State<JobDetailView> {
   String _selectedApplicationType = 'Main Trainer';
   final TextEditingController _reasonController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool get isApplied {
+    final jobDetailScreen = context
+        .findAncestorWidgetOfExactType<JobDetailScreen>();
+    return jobDetailScreen?.isApplied ?? false;
+  }
 
   @override
   void dispose() {
@@ -286,7 +297,7 @@ class _JobDetailViewState extends State<JobDetailView> {
   }
 
   Widget _buildActionButtons(BuildContext context, ColorScheme colorScheme) {
-    if (_showApplicationForm) {
+    if (_showApplicationForm || isApplied) {
       return const SizedBox();
     }
 
