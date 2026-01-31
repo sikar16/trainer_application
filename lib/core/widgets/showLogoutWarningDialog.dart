@@ -13,7 +13,7 @@ void showLogoutWarningDialog(BuildContext context) {
       return BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is LogoutSuccess) {
-            CustomSnackBar.success(context, "Logout sucessfully");
+            CustomSnackBar.success(context, "Logout successful");
             context.pop();
             context.go('/login');
           } else if (state is ProfileError) {

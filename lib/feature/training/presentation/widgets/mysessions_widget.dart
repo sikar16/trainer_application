@@ -1,3 +1,4 @@
+import '../../../../core/snack_bar/snack_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gheero/feature/training/presentation/widgets/view_report_widget.dart';
@@ -164,6 +165,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
       _attendanceComments.clear();
       _hasUnsavedChanges = false;
     });
+
+    // Show success message
+    CustomSnackBar.success(context, 'Attendance saved successfully');
 
     if (_selectedSessionId != null) {
       context.read<AttendanceBloc>().add(
@@ -341,6 +345,11 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                     }
                   }
                   _onAttendanceLoaded(attendanceMap, commentMap);
+                } else if (state is AttendanceError) {
+                  CustomSnackBar.error(
+                    context,
+                    'Failed to save attendance: ${state.message}',
+                  );
                 }
               },
               child: TraineeDataTableWidget(

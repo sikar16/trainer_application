@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gheero/feature/auth/presentation/bloc/login_bloc.dart';
 import 'package:gheero/feature/auth/presentation/bloc/login_event.dart';
 import 'package:gheero/feature/auth/presentation/bloc/login_state.dart';
+import '../../../../core/snack_bar/snack_bar_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -39,11 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
+          CustomSnackBar.success(context, 'Login successful!');
           context.go('/dashboard');
         } else if (state is LoginFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          CustomSnackBar.error(context, state.message);
         }
       },
       child: Scaffold(

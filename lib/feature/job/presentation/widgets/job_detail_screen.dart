@@ -7,6 +7,7 @@ import '../bloc/job_detail_bloc/job_detail_bloc.dart';
 import '../bloc/job_application_bloc/job_application_bloc.dart';
 import '../../domain/entities/job_detail_entity.dart';
 import '../../../../core/di/injection_container.dart' as sl;
+import '../../../../core/snack_bar/snack_bar_widget.dart';
 
 class JobDetailScreen extends StatelessWidget {
   final String jobId;
@@ -67,24 +68,16 @@ class _JobDetailViewState extends State<JobDetailView> {
       body: BlocListener<JobApplicationBloc, JobApplicationState>(
         listener: (context, state) {
           if (state is JobApplicationSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Application submitted successfully!'),
-                duration: Duration(seconds: 2),
-              ),
+            CustomSnackBar.success(
+              context,
+              'Application submitted successfully!',
             );
             setState(() {
               _showApplicationForm = false;
               _reasonController.clear();
             });
           } else if (state is JobApplicationFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-                duration: const Duration(seconds: 3),
-              ),
-            );
+            CustomSnackBar.error(context, state.message);
           }
         },
         child: BlocBuilder<JobDetailBloc, JobDetailState>(
