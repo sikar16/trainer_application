@@ -44,20 +44,20 @@ class TraineeModel extends TraineeEntity {
 
   factory TraineeModel.fromJson(Map<String, dynamic> json) {
     return TraineeModel(
-      id: json['id'] as String,
-      firstName: json['firstName'] as String,
-      middleName: json['middleName'] as String?,
-      lastName: json['lastName'] as String,
-      email: json['email'] as String,
-      contactPhone: json['contactPhone'] as String,
-      dateOfBirth: json['dateOfBirth'] as String,
-      gender: json['gender'] as String,
+      id: json['id']?.toString() ?? '',
+      firstName: json['firstName']?.toString() ?? '',
+      middleName: json['middleName']?.toString(),
+      lastName: json['lastName']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      contactPhone: json['contactPhone']?.toString() ?? '',
+      dateOfBirth: json['dateOfBirth']?.toString() ?? '',
+      gender: json['gender']?.toString() ?? '',
       zone: json['zone'] != null
           ? ZoneModel.fromJson(json['zone'] as Map<String, dynamic>)
           : null,
-      city: json['city'] as String?,
-      woreda: json['woreda'] as String?,
-      houseNumber: json['houseNumber'] as String?,
+      city: json['city']?.toString(),
+      woreda: json['woreda']?.toString(),
+      houseNumber: json['houseNumber']?.toString(),
       numberOfChildren: json['numberOfChildren'] as int? ?? 0,
       language: json['language'] != null
           ? LanguageModel.fromJson(json['language'] as Map<String, dynamic>)
@@ -67,36 +67,42 @@ class TraineeModel extends TraineeEntity {
               json['academicLevel'] as Map<String, dynamic>,
             )
           : null,
-      fieldOfStudy: json['fieldOfStudy'] as String?,
+      fieldOfStudy: json['fieldOfStudy']?.toString(),
       hasSmartphone: json['hasSmartphone'] as bool? ?? false,
-      digitalDevices: (json['digitalDevices'] as List<dynamic>?)
-              ?.map((device) => device as String)
+      digitalDevices:
+          (json['digitalDevices'] as List<dynamic>?)
+              ?.map((device) => device?.toString() ?? '')
+              .where((device) => device.isNotEmpty)
               .toList() ??
           [],
       hasTrainingExperience: json['hasTrainingExperience'] as bool? ?? false,
-      trainingExperienceDescription:
-          json['trainingExperienceDescription'] as String?,
-      emergencyContactName: json['emergencyContactName'] as String,
-      emergencyContactPhone: json['emergencyContactPhone'] as String,
+      trainingExperienceDescription: json['trainingExperienceDescription']
+          ?.toString(),
+      emergencyContactName: json['emergencyContactName']?.toString() ?? '',
+      emergencyContactPhone: json['emergencyContactPhone']?.toString() ?? '',
       emergencyContactRelationship:
-          json['emergencyContactRelationship'] as String,
-      disabilities: (json['disabilities'] as List<dynamic>?)
-              ?.map((disability) => disability as String)
+          json['emergencyContactRelationship']?.toString() ?? '',
+      disabilities:
+          (json['disabilities'] as List<dynamic>?)
+              ?.map((disability) => disability?.toString() ?? '')
+              .where((disability) => disability.isNotEmpty)
               .toList() ??
           [],
-      marginalizedGroups: (json['marginalizedGroups'] as List<dynamic>?)
-              ?.map((group) => group as String)
+      marginalizedGroups:
+          (json['marginalizedGroups'] as List<dynamic>?)
+              ?.map((group) => group?.toString() ?? '')
+              .where((group) => group.isNotEmpty)
               .toList() ??
           [],
-      cohortName: json['cohortName'] as String,
+      cohortName: json['cohortName']?.toString() ?? '',
       didSignConsentForm: json['didSignConsentForm'] as bool? ?? false,
-      consentFormUrl: json['consentFormUrl'] as String?,
-      pendingTraineeId: json['pendingTraineeId'] as String?,
-      idType: json['idType'] as String?,
-      frontIdUrl: json['frontIdUrl'] as String?,
-      backIdUrl: json['backIdUrl'] as String?,
-      signatureUrl: json['signatureUrl'] as String?,
-      certificateUrl: json['certificateUrl'] as String?,
+      consentFormUrl: json['consentFormUrl']?.toString(),
+      pendingTraineeId: json['pendingTraineeId']?.toString(),
+      idType: json['idType']?.toString(),
+      frontIdUrl: json['frontIdUrl']?.toString(),
+      backIdUrl: json['backIdUrl']?.toString(),
+      signatureUrl: json['signatureUrl']?.toString(),
+      certificateUrl: json['certificateUrl']?.toString(),
       certificateSmsSent: json['certificateSmsSent'] as bool? ?? false,
       selfRegistered: json['selfRegistered'] as bool? ?? false,
       fromEdge: json['fromEdge'] as bool? ?? false,
@@ -114,11 +120,13 @@ class LanguageModel extends LanguageEntity {
 
   factory LanguageModel.fromJson(Map<String, dynamic> json) {
     return LanguageModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       alternateNames: Map<String, String>.from(
-        json['alternateNames'] as Map<String, dynamic>,
+        (json['alternateNames'] as Map<String, dynamic>? ?? {}).map(
+          (key, value) => MapEntry(key.toString(), value?.toString() ?? ''),
+        ),
       ),
     );
   }
@@ -134,11 +142,13 @@ class AcademicLevelModel extends AcademicLevelEntity {
 
   factory AcademicLevelModel.fromJson(Map<String, dynamic> json) {
     return AcademicLevelModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       alternateNames: Map<String, String>.from(
-        json['alternateNames'] as Map<String, dynamic>,
+        (json['alternateNames'] as Map<String, dynamic>? ?? {}).map(
+          (key, value) => MapEntry(key.toString(), value?.toString() ?? ''),
+        ),
       ),
     );
   }
@@ -156,16 +166,18 @@ class TraineeListModel extends TraineeListEntity {
 
   factory TraineeListModel.fromJson(Map<String, dynamic> json) {
     return TraineeListModel(
-      trainees: (json['trainees'] as List<dynamic>?)
+      trainees:
+          (json['trainees'] as List<dynamic>?)
               ?.map(
-                (trainee) =>
-                    TraineeModel.fromJson(trainee as Map<String, dynamic>),
+                (trainee) => TraineeModel.fromJson(
+                  trainee as Map<String, dynamic>? ?? {},
+                ),
               )
               .toList() ??
           [],
       totalPages: json['totalPages'] as int? ?? 0,
       pageSize: json['pageSize'] as int? ?? 10,
-      message: json['message'] as String? ?? '',
+      message: json['message']?.toString() ?? '',
       currentPage: json['currentPage'] as int? ?? 1,
       totalElements: json['totalElements'] as int? ?? 0,
     );

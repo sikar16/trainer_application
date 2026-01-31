@@ -166,7 +166,6 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
       _hasUnsavedChanges = false;
     });
 
-    // Show success message
     CustomSnackBar.success(context, 'Attendance saved successfully');
 
     if (_selectedSessionId != null) {

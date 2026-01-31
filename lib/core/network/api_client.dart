@@ -106,6 +106,29 @@ class ApiClient {
   );
 
   // =========================
+  // FILE UPLOAD METHODS
+  // =========================
+  Future<Response<T>> postMultipart<T>(
+    String path, {
+    Map<String, dynamic>? data,
+    Map<String, MultipartFile>? files,
+    Options? options,
+  }) {
+    final formData = FormData.fromMap({
+      if (data != null) ...data,
+      if (files != null) ...files,
+    });
+
+    return _mainApi.post<T>(
+      path,
+      data: formData,
+      options:
+          options?.copyWith(contentType: 'multipart/form-data') ??
+          Options(contentType: 'multipart/form-data'),
+    );
+  }
+
+  // =========================
   // CURRICULUM API METHODS
   // =========================
   Future<Response<T>> getCurriculum<T>(

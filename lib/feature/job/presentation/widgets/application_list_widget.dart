@@ -290,7 +290,6 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
 
           Row(
             children: [
-              // LEFT: Reason (unchanged)
               Expanded(
                 child: Text(
                   application.reason,
@@ -301,7 +300,6 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
                 ),
               ),
 
-              // RIGHT: Applied as (top) → Role + Status (bottom)
               if (MediaQuery.of(context).size.width > 360)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
