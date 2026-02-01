@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import '../../../../core/network/api_client.dart';
 import '../models/profile_model.dart';
 import '../models/edit_profile_response_model.dart';
@@ -18,7 +17,6 @@ class ProfileRemoteDataSource {
       );
       return profile;
     } catch (e) {
-      debugPrint('getProfile error: $e');
       rethrow;
     }
   }
@@ -36,7 +34,6 @@ class ProfileRemoteDataSource {
         response.data as Map<String, dynamic>,
       );
     } catch (e) {
-      debugPrint('editProfile error: $e');
       rethrow;
     }
   }

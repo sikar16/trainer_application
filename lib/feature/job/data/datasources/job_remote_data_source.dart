@@ -1,3 +1,4 @@
+import 'dart:convert';
 import '../../../../core/network/api_client.dart';
 import '../models/job_model.dart';
 
@@ -34,7 +35,26 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
       final response = await _apiClient.get(url);
 
       if (response.statusCode == 200) {
-        return JobModel.fromJson(response.data);
+        final data = response.data;
+
+        // Handle case where response.data is a String (JSON string)
+        Map<String, dynamic> parsedData;
+        if (data is String) {
+          if (data.isEmpty) {
+            throw Exception('Empty response from server');
+          }
+          try {
+            parsedData = jsonDecode(data) as Map<String, dynamic>;
+          } catch (e) {
+            throw Exception('Invalid JSON response: $e');
+          }
+        } else {
+          parsedData = data as Map<String, dynamic>;
+        }
+
+        return JobModel.fromJson(parsedData);
+      } else if (response.statusCode == 403) {
+        throw Exception('Authentication failed - please login again');
       } else {
         throw Exception('Failed to load jobs: ${response.statusCode}');
       }

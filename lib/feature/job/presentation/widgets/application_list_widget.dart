@@ -62,17 +62,20 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _segmentItem("View All", ApplicationFilter.all, isFirst: true),
-          _verticalDivider(),
-          _segmentItem("Accepted", ApplicationFilter.accepted),
-          _verticalDivider(),
-          _segmentItem("Rejected", ApplicationFilter.rejected),
-          _verticalDivider(),
-          _segmentItem("Pending", ApplicationFilter.pending, isLast: true),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _segmentItem("View All", ApplicationFilter.all, isFirst: true),
+            _verticalDivider(),
+            _segmentItem("Accepted", ApplicationFilter.accepted),
+            _verticalDivider(),
+            _segmentItem("Rejected", ApplicationFilter.rejected),
+            _verticalDivider(),
+            _segmentItem("Pending", ApplicationFilter.pending, isLast: true),
+          ],
+        ),
       ),
     );
   }

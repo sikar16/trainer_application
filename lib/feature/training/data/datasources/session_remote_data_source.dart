@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import '../../../../core/network/api_client.dart';
 import '../models/session_model.dart';
 
@@ -21,7 +20,6 @@ class SessionRemoteDataSource {
       final data = response.data;
       return SessionListModel.fromJson(data);
     } catch (e) {
-      debugPrint('getSessionsByCohort error: $e');
       rethrow;
     }
   }

@@ -90,6 +90,12 @@ import 'package:gheero/feature/training/data/repositories/content_repository_imp
 import 'package:gheero/feature/training/domain/repositories/content_repository.dart';
 import 'package:gheero/feature/training/domain/usecases/get_content_usecase.dart';
 import 'package:gheero/feature/training/presentation/bloc/content_bloc/content_bloc.dart';
+import 'package:gheero/feature/training/data/datasources/session_report_remote_data_source.dart';
+import 'package:gheero/feature/training/data/repositories/session_report_repository_impl.dart';
+import 'package:gheero/feature/training/domain/repositories/session_report_repository.dart';
+import 'package:gheero/feature/training/domain/usecases/get_session_report.dart';
+import 'package:gheero/feature/training/domain/usecases/create_session_report.dart';
+import 'package:gheero/feature/training/presentation/bloc/session_report_bloc.dart';
 
 import '../network/api_client.dart';
 
@@ -158,6 +164,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<ContentRemoteDataSource>(
     () => ContentRemoteDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<SessionReportRemoteDataSource>(
+    () => SessionReportRemoteDataSource(sl()),
+  );
 
   /* =======================
      REPOSITORIES
@@ -207,6 +216,9 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<ContentRepository>(
     () => ContentRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<SessionReportRepository>(
+    () => SessionReportRepositoryImpl(sl()),
   );
 
   /* =======================
@@ -262,6 +274,10 @@ Future<void> initDependencies() async {
     () => GetModuleAssessmentMethodsUseCase(sl()),
   );
   sl.registerLazySingleton<GetContentUseCase>(() => GetContentUseCase(sl()));
+  sl.registerLazySingleton<GetSessionReport>(() => GetSessionReport(sl()));
+  sl.registerLazySingleton<CreateSessionReport>(
+    () => CreateSessionReport(sl()),
+  );
 
   /* =======================
      BLOCS
@@ -303,4 +319,7 @@ Future<void> initDependencies() async {
   sl.registerFactory<ModuleBloc>(() => ModuleBloc(sl()));
   sl.registerFactory<ModuleDetailBloc>(() => ModuleDetailBloc(sl(), sl()));
   sl.registerFactory<ContentBloc>(() => ContentBloc(sl()));
+  sl.registerFactory<SessionReportBloc>(
+    () => SessionReportBloc(getSessionReport: sl(), createSessionReport: sl()),
+  );
 }

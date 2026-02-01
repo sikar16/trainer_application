@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import '../../../../core/network/api_client.dart';
 import '../models/attendance_model.dart';
 
@@ -16,7 +15,6 @@ class AttendanceRemoteDataSource {
 
       return AttendanceListModel.fromJson(data);
     } catch (e) {
-      debugPrint('getAttendanceBySession error: $e');
       rethrow;
     }
   }
@@ -43,7 +41,6 @@ class AttendanceRemoteDataSource {
         data['attendance'] as Map<String, dynamic>,
       );
     } catch (e) {
-      debugPrint('saveAttendance error: $e');
       rethrow;
     }
   }

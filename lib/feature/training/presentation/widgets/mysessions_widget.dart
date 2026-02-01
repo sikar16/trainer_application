@@ -11,6 +11,9 @@ import '../bloc/trainee_bloc/trainee_event.dart';
 import '../bloc/attendance_bloc/attendance_bloc.dart';
 import '../bloc/attendance_bloc/attendance_event.dart';
 import '../bloc/attendance_bloc/attendance_state.dart';
+import '../bloc/session_report_bloc.dart';
+import '../bloc/session_report_event.dart';
+import '../bloc/session_report_state.dart';
 import '../../domain/entities/session_entity.dart';
 import '../../domain/entities/trainee_entity.dart';
 import 'cohort_selection_widget.dart';
@@ -32,6 +35,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   String? _selectedSessionId;
   String _searchQuery = '';
   bool _hasSessions = false;
+  bool _hasReport = false;
   final Map<String, bool> _attendanceChanges = {};
   Map<String, bool> _initialAttendance = {};
   Map<String, String> _attendanceComments = {};
@@ -67,9 +71,14 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
         _attendanceChanges.clear();
         _initialAttendance.clear();
         _hasUnsavedChanges = false;
+        _hasReport = false; // Reset report status when sessions load
       });
       context.read<AttendanceBloc>().add(
         GetAttendanceBySessionEvent(sessions.first.id),
+      );
+      // Check if report exists for the first session
+      context.read<SessionReportBloc>().add(
+        GetSessionReportEvent(sessions.first.id),
       );
     }
   }
@@ -80,11 +89,14 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
       _attendanceChanges.clear();
       _initialAttendance.clear();
       _hasUnsavedChanges = false;
+      _hasReport = false; // Reset report status when session changes
     });
     if (sessionId != null) {
       context.read<AttendanceBloc>().add(
         GetAttendanceBySessionEvent(sessionId),
       );
+      // Check if report exists for this session
+      context.read<SessionReportBloc>().add(GetSessionReportEvent(sessionId));
     }
   }
 
@@ -233,33 +245,40 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
 
             if (_hasSessions) ...[
               const SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerRight,
-                child: OutlinedButton.icon(
-                  onPressed: _selectedSessionId != null
-                      ? () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ViewReportPage(
-                                sessionId: _selectedSessionId!,
+              BlocListener<SessionReportBloc, SessionReportState>(
+                listener: (context, state) {
+                  setState(() {
+                    _hasReport = state is SessionReportLoaded;
+                  });
+                },
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: OutlinedButton.icon(
+                    onPressed: _selectedSessionId != null
+                        ? () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ViewReportPage(
+                                  sessionId: _selectedSessionId!,
+                                ),
                               ),
-                            ),
-                          );
-                        }
-                      : null,
-                  icon: const Icon(Icons.check_circle_outline),
-                  label: const Text("View Report"),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: colorScheme.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      side: BorderSide(color: colorScheme.surface),
+                            );
+                          }
+                        : null,
+                    icon: Icon(_hasReport ? Icons.visibility : Icons.add),
+                    label: Text(_hasReport ? "View Report" : "Add Report"),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(color: colorScheme.surface),
+                      ),
                     ),
                   ),
                 ),

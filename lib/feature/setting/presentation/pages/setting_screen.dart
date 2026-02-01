@@ -27,7 +27,7 @@ class _SettingScreenState extends State<SettingScreen> {
         onProfileTap: () {},
       ),
 
-      body: SizedBox(child: Text("Setting screen")),
+      body: Center(child: Text("Setting screen")),
     );
   }
 }

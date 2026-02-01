@@ -490,8 +490,6 @@ class _LinkCell extends StatelessWidget {
             final Uri uri = Uri.parse(link!);
             if (await canLaunchUrl(uri)) {
               await launchUrl(uri, mode: LaunchMode.externalApplication);
-            } else {
-              debugPrint('Could not launch $link');
             }
           }
         },

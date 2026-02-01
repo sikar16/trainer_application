@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import '../../../../core/network/api_client.dart';
 import '../models/cohort_model.dart';
 
@@ -25,7 +24,6 @@ class CohortRemoteDataSource {
       final data = response.data;
       return CohortListModel.fromJson(data);
     } catch (e) {
-      debugPrint('getCohorts error: $e');
       rethrow;
     }
   }

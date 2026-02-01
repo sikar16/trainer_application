@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
 import '../../../../core/network/api_client.dart';
 import '../models/training_model.dart';
 
@@ -18,9 +18,24 @@ class TrainingRemoteDataSource {
       );
 
       final data = response.data;
-      return TrainingListModel.fromJson(data);
+
+      // Handle case where response.data is a String (JSON string)
+      Map<String, dynamic> parsedData;
+      if (data is String) {
+        if (data.isEmpty) {
+          throw Exception('Empty response from server');
+        }
+        try {
+          parsedData = jsonDecode(data) as Map<String, dynamic>;
+        } catch (e) {
+          throw Exception('Invalid JSON response: $e');
+        }
+      } else {
+        parsedData = data as Map<String, dynamic>;
+      }
+
+      return TrainingListModel.fromJson(parsedData);
     } catch (e) {
-      debugPrint('getTrainings error: $e');
       rethrow;
     }
   }
@@ -32,7 +47,6 @@ class TrainingRemoteDataSource {
       final data = response.data;
       return TrainingModel.fromJson(data['training'] as Map<String, dynamic>);
     } catch (e) {
-      debugPrint('getTrainingById error: $e');
       rethrow;
     }
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import '../../../../core/network/api_client.dart';
@@ -23,7 +22,6 @@ class TraineeRemoteDataSource {
       final data = response.data;
       return TraineeListModel.fromJson(data);
     } catch (e) {
-      debugPrint('getTraineesByCohort error: $e');
       rethrow;
     }
   }
@@ -62,7 +60,6 @@ class TraineeRemoteDataSource {
 
       return response.data;
     } catch (e) {
-      debugPrint('updateTraineeId error: $e');
       rethrow;
     }
   }
@@ -91,7 +88,6 @@ class TraineeRemoteDataSource {
 
       return response.data;
     } catch (e) {
-      debugPrint('uploadConsentForm error: $e');
       rethrow;
     }
   }
