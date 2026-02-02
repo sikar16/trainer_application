@@ -37,7 +37,6 @@ class JobRemoteDataSourceImpl implements JobRemoteDataSource {
       if (response.statusCode == 200) {
         final data = response.data;
 
-        // Handle case where response.data is a String (JSON string)
         Map<String, dynamic> parsedData;
         if (data is String) {
           if (data.isEmpty) {

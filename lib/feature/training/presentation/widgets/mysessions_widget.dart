@@ -71,12 +71,11 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
         _attendanceChanges.clear();
         _initialAttendance.clear();
         _hasUnsavedChanges = false;
-        _hasReport = false; // Reset report status when sessions load
+        _hasReport = false;
       });
       context.read<AttendanceBloc>().add(
         GetAttendanceBySessionEvent(sessions.first.id),
       );
-      // Check if report exists for the first session
       context.read<SessionReportBloc>().add(
         GetSessionReportEvent(sessions.first.id),
       );
@@ -89,13 +88,12 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
       _attendanceChanges.clear();
       _initialAttendance.clear();
       _hasUnsavedChanges = false;
-      _hasReport = false; // Reset report status when session changes
+      _hasReport = false;
     });
     if (sessionId != null) {
       context.read<AttendanceBloc>().add(
         GetAttendanceBySessionEvent(sessionId),
       );
-      // Check if report exists for this session
       context.read<SessionReportBloc>().add(GetSessionReportEvent(sessionId));
     }
   }

@@ -22,7 +22,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           'isFirstTimeLogin': user.isFirstTimeLogin,
         });
 
-        // Update ApiClient with the new token immediately
         final apiClient = sl<ApiClient>();
         apiClient.setAuthToken(user.token);
 

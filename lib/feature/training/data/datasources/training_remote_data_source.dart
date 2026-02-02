@@ -19,7 +19,6 @@ class TrainingRemoteDataSource {
 
       final data = response.data;
 
-      // Handle case where response.data is a String (JSON string)
       Map<String, dynamic> parsedData;
       if (data is String) {
         if (data.isEmpty) {

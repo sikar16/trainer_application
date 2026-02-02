@@ -19,6 +19,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
   final _formKey = GlobalKey<FormState>();
   final _pageController = PageController();
   int _currentStep = 0;
+  bool _showValidationErrors = false;
   final List<TextEditingController> _topicsCoveredControllers = [
     TextEditingController(),
   ];
@@ -78,6 +79,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
   void _addTopicField() {
     setState(() {
       _topicsCoveredControllers.add(TextEditingController());
+      _showValidationErrors = false;
     });
   }
 
@@ -85,6 +87,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
     if (_topicsCoveredControllers.length > 1) {
       setState(() {
         _topicsCoveredControllers.removeAt(index);
+        _showValidationErrors = false;
       });
     }
   }
@@ -92,6 +95,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
   void _addObservationField() {
     setState(() {
       _significantObservationControllers.add(TextEditingController());
+      _showValidationErrors = false;
     });
   }
 
@@ -99,6 +103,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
     if (_significantObservationControllers.length > 1) {
       setState(() {
         _significantObservationControllers.removeAt(index);
+        _showValidationErrors = false;
       });
     }
   }
@@ -195,7 +200,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
   bool _validateCurrentStep() {
     switch (_currentStep) {
       case 0:
-        // Step 1: Topics and Observations
         final topicsValid = _topicsCoveredControllers.any(
           (controller) => controller.text.trim().isNotEmpty,
         );
@@ -205,7 +209,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
         return topicsValid && observationsValid;
 
       case 1:
-        // Step 2: Satisfaction and Feedback
         return _selectedSatisfactionScore != null &&
             _summaryController.text.trim().isNotEmpty &&
             _positiveFeedbackController.text.trim().isNotEmpty &&
@@ -213,24 +216,19 @@ class _ViewReportPageState extends State<ViewReportPage> {
             _specificFeedbackController.text.trim().isNotEmpty;
 
       case 2:
-        // Step 3: Teaching Methods
         return _selectedEffectivenessScore != null &&
             _strengthsController.text.trim().isNotEmpty &&
             _growthController.text.trim().isNotEmpty &&
             _goalsController.text.trim().isNotEmpty;
 
       case 3:
-        // Step 4: Recommendations
         return _curriculumController.text.trim().isNotEmpty &&
             _deliveryController.text.trim().isNotEmpty &&
             _assessmentController.text.trim().isNotEmpty &&
-            _supportController.text.trim().isNotEmpty &&
-            _otherController.text.trim().isNotEmpty;
+            _supportController.text.trim().isNotEmpty;
 
       case 4:
-        // Step 5: Documents (optional)
-        return true; // Documents step is always valid
-
+        return true;
       default:
         return false;
     }
@@ -345,7 +343,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
   }
 
   void _populateControllers(SessionReport report) {
-    // Clear existing controllers
     for (var controller in _topicsCoveredControllers) {
       controller.dispose();
     }
@@ -356,7 +353,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
     _topicsCoveredControllers.clear();
     _significantObservationControllers.clear();
 
-    // Populate with report data
     for (String topic in report.topicsCovered) {
       _topicsCoveredControllers.add(TextEditingController(text: topic));
     }
@@ -403,7 +399,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
           ),
           const SizedBox(height: 40),
 
-          // Topics Covered
           _buildDynamicFieldSection(
             "Topics Covered",
             _topicsCoveredControllers,
@@ -416,7 +411,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
           const SizedBox(height: 24),
 
-          // Significant Observations
           _buildDynamicFieldSection(
             "Significant Observations",
             _significantObservationControllers,
@@ -452,6 +446,12 @@ class _ViewReportPageState extends State<ViewReportPage> {
           int index = entry.key;
           TextEditingController controller = entry.value;
           final isEmpty = controller.text.isEmpty;
+          final showError =
+              _showValidationErrors &&
+              !hasReport &&
+              isEmpty &&
+              validationMessage != null;
+
           return Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Column(
@@ -469,10 +469,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
                           ),
                           contentPadding: const EdgeInsets.all(12),
                           hintText: hasReport ? null : hintText,
-                          errorText:
-                              !hasReport && isEmpty && validationMessage != null
-                              ? validationMessage
-                              : null,
+                          errorText: showError ? validationMessage : null,
                           errorStyle: const TextStyle(
                             color: Colors.red,
                             fontSize: 12,
@@ -480,14 +477,14 @@ class _ViewReportPageState extends State<ViewReportPage> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide(
-                              color: isEmpty ? Colors.red : Colors.blue,
+                              color: showError ? Colors.red : Colors.blue,
                               width: 2,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide(
-                              color: isEmpty
+                              color: showError
                                   ? Colors.red.shade300
                                   : Colors.grey,
                               width: 1,
@@ -503,14 +500,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
                       ),
                   ],
                 ),
-                if (!hasReport && isEmpty && validationMessage != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      validationMessage,
-                      style: const TextStyle(color: Colors.red, fontSize: 12),
-                    ),
-                  ),
               ],
             ),
           );
@@ -537,7 +526,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
           ),
           const SizedBox(height: 40),
 
-          // Overall Satisfaction Score
           _buildDropdownField(
             "Overall Satisfaction Score",
             hasReport,
@@ -607,7 +595,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
           ),
           const SizedBox(height: 40),
 
-          // Effectiveness of Teaching Methods
           _buildDropdownField(
             "Effectiveness of Teaching Methods",
             hasReport,
@@ -715,8 +702,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             _otherController,
             hasReport,
             maxLines: 2,
-            hintText: 'Enter other recommendations',
-            validationMessage: 'Please provide other recommendations',
+            hintText: 'Enter other recommendations (optional)',
           ),
         ],
       ),
@@ -740,7 +726,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
           const SizedBox(height: 40),
 
           if (!hasReport) ...[
-            // File type selection and upload section
             Row(
               children: [
                 Expanded(
@@ -792,7 +777,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
 
             const SizedBox(height: 24),
 
-            // Files list
             if (files.isEmpty)
               Container(
                 padding: const EdgeInsets.all(24),
@@ -872,7 +856,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
                 }).toList(),
               ),
           ] else ...[
-            // Display existing files for view mode
             const Text(
               "Attached Documents:",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -893,6 +876,13 @@ class _ViewReportPageState extends State<ViewReportPage> {
     String? hintText,
     String? validationMessage,
   }) {
+    final isEmpty = controller.text.isEmpty;
+    final showError =
+        _showValidationErrors &&
+        !hasReport &&
+        isEmpty &&
+        validationMessage != null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -909,37 +899,24 @@ class _ViewReportPageState extends State<ViewReportPage> {
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             contentPadding: const EdgeInsets.all(12),
             hintText: hasReport ? null : hintText,
-            errorText:
-                !hasReport &&
-                    controller.text.isEmpty &&
-                    validationMessage != null
-                ? validationMessage
-                : null,
+            errorText: showError ? validationMessage : null,
             errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: controller.text.isEmpty ? Colors.red : Colors.blue,
+                color: showError ? Colors.red : Colors.blue,
                 width: 2,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: controller.text.isEmpty ? Colors.grey : Colors.grey,
+                color: showError ? Colors.red.shade300 : Colors.grey,
                 width: 1,
               ),
             ),
           ),
         ),
-        if (!hasReport && controller.text.isEmpty && validationMessage != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text(
-              validationMessage,
-              style: const TextStyle(color: Colors.red, fontSize: 12),
-            ),
-          ),
       ],
     );
   }
@@ -953,6 +930,12 @@ class _ViewReportPageState extends State<ViewReportPage> {
     String? validationMessage,
   ) {
     final isEmpty = selectedValue == null;
+    final showError =
+        _showValidationErrors &&
+        !hasReport &&
+        isEmpty &&
+        validationMessage != null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -985,21 +968,19 @@ class _ViewReportPageState extends State<ViewReportPage> {
               ),
               contentPadding: const EdgeInsets.all(16),
               hintText: 'Select score',
-              errorText: isEmpty && validationMessage != null
-                  ? validationMessage
-                  : null,
+              errorText: showError ? validationMessage : null,
               errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
-                  color: isEmpty ? Colors.red : Colors.blue,
+                  color: showError ? Colors.red : Colors.blue,
                   width: 2,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
-                  color: isEmpty ? Colors.red.shade300 : Colors.grey,
+                  color: showError ? Colors.red.shade300 : Colors.grey,
                   width: 1,
                 ),
               ),
@@ -1012,14 +993,6 @@ class _ViewReportPageState extends State<ViewReportPage> {
                 ),
             ],
             onChanged: onChanged,
-          ),
-        if (!hasReport && isEmpty && validationMessage != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text(
-              validationMessage,
-              style: const TextStyle(color: Colors.red, fontSize: 12),
-            ),
           ),
       ],
     );
@@ -1038,7 +1011,10 @@ class _ViewReportPageState extends State<ViewReportPage> {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                   );
-                  setState(() => _currentStep--);
+                  setState(() {
+                    _currentStep--;
+                    _showValidationErrors = false;
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey,
@@ -1052,23 +1028,18 @@ class _ViewReportPageState extends State<ViewReportPage> {
             child: ElevatedButton(
               onPressed: () {
                 if (_currentStep < 4) {
-                  // Validate current step before proceeding
+                  setState(() => _showValidationErrors = true);
                   if (!hasReport && !_validateCurrentStep()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Please fill in all required fields before proceeding',
-                        ),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
                     return;
                   }
                   _pageController.nextPage(
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                   );
-                  setState(() => _currentStep++);
+                  setState(() {
+                    _currentStep++;
+                    _showValidationErrors = false;
+                  });
                 } else if (!hasReport) {
                   _saveReportData();
                 } else {
