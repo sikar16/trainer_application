@@ -28,8 +28,14 @@ class SessionReportBloc extends Bloc<SessionReportEvent, SessionReportState> {
     emit(SessionReportLoading());
     try {
       final report = await getSessionReport(event.sessionId);
-      if (report != null) {
-        emit(SessionReportLoaded(report));
+      if (report != null && report.sessionId.isNotEmpty) {
+        final hasContent = _reportHasContent(report);
+
+        if (hasContent) {
+          emit(SessionReportLoaded(report));
+        } else {
+          emit(SessionReportEmpty(report));
+        }
       } else {
         emit(const SessionReportInitial());
       }
@@ -38,13 +44,37 @@ class SessionReportBloc extends Bloc<SessionReportEvent, SessionReportState> {
     }
   }
 
+  bool _reportHasContent(SessionReport report) {
+    return report.topicsCovered.isNotEmpty ||
+        report.significantObservations.isNotEmpty ||
+        report.overallSatisfactionScore != null ||
+        (report.learnerFeedbackSummary?.isNotEmpty ?? false) ||
+        (report.positiveFeedback?.isNotEmpty ?? false) ||
+        (report.areasForImprovement?.isNotEmpty ?? false) ||
+        (report.specificFeedbackExamples?.isNotEmpty ?? false) ||
+        report.teachingMethodEffectiveness != null ||
+        (report.trainerStrengths?.isNotEmpty ?? false) ||
+        (report.trainerAreasForGrowth?.isNotEmpty ?? false) ||
+        (report.trainerProfessionalGoals?.isNotEmpty ?? false) ||
+        (report.curriculumRecommendations?.isNotEmpty ?? false) ||
+        (report.deliveryMethodRecommendations?.isNotEmpty ?? false) ||
+        (report.assessmentRecommendations?.isNotEmpty ?? false) ||
+        (report.learnerSupportRecommendations?.isNotEmpty ?? false) ||
+        (report.otherRecommendations?.isNotEmpty ?? false) ||
+        (report.remark?.isNotEmpty ?? false) ||
+        report.sessionReportFiles.isNotEmpty;
+  }
+
   Future<void> _onCreateSessionReport(
     CreateSessionReportEvent event,
     Emitter<SessionReportState> emit,
   ) async {
     emit(SessionReportLoading());
     try {
-      final report = await createSessionReport(event.sessionId, event.reportData);
+      final report = await createSessionReport(
+        event.sessionId,
+        event.reportData,
+      );
       if (report != null) {
         emit(SessionReportCreated(report));
       } else {
@@ -55,10 +85,7 @@ class SessionReportBloc extends Bloc<SessionReportEvent, SessionReportState> {
     }
   }
 
-  void _onAddFile(
-    AddFileEvent event,
-    Emitter<SessionReportState> emit,
-  ) {
+  void _onAddFile(AddFileEvent event, Emitter<SessionReportState> emit) {
     if (state is FilesUpdated) {
       final currentState = state as FilesUpdated;
       final updatedFiles = List<Map<String, String>>.from(currentState.files)
@@ -69,10 +96,7 @@ class SessionReportBloc extends Bloc<SessionReportEvent, SessionReportState> {
     }
   }
 
-  void _onRemoveFile(
-    RemoveFileEvent event,
-    Emitter<SessionReportState> emit,
-  ) {
+  void _onRemoveFile(RemoveFileEvent event, Emitter<SessionReportState> emit) {
     if (state is FilesUpdated) {
       final currentState = state as FilesUpdated;
       final updatedFiles = List<Map<String, String>>.from(currentState.files)
@@ -93,10 +117,7 @@ class SessionReportBloc extends Bloc<SessionReportEvent, SessionReportState> {
     }
   }
 
-  void _onClearFiles(
-    ClearFilesEvent event,
-    Emitter<SessionReportState> emit,
-  ) {
+  void _onClearFiles(ClearFilesEvent event, Emitter<SessionReportState> emit) {
     if (state is FilesUpdated) {
       final currentState = state as FilesUpdated;
       emit(FilesUpdated([], currentState.selectedFileType));

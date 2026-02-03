@@ -230,7 +230,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       children:
                           (trainingProfile
                                       ?.trainingProfile
-                                      ?.alignmentsWithStandard ??
+                                      .alignmentsWithStandard ??
                                   [])
                               .map(
                                 (alignment) => Padding(
@@ -285,7 +285,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       children:
                           (trainingProfile
                                       ?.trainingProfile
-                                      ?.learnerStylePreferences ??
+                                      .learnerStylePreferences ??
                                   [])
                               .map(
                                 (style) => Padding(
@@ -315,8 +315,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                     content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
-                          (trainingProfile?.trainingProfile?.deliveryTools ??
-                                  [])
+                          (trainingProfile?.trainingProfile.deliveryTools ?? [])
                               .map(
                                 (tool) => Padding(
                                   padding: const EdgeInsets.only(bottom: 4),
@@ -354,11 +353,11 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                         const SizedBox(height: 5),
                         if (trainingProfile
                                 ?.trainingProfile
-                                ?.learnerTechnologicalRequirements !=
+                                .learnerTechnologicalRequirements !=
                             null)
                           ...trainingProfile!
-                              .trainingProfile!
-                              .learnerTechnologicalRequirements!
+                              .trainingProfile
+                              .learnerTechnologicalRequirements
                               .map(
                                 (req) => Padding(
                                   padding: const EdgeInsets.only(bottom: 4),
@@ -390,11 +389,11 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                         const SizedBox(height: 5),
                         if (trainingProfile
                                 ?.trainingProfile
-                                ?.instructorTechnologicalRequirements !=
+                                .instructorTechnologicalRequirements !=
                             null)
                           ...trainingProfile!
-                              .trainingProfile!
-                              .instructorTechnologicalRequirements!
+                              .trainingProfile
+                              .instructorTechnologicalRequirements
                               .map(
                                 (req) => Padding(
                                   padding: const EdgeInsets.only(bottom: 4),

@@ -12,15 +12,17 @@ class SessionReportRepositoryImpl implements SessionReportRepository {
     try {
       final reportModel = await remoteDataSource.getSessionReport(sessionId);
       return SessionReport(
+        id: reportModel.id,
+        sessionId: reportModel.sessionId,
         topicsCovered: reportModel.topicsCovered,
         significantObservations: reportModel.significantObservations,
-        overallSatisfactionScore: reportModel.overallSatisfactionScore.round(),
+        overallSatisfactionScore: reportModel.overallSatisfactionScore?.round(),
         learnerFeedbackSummary: reportModel.learnerFeedbackSummary,
         positiveFeedback: reportModel.positiveFeedback,
         areasForImprovement: reportModel.areasForImprovement,
         specificFeedbackExamples: reportModel.specificFeedbackExamples,
         teachingMethodEffectiveness: reportModel.teachingMethodEffectiveness
-            .round(),
+            ?.round(),
         trainerStrengths: reportModel.trainerStrengths,
         trainerAreasForGrowth: reportModel.trainerAreasForGrowth,
         trainerProfessionalGoals: reportModel.trainerProfessionalGoals,
@@ -31,7 +33,7 @@ class SessionReportRepositoryImpl implements SessionReportRepository {
         learnerSupportRecommendations:
             reportModel.learnerSupportRecommendations,
         otherRecommendations: reportModel.otherRecommendations,
-        remark: reportModel.remark ?? '',
+        remark: reportModel.remark,
         sessionReportFiles: reportModel.sessionReportFiles
             .map(
               (file) => SessionReportFile(
@@ -57,15 +59,17 @@ class SessionReportRepositoryImpl implements SessionReportRepository {
         reportData,
       );
       return SessionReport(
+        id: reportModel.id,
+        sessionId: reportModel.sessionId,
         topicsCovered: reportModel.topicsCovered,
         significantObservations: reportModel.significantObservations,
-        overallSatisfactionScore: reportModel.overallSatisfactionScore.round(),
+        overallSatisfactionScore: reportModel.overallSatisfactionScore?.round(),
         learnerFeedbackSummary: reportModel.learnerFeedbackSummary,
         positiveFeedback: reportModel.positiveFeedback,
         areasForImprovement: reportModel.areasForImprovement,
         specificFeedbackExamples: reportModel.specificFeedbackExamples,
         teachingMethodEffectiveness: reportModel.teachingMethodEffectiveness
-            .round(),
+            ?.round(),
         trainerStrengths: reportModel.trainerStrengths,
         trainerAreasForGrowth: reportModel.trainerAreasForGrowth,
         trainerProfessionalGoals: reportModel.trainerProfessionalGoals,
@@ -76,7 +80,7 @@ class SessionReportRepositoryImpl implements SessionReportRepository {
         learnerSupportRecommendations:
             reportModel.learnerSupportRecommendations,
         otherRecommendations: reportModel.otherRecommendations,
-        remark: reportModel.remark ?? '',
+        remark: reportModel.remark,
         sessionReportFiles: reportModel.sessionReportFiles
             .map(
               (file) => SessionReportFile(

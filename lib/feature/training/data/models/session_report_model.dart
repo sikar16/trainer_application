@@ -5,12 +5,12 @@ class SessionReportModel extends Equatable {
   final String sessionId;
   final List<String> topicsCovered;
   final List<String> significantObservations;
-  final double overallSatisfactionScore;
+  final double? overallSatisfactionScore;
   final String learnerFeedbackSummary;
   final String positiveFeedback;
   final String areasForImprovement;
   final String specificFeedbackExamples;
-  final double teachingMethodEffectiveness;
+  final double? teachingMethodEffectiveness;
   final String trainerStrengths;
   final String trainerAreasForGrowth;
   final String trainerProfessionalGoals;
@@ -27,20 +27,20 @@ class SessionReportModel extends Equatable {
     required this.sessionId,
     required this.topicsCovered,
     required this.significantObservations,
-    required this.overallSatisfactionScore,
-    required this.learnerFeedbackSummary,
-    required this.positiveFeedback,
-    required this.areasForImprovement,
-    required this.specificFeedbackExamples,
-    required this.teachingMethodEffectiveness,
-    required this.trainerStrengths,
-    required this.trainerAreasForGrowth,
-    required this.trainerProfessionalGoals,
-    required this.curriculumRecommendations,
-    required this.deliveryMethodRecommendations,
-    required this.assessmentRecommendations,
-    required this.learnerSupportRecommendations,
-    required this.otherRecommendations,
+    this.overallSatisfactionScore,
+    this.learnerFeedbackSummary = '',
+    this.positiveFeedback = '',
+    this.areasForImprovement = '',
+    this.specificFeedbackExamples = '',
+    this.teachingMethodEffectiveness,
+    this.trainerStrengths = '',
+    this.trainerAreasForGrowth = '',
+    this.trainerProfessionalGoals = '',
+    this.curriculumRecommendations = '',
+    this.deliveryMethodRecommendations = '',
+    this.assessmentRecommendations = '',
+    this.learnerSupportRecommendations = '',
+    this.otherRecommendations = '',
     this.remark,
     required this.sessionReportFiles,
   });
@@ -53,26 +53,32 @@ class SessionReportModel extends Equatable {
       significantObservations: List<String>.from(
         json['significantObservations'] as List,
       ),
-      overallSatisfactionScore: (json['overallSatisfactionScore'] as num)
-          .toDouble(),
-      learnerFeedbackSummary: json['learnerFeedbackSummary'] as String,
-      positiveFeedback: json['positiveFeedback'] as String,
-      areasForImprovement: json['areasForImprovement'] as String,
-      specificFeedbackExamples: json['specificFeedbackExamples'] as String,
-      teachingMethodEffectiveness: (json['teachingMethodEffectiveness'] as num)
-          .toDouble(),
-      trainerStrengths: json['trainerStrengths'] as String,
-      trainerAreasForGrowth: json['trainerAreasForGrowth'] as String,
-      trainerProfessionalGoals: json['trainerProfessionalGoals'] as String,
-      curriculumRecommendations: json['curriculumRecommendations'] as String,
+      overallSatisfactionScore: json['overallSatisfactionScore'] != null
+          ? (json['overallSatisfactionScore'] as num).toDouble()
+          : null,
+      learnerFeedbackSummary: json['learnerFeedbackSummary'] as String? ?? '',
+      positiveFeedback: json['positiveFeedback'] as String? ?? '',
+      areasForImprovement: json['areasForImprovement'] as String? ?? '',
+      specificFeedbackExamples:
+          json['specificFeedbackExamples'] as String? ?? '',
+      teachingMethodEffectiveness: json['teachingMethodEffectiveness'] != null
+          ? (json['teachingMethodEffectiveness'] as num).toDouble()
+          : null,
+      trainerStrengths: json['trainerStrengths'] as String? ?? '',
+      trainerAreasForGrowth: json['trainerAreasForGrowth'] as String? ?? '',
+      trainerProfessionalGoals:
+          json['trainerProfessionalGoals'] as String? ?? '',
+      curriculumRecommendations:
+          json['curriculumRecommendations'] as String? ?? '',
       deliveryMethodRecommendations:
-          json['deliveryMethodRecommendations'] as String,
-      assessmentRecommendations: json['assessmentRecommendations'] as String,
+          json['deliveryMethodRecommendations'] as String? ?? '',
+      assessmentRecommendations:
+          json['assessmentRecommendations'] as String? ?? '',
       learnerSupportRecommendations:
-          json['learnerSupportRecommendations'] as String,
-      otherRecommendations: json['otherRecommendations'] as String,
+          json['learnerSupportRecommendations'] as String? ?? '',
+      otherRecommendations: json['otherRecommendations'] as String? ?? '',
       remark: json['remark'] as String?,
-      sessionReportFiles: json['sessionReportFiles'] as List<dynamic>,
+      sessionReportFiles: json['sessionReportFiles'] as List,
     );
   }
 

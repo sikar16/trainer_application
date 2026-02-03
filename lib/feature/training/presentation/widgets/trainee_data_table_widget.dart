@@ -309,8 +309,6 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
 
   Widget _buildPaginationControls() {
     final colorScheme = Theme.of(context).colorScheme;
-    final startItem = ((_currentPage - 1) * _pageSize) + 1;
-    final endItem = (_currentPage * _pageSize).clamp(1, _totalElements);
 
     return Container(
       padding: const EdgeInsets.all(16),

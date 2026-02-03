@@ -246,7 +246,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               BlocListener<SessionReportBloc, SessionReportState>(
                 listener: (context, state) {
                   setState(() {
-                    _hasReport = state is SessionReportLoaded;
+                    _hasReport =
+                        state is SessionReportLoaded ||
+                        state is SessionReportEmpty;
                   });
                 },
                 child: Align(

@@ -5,6 +5,7 @@ import '../../domain/entities/session_report.dart';
 import '../bloc/session_report_bloc.dart';
 import '../bloc/session_report_event.dart';
 import '../bloc/session_report_state.dart';
+import '../../../../core/snack_bar/snack_bar_widget.dart';
 
 class ViewReportPage extends StatefulWidget {
   final String sessionId;
@@ -166,29 +167,8 @@ class _ViewReportPageState extends State<ViewReportPage> {
             'path': file.path ?? '',
           }),
         );
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('File added: ${file.name}'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('No file selected'),
-            backgroundColor: Colors.orange,
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error picking file: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
+      } else {}
+    } catch (e) {}
   }
 
   String _formatFileSize(int bytes) {
@@ -286,24 +266,23 @@ class _ViewReportPageState extends State<ViewReportPage> {
     return BlocListener<SessionReportBloc, SessionReportState>(
       listener: (context, state) {
         if (state is SessionReportError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
+          CustomSnackBar.error(context, state.message);
         } else if (state is SessionReportCreated) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Session report created successfully!'),
-              backgroundColor: Colors.green,
-            ),
+          CustomSnackBar.success(
+            context,
+            'Session report created successfully!',
           );
           Navigator.pop(context);
         } else if (state is SessionReportLoaded) {
+          _populateControllers(state.report);
+        } else if (state is SessionReportEmpty) {
           _populateControllers(state.report);
         }
       },
       child: BlocBuilder<SessionReportBloc, SessionReportState>(
         builder: (context, state) {
-          final hasReport = state is SessionReportLoaded;
+          final hasReport =
+              state is SessionReportLoaded || state is SessionReportEmpty;
           final isLoading = state is SessionReportLoading;
           final files = (state is FilesUpdated)
               ? state.files
@@ -369,22 +348,25 @@ class _ViewReportPageState extends State<ViewReportPage> {
       _significantObservationControllers.add(TextEditingController());
     }
 
-    _summaryController.text = report.learnerFeedbackSummary;
-    _positiveFeedbackController.text = report.positiveFeedback;
-    _improvementController.text = report.areasForImprovement;
-    _specificFeedbackController.text = report.specificFeedbackExamples;
-    _strengthsController.text = report.trainerStrengths;
-    _growthController.text = report.trainerAreasForGrowth;
-    _goalsController.text = report.trainerProfessionalGoals;
-    _curriculumController.text = report.curriculumRecommendations;
-    _deliveryController.text = report.deliveryMethodRecommendations;
-    _assessmentController.text = report.assessmentRecommendations;
-    _supportController.text = report.learnerSupportRecommendations;
-    _otherController.text = report.otherRecommendations;
+    _summaryController.text = report.learnerFeedbackSummary ?? '';
+    _positiveFeedbackController.text = report.positiveFeedback ?? '';
+    _improvementController.text = report.areasForImprovement ?? '';
+    _specificFeedbackController.text = report.specificFeedbackExamples ?? '';
+    _strengthsController.text = report.trainerStrengths ?? '';
+    _growthController.text = report.trainerAreasForGrowth ?? '';
+    _goalsController.text = report.trainerProfessionalGoals ?? '';
+    _curriculumController.text = report.curriculumRecommendations ?? '';
+    _deliveryController.text = report.deliveryMethodRecommendations ?? '';
+    _assessmentController.text = report.assessmentRecommendations ?? '';
+    _supportController.text = report.learnerSupportRecommendations ?? '';
+    _otherController.text = report.otherRecommendations ?? '';
 
-    _selectedSatisfactionScore = (report.overallSatisfactionScore / 20).round();
-    _selectedEffectivenessScore = (report.teachingMethodEffectiveness / 20)
-        .round();
+    _selectedSatisfactionScore = report.overallSatisfactionScore != null
+        ? (report.overallSatisfactionScore! / 20).round()
+        : null;
+    _selectedEffectivenessScore = report.teachingMethodEffectiveness != null
+        ? (report.teachingMethodEffectiveness! / 20).round()
+        : null;
   }
 
   Widget _buildStep1(bool hasReport) {

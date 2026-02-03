@@ -253,6 +253,5 @@ class ModuleInformation extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

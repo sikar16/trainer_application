@@ -6,8 +6,6 @@ import 'profile_event.dart';
 import 'profile_state.dart';
 import '../../../../core/storage/storage_service.dart';
 import '../../data/models/profile_model.dart';
-import '../../data/models/edit_profile_response_model.dart';
-import '../../data/models/edit_profile_request_model.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetProfileUseCase getProfileUseCase;

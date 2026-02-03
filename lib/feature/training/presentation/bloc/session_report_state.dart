@@ -25,6 +25,15 @@ class SessionReportLoaded extends SessionReportState {
   List<Object?> get props => [report];
 }
 
+class SessionReportEmpty extends SessionReportState {
+  final SessionReport report;
+
+  const SessionReportEmpty(this.report);
+
+  @override
+  List<Object?> get props => [report];
+}
+
 class SessionReportCreated extends SessionReportState {
   final SessionReport report;
 

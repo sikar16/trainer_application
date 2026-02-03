@@ -104,14 +104,11 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                         const SizedBox(height: 10),
                         if (audienceProfile
                                 ?.audienceProfile
-                                ?.learnerLevel
-                                ?.name !=
+                                .learnerLevel
+                                .name !=
                             null)
                           Text(
-                            audienceProfile!
-                                .audienceProfile!
-                                .learnerLevel!
-                                .name!,
+                            audienceProfile!.audienceProfile.learnerLevel.name,
                             style: textTheme.bodyLarge,
                           ),
                         const SizedBox(height: 10),
@@ -131,10 +128,10 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        if (audienceProfile?.audienceProfile?.language?.name !=
+                        if (audienceProfile?.audienceProfile.language.name !=
                             null)
                           Text(
-                            audienceProfile!.audienceProfile!.language!.name!,
+                            audienceProfile!.audienceProfile.language.name,
                             style: textTheme.bodyLarge,
                           ),
                         const SizedBox(height: 20),
@@ -148,14 +145,14 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                         const SizedBox(height: 10),
                         if (audienceProfile
                                 ?.audienceProfile
-                                ?.educationLevel
-                                ?.name !=
+                                .educationLevel
+                                .name !=
                             null)
                           Text(
                             audienceProfile!
-                                .audienceProfile!
-                                .educationLevel!
-                                .name!,
+                                .audienceProfile
+                                .educationLevel
+                                .name,
                             style: textTheme.bodyLarge,
                           ),
                         const SizedBox(height: 20),
@@ -169,14 +166,14 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                         const SizedBox(height: 10),
                         if (audienceProfile
                                 ?.audienceProfile
-                                ?.workExperience
-                                ?.name !=
+                                .workExperience
+                                .name !=
                             null)
                           Text(
                             audienceProfile!
-                                .audienceProfile!
-                                .workExperience!
-                                .name!,
+                                .audienceProfile
+                                .workExperience
+                                .name,
                             style: textTheme.bodyLarge,
                           ),
                         const SizedBox(height: 10),
