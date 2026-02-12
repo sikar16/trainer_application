@@ -1,3 +1,8 @@
+import 'package:gheero/feature/training/presentation/widgets/survye_and_assessment_widget.dart';
+import '../bloc/survey_bloc/survey_bloc.dart';
+import '../bloc/assessment_bloc/assessment_bloc.dart';
+import '../../../../../core/network/api_client.dart';
+
 import '../../../../core/snack_bar/snack_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +45,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   Map<String, bool> _initialAttendance = {};
   Map<String, String> _attendanceComments = {};
   bool _hasUnsavedChanges = false;
+  double _surveyAssessmentHeight = 120.0;
 
   @override
   void initState() {
@@ -240,7 +246,28 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                 });
               },
             ),
-
+            const SizedBox(height: 20),
+            SizedBox(
+              height: _surveyAssessmentHeight,
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => SurveyBloc(apiClient: ApiClient()),
+                  ),
+                  BlocProvider(
+                    create: (context) => AssessmentBloc(apiClient: ApiClient()),
+                  ),
+                ],
+                child: SurveyAndAssessment(
+                  trainingId: widget.trainingId,
+                  onHeightChanged: (height) {
+                    setState(() {
+                      _surveyAssessmentHeight = height;
+                    });
+                  },
+                ),
+              ),
+            ),
             if (_hasSessions) ...[
               const SizedBox(height: 20),
               BlocListener<SessionReportBloc, SessionReportState>(
