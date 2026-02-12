@@ -9,6 +9,9 @@ import '../bloc/session_bloc/session_state.dart';
 import '../bloc/attendance_bloc/attendance_bloc.dart';
 import '../bloc/attendance_bloc/attendance_event.dart';
 import '../bloc/attendance_bloc/attendance_state.dart';
+import '../bloc/survey_completion_bloc/survey_completion_bloc.dart';
+import '../bloc/survey_completion_bloc/survey_completion_event.dart';
+import '../bloc/survey_completion_bloc/survey_completion_state.dart';
 import '../../domain/entities/trainee_entity.dart';
 import 'common_widgets.dart';
 import 'attendance_chip_widget.dart';
@@ -100,6 +103,17 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
+    // Load survey completion data when survey is selected
+    if (widget.selectedSurveyId != null) {
+      context.read<SurveyCompletionBloc>().add(
+        GetSurveyCompletionEvent(surveyId: widget.selectedSurveyId!),
+      );
+    } else {
+      context.read<SurveyCompletionBloc>().add(
+        const ClearSurveyCompletionEvent(),
+      );
+    }
+
     if (widget.selectedCohortId == null || widget.selectedSessionId == null) {
       return const SizedBox.shrink();
     }
@@ -113,87 +127,106 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
       });
     }
 
-    return BlocBuilder<TraineeBloc, TraineeState>(
-      builder: (context, traineeState) {
-        if (traineeState is TraineeLoading) {
-          return CommonCard(
-            padding: EdgeInsets.zero,
-            child: Column(
-              children: [
-                _buildCompleteTable(
-                  [],
-                  {},
-                  {},
-                  null,
-                  colorScheme,
-                  isLoading: true,
-                ),
-                if (_totalPages > 1) _buildPaginationControls(),
-              ],
-            ),
-          );
+    return BlocBuilder<SurveyCompletionBloc, SurveyCompletionState>(
+      builder: (context, surveyCompletionState) {
+        List<String> completedTraineeIds = [];
+        bool isSurveyCompletionLoading = false;
+
+        if (surveyCompletionState is SurveyCompletionLoaded) {
+          completedTraineeIds = surveyCompletionState.completedTraineeIds;
+        } else if (surveyCompletionState is SurveyCompletionLoading &&
+            widget.selectedSurveyId != null) {
+          isSurveyCompletionLoading = true;
         }
 
-        if (traineeState is TraineeLoaded) {
-          final trainees = traineeState.traineeList.trainees;
-          _totalPages = traineeState.traineeList.totalPages;
-          _totalElements = traineeState.traineeList.totalElements;
-          String? sessionDate;
-          final sessionState = context.read<SessionBloc>().state;
-          if (sessionState is SessionLoaded) {
-            try {
-              final selectedSession = sessionState.sessionList.sessions
-                  .firstWhere((s) => s.id == widget.selectedSessionId);
-              sessionDate = selectedSession.formattedDate;
-            } catch (e) {
-              if (sessionState.sessionList.sessions.isNotEmpty) {
-                sessionDate =
-                    sessionState.sessionList.sessions.first.formattedDate;
-              }
-            }
-          }
-
-          if (trainees.isEmpty) {
-            return CommonCard(
-              padding: const EdgeInsets.all(20),
-              child: const Text('No trainees available'),
-            );
-          }
-
-          return BlocBuilder<AttendanceBloc, AttendanceState>(
-            builder: (context, attendanceState) {
-              Map<String, bool> attendanceMap = {};
-              Map<String, String> commentMap = {};
-              if (attendanceState is AttendanceLoaded) {
-                for (var attendance
-                    in attendanceState.attendanceList.attendance) {
-                  attendanceMap[attendance.trainee.id] = attendance.isPresent;
-                  if (attendance.comment.isNotEmpty) {
-                    commentMap[attendance.trainee.id] = attendance.comment;
-                  }
-                }
-              }
-
+        return BlocBuilder<TraineeBloc, TraineeState>(
+          builder: (context, traineeState) {
+            if (traineeState is TraineeLoading) {
               return CommonCard(
                 padding: EdgeInsets.zero,
                 child: Column(
                   children: [
                     _buildCompleteTable(
-                      trainees,
-                      attendanceMap,
-                      commentMap,
-                      sessionDate,
+                      [],
+                      {},
+                      {},
+                      null,
                       colorScheme,
+                      completedTraineeIds,
+                      isSurveyCompletionLoading: isSurveyCompletionLoading,
+                      isLoading: true,
                     ),
                     if (_totalPages > 1) _buildPaginationControls(),
                   ],
                 ),
               );
-            },
-          );
-        }
+            }
 
-        return const SizedBox.shrink();
+            if (traineeState is TraineeLoaded) {
+              final trainees = traineeState.traineeList.trainees;
+              _totalPages = traineeState.traineeList.totalPages;
+              _totalElements = traineeState.traineeList.totalElements;
+              String? sessionDate;
+              final sessionState = context.read<SessionBloc>().state;
+              if (sessionState is SessionLoaded) {
+                try {
+                  final selectedSession = sessionState.sessionList.sessions
+                      .firstWhere((s) => s.id == widget.selectedSessionId);
+                  sessionDate = selectedSession.formattedDate;
+                } catch (e) {
+                  if (sessionState.sessionList.sessions.isNotEmpty) {
+                    sessionDate =
+                        sessionState.sessionList.sessions.first.formattedDate;
+                  }
+                }
+              }
+
+              if (trainees.isEmpty) {
+                return CommonCard(
+                  padding: const EdgeInsets.all(20),
+                  child: const Text('No trainees available'),
+                );
+              }
+
+              return BlocBuilder<AttendanceBloc, AttendanceState>(
+                builder: (context, attendanceState) {
+                  Map<String, bool> attendanceMap = {};
+                  Map<String, String> commentMap = {};
+                  if (attendanceState is AttendanceLoaded) {
+                    for (var attendance
+                        in attendanceState.attendanceList.attendance) {
+                      attendanceMap[attendance.trainee.id] =
+                          attendance.isPresent;
+                      if (attendance.comment.isNotEmpty) {
+                        commentMap[attendance.trainee.id] = attendance.comment;
+                      }
+                    }
+                  }
+
+                  return CommonCard(
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      children: [
+                        _buildCompleteTable(
+                          trainees,
+                          attendanceMap,
+                          commentMap,
+                          sessionDate,
+                          colorScheme,
+                          completedTraineeIds,
+                          isSurveyCompletionLoading: isSurveyCompletionLoading,
+                        ),
+                        if (_totalPages > 1) _buildPaginationControls(),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+
+            return const SizedBox.shrink();
+          },
+        );
       },
     );
   }
@@ -203,8 +236,10 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
     Map<String, bool> attendanceMap,
     Map<String, String> commentMap,
     String? sessionDate,
-    ColorScheme colorScheme, {
+    ColorScheme colorScheme,
+    List<String> completedTraineeIds, {
     bool isLoading = false,
+    bool isSurveyCompletionLoading = false,
   }) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -324,15 +359,75 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                             if (widget.selectedSurveyId != null)
                               DataCell(
                                 Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: isSurveyCompletionLoading
+                                      ? Text(
+                                          "Loading...",
+                                          style: TextStyle(
+                                            color: Colors.grey.shade600,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                          ),
+                                        )
+                                      : Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              completedTraineeIds.contains(
+                                                    trainee.id,
+                                                  )
+                                                  ? Icons.check_circle_outline
+                                                  : Icons.cancel_outlined,
+                                              size: 20,
+                                              color:
+                                                  completedTraineeIds.contains(
+                                                    trainee.id,
+                                                  )
+                                                  ? const Color(0xFF16A349)
+                                                  : Colors.grey.shade500,
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              completedTraineeIds.contains(
+                                                    trainee.id,
+                                                  )
+                                                  ? "Completed"
+                                                  : "Not completed",
+                                              style: TextStyle(
+                                                color:
+                                                    completedTraineeIds
+                                                        .contains(trainee.id)
+                                                    ? const Color(0xFF16A349)
+                                                    : Colors.grey.shade500,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                ),
+                              ),
+                            if (widget.selectedAssessmentId != null)
+                              DataCell(
+                                Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: Colors.green.shade100,
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
-                                    "Completed",
+                                    "Not taken",
                                     style: TextStyle(
-                                      color: Colors.green.shade800,
+                                      color: const Color.fromARGB(
+                                        255,
+                                        157,
+                                        157,
+                                        157,
+                                      ),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -343,30 +438,17 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                 Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: Colors.blue.shade100,
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
-                                    "85/100",
+                                    "Not taken 0 / 2 attempts",
                                     style: TextStyle(
-                                      color: Colors.blue.shade800,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            if (widget.selectedAssessmentId != null)
-                              DataCell(
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange.shade100,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(
-                                    "92/100",
-                                    style: TextStyle(
-                                      color: Colors.orange.shade800,
+                                      color: const Color.fromARGB(
+                                        255,
+                                        157,
+                                        157,
+                                        157,
+                                      ),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

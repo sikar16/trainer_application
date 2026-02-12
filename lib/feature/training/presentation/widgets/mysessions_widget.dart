@@ -1,5 +1,4 @@
 import 'package:gheero/feature/training/presentation/widgets/survye_and_assessment_widget.dart';
-import '../bloc/survey_bloc/survey_bloc.dart';
 import '../bloc/assessment_bloc/assessment_bloc.dart';
 import '../../../../../core/network/api_client.dart';
 
@@ -16,6 +15,10 @@ import '../bloc/trainee_bloc/trainee_event.dart';
 import '../bloc/attendance_bloc/attendance_bloc.dart';
 import '../bloc/attendance_bloc/attendance_event.dart';
 import '../bloc/attendance_bloc/attendance_state.dart';
+import '../bloc/survey_completion_bloc/survey_completion_bloc.dart';
+import '../bloc/survey_bloc/survey_bloc.dart';
+import '../../data/repositories/survey_completion_repository_impl.dart';
+import '../../data/datasources/survey_completion_remote_data_source.dart';
 import '../bloc/session_report_bloc.dart';
 import '../bloc/session_report_event.dart';
 import '../bloc/session_report_state.dart';
@@ -256,6 +259,15 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               child: MultiBlocProvider(
                 providers: [
                   BlocProvider(
+                    create: (context) => SurveyCompletionBloc(
+                      repository: SurveyCompletionRepositoryImpl(
+                        SurveyCompletionRemoteDataSource(
+                          apiClient: ApiClient(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  BlocProvider(
                     create: (context) => SurveyBloc(apiClient: ApiClient()),
                   ),
                   BlocProvider(
@@ -417,17 +429,25 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                   );
                 }
               },
-              child: TraineeDataTableWidget(
-                selectedCohortId: _selectedCohortId,
-                selectedSessionId: _selectedSessionId,
-                searchQuery: _searchQuery,
-                onUploadID: (trainee) => _showUploadIDDialog(context, trainee),
-                onAttendanceChanged: _onAttendanceChanged,
-                onCommentChanged: _onCommentChanged,
-                selectedSurveyId: _selectedSurveyId,
-                selectedSurveyName: _selectedSurveyName,
-                selectedAssessmentId: _selectedAssessmentId,
-                selectedAssessmentName: _selectedAssessmentName,
+              child: BlocProvider(
+                create: (context) => SurveyCompletionBloc(
+                  repository: SurveyCompletionRepositoryImpl(
+                    SurveyCompletionRemoteDataSource(apiClient: ApiClient()),
+                  ),
+                ),
+                child: TraineeDataTableWidget(
+                  selectedCohortId: _selectedCohortId,
+                  selectedSessionId: _selectedSessionId,
+                  searchQuery: _searchQuery,
+                  onUploadID: (trainee) =>
+                      _showUploadIDDialog(context, trainee),
+                  onAttendanceChanged: _onAttendanceChanged,
+                  onCommentChanged: _onCommentChanged,
+                  selectedSurveyId: _selectedSurveyId,
+                  selectedSurveyName: _selectedSurveyName,
+                  selectedAssessmentId: _selectedAssessmentId,
+                  selectedAssessmentName: _selectedAssessmentName,
+                ),
               ),
             ),
 
