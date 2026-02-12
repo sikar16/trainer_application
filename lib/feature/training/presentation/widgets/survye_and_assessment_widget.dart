@@ -14,10 +14,15 @@ class SurveyAndAssessment extends StatefulWidget {
     super.key,
     this.onHeightChanged,
     required this.trainingId,
+    this.onSurveySelected,
+    this.onAssessmentSelected,
   });
 
   final Function(double)? onHeightChanged;
   final String trainingId;
+  final Function(String? surveyId, String? surveyName)? onSurveySelected;
+  final Function(String? assessmentId, String? assessmentName)?
+  onAssessmentSelected;
 
   @override
   State<SurveyAndAssessment> createState() => _SurveyAndAssessmentState();
@@ -45,6 +50,16 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
     if (widget.onHeightChanged != null) {
       final height = (isSurveyExpanded || isAssessmentExpanded) ? 250.0 : 120.0;
       widget.onHeightChanged!(height);
+    }
+
+    // Clear selections when both are collapsed
+    if (!isSurveyExpanded && !isAssessmentExpanded) {
+      if (widget.onSurveySelected != null) {
+        widget.onSurveySelected!(null, null);
+      }
+      if (widget.onAssessmentSelected != null) {
+        widget.onAssessmentSelected!(null, null);
+      }
     }
   }
 
@@ -178,6 +193,12 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                     setState(() {
                       selectedSurvey = value;
                     });
+                    if (widget.onSurveySelected != null) {
+                      final survey = state.surveys.firstWhere(
+                        (s) => s.id == value,
+                      );
+                      widget.onSurveySelected!(value, survey?.name);
+                    }
                   },
                 ),
                 const SizedBox(height: 12),
@@ -238,6 +259,12 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                     setState(() {
                       selectedAssessment = value;
                     });
+                    if (widget.onAssessmentSelected != null) {
+                      final assessment = state.assessments.firstWhere(
+                        (a) => a.id == value,
+                      );
+                      widget.onAssessmentSelected!(value, assessment?.name);
+                    }
                   },
                 ),
                 const SizedBox(height: 12),

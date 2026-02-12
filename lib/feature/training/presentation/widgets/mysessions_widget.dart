@@ -46,6 +46,10 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   Map<String, String> _attendanceComments = {};
   bool _hasUnsavedChanges = false;
   double _surveyAssessmentHeight = 120.0;
+  String? _selectedSurveyId;
+  String? _selectedSurveyName;
+  String? _selectedAssessmentId;
+  String? _selectedAssessmentName;
 
   @override
   void initState() {
@@ -265,6 +269,22 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                       _surveyAssessmentHeight = height;
                     });
                   },
+                  onSurveySelected: (surveyId, surveyName) {
+                    setState(() {
+                      _selectedSurveyId = surveyId;
+                      _selectedSurveyName = surveyName;
+                      _selectedAssessmentId = null;
+                      _selectedAssessmentName = null;
+                    });
+                  },
+                  onAssessmentSelected: (assessmentId, assessmentName) {
+                    setState(() {
+                      _selectedAssessmentId = assessmentId;
+                      _selectedAssessmentName = assessmentName;
+                      _selectedSurveyId = null;
+                      _selectedSurveyName = null;
+                    });
+                  },
                 ),
               ),
             ),
@@ -404,6 +424,10 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                 onUploadID: (trainee) => _showUploadIDDialog(context, trainee),
                 onAttendanceChanged: _onAttendanceChanged,
                 onCommentChanged: _onCommentChanged,
+                selectedSurveyId: _selectedSurveyId,
+                selectedSurveyName: _selectedSurveyName,
+                selectedAssessmentId: _selectedAssessmentId,
+                selectedAssessmentName: _selectedAssessmentName,
               ),
             ),
 

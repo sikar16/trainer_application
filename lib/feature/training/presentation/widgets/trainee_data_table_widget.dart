@@ -21,6 +21,10 @@ class TraineeDataTableWidget extends StatefulWidget {
   final Function(TraineeEntity) onUploadID;
   final Function(String traineeId, bool isPresent) onAttendanceChanged;
   final Function(String traineeId, String comment)? onCommentChanged;
+  final String? selectedSurveyId;
+  final String? selectedSurveyName;
+  final String? selectedAssessmentId;
+  final String? selectedAssessmentName;
 
   const TraineeDataTableWidget({
     super.key,
@@ -30,6 +34,10 @@ class TraineeDataTableWidget extends StatefulWidget {
     required this.onUploadID,
     required this.onAttendanceChanged,
     this.onCommentChanged,
+    this.selectedSurveyId,
+    this.selectedSurveyName,
+    this.selectedAssessmentId,
+    this.selectedAssessmentName,
   });
 
   @override
@@ -208,7 +216,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
             headingRowHeight: 40,
             dataRowMinHeight: 40,
             dataRowMaxHeight: 60,
-            columns: const [
+            columns: [
               DataColumn(
                 label: SizedBox(
                   width: 24,
@@ -245,6 +253,27 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
+              if (widget.selectedSurveyId != null)
+                DataColumn(
+                  label: Text(
+                    "Survey Status",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ),
+              if (widget.selectedAssessmentId != null)
+                DataColumn(
+                  label: Text(
+                    "Pre Assessment Score",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ),
+              if (widget.selectedAssessmentId != null)
+                DataColumn(
+                  label: Text(
+                    "Post Assessment Score",
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ),
             ],
             rows: isLoading
                 ? []
@@ -292,6 +321,57 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                             DataCell(
                               _buildDocumentLinksWithEdit(trainee, colorScheme),
                             ),
+                            if (widget.selectedSurveyId != null)
+                              DataCell(
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.shade100,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    "Completed",
+                                    style: TextStyle(
+                                      color: Colors.green.shade800,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            if (widget.selectedAssessmentId != null)
+                              DataCell(
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue.shade100,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    "85/100",
+                                    style: TextStyle(
+                                      color: Colors.blue.shade800,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            if (widget.selectedAssessmentId != null)
+                              DataCell(
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange.shade100,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    "92/100",
+                                    style: TextStyle(
+                                      color: Colors.orange.shade800,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
                           ],
                         );
                       })
