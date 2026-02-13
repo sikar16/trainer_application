@@ -1,6 +1,8 @@
 import 'package:gheero/feature/training/presentation/widgets/survye_and_assessment_widget.dart';
 import '../bloc/assessment_bloc/assessment_bloc.dart';
 import '../../../../../core/network/api_client.dart';
+import '../../data/repositories/assessment_repository_impl.dart';
+import '../../data/datasources/assessment_remote_data_source.dart';
 
 import '../../../../core/snack_bar/snack_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -271,7 +273,13 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                     create: (context) => SurveyBloc(apiClient: ApiClient()),
                   ),
                   BlocProvider(
-                    create: (context) => AssessmentBloc(apiClient: ApiClient()),
+                    create: (context) => AssessmentBloc(
+                      assessmentRepository: AssessmentRepositoryImpl(
+                        remoteDataSource: AssessmentRemoteDataSource(
+                          apiClient: ApiClient(),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
                 child: SurveyAndAssessment(
