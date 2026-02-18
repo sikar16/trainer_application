@@ -467,6 +467,7 @@ class _LinkCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final ColorScheme = Theme.of(context).colorScheme;
 
     if (link == null || link!.isEmpty) {
       return Expanded(
