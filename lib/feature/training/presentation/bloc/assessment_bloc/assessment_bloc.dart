@@ -23,6 +23,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       final assessments = await _assessmentRepository.getAssessments(
         event.trainingId,
       );
+
       emit(AssessmentLoaded(assessments));
     } on DioException catch (e) {
       emit(AssessmentError('Failed to load assessments: ${e.message}'));

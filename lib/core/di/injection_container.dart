@@ -85,6 +85,22 @@ import 'package:gheero/feature/training/data/repositories/module_assessment_meth
 import 'package:gheero/feature/training/domain/repositories/module_assessment_methods_repository.dart';
 import 'package:gheero/feature/training/domain/usecases/get_module_assessment_methods_usecase.dart';
 
+import 'package:gheero/feature/training/data/datasources/assessment_remote_data_source.dart';
+import 'package:gheero/feature/training/data/repositories/assessment_repository_impl.dart';
+import 'package:gheero/feature/training/domain/repositories/assessment_repository.dart';
+import 'package:gheero/feature/training/domain/usecases/get_assessments_usecase.dart';
+import 'package:gheero/feature/training/presentation/bloc/assessment_bloc/assessment_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/survey_completion_bloc/survey_completion_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/assessment_attempt_bloc/assessment_attempt_bloc.dart';
+import 'package:gheero/feature/training/data/datasources/survey_completion_remote_data_source.dart';
+import 'package:gheero/feature/training/data/repositories/survey_completion_repository_impl.dart';
+import 'package:gheero/feature/training/domain/repositories/survey_completion_repository.dart';
+import 'package:gheero/feature/training/domain/usecases/get_survey_completion_usecase.dart';
+import 'package:gheero/feature/training/data/datasources/assessment_attempt_remote_data_source.dart';
+import 'package:gheero/feature/training/data/repositories/assessment_attempt_repository_impl.dart';
+import 'package:gheero/feature/training/domain/repositories/assessment_attempt_repository.dart';
+import 'package:gheero/feature/training/domain/usecases/get_assessment_attempts_usecase.dart';
+
 import 'package:gheero/feature/training/data/datasources/content_remote_data_source.dart';
 import 'package:gheero/feature/training/data/repositories/content_repository_impl.dart';
 import 'package:gheero/feature/training/domain/repositories/content_repository.dart';
@@ -167,6 +183,15 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<SessionReportRemoteDataSource>(
     () => SessionReportRemoteDataSource(sl()),
   );
+  sl.registerLazySingleton<AssessmentRemoteDataSource>(
+    () => AssessmentRemoteDataSource(apiClient: sl()),
+  );
+  sl.registerLazySingleton<SurveyCompletionRemoteDataSource>(
+    () => SurveyCompletionRemoteDataSource(apiClient: sl()),
+  );
+  sl.registerLazySingleton<AssessmentAttemptRemoteDataSource>(
+    () => AssessmentAttemptRemoteDataSource(apiClient: sl()),
+  );
 
   /* =======================
      REPOSITORIES
@@ -219,6 +244,15 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<SessionReportRepository>(
     () => SessionReportRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<AssessmentRepository>(
+    () => AssessmentRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<SurveyCompletionRepository>(
+    () => SurveyCompletionRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<AssessmentAttemptRepository>(
+    () => AssessmentAttemptRepositoryImpl(sl()),
   );
 
   /* =======================
@@ -278,6 +312,15 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<CreateSessionReport>(
     () => CreateSessionReport(sl()),
   );
+  sl.registerLazySingleton<GetAssessmentsUseCase>(
+    () => GetAssessmentsUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetSurveyCompletionUseCase>(
+    () => GetSurveyCompletionUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetAssessmentAttemptsUseCase>(
+    () => GetAssessmentAttemptsUseCase(sl()),
+  );
 
   /* =======================
      BLOCS
@@ -321,5 +364,14 @@ Future<void> initDependencies() async {
   sl.registerFactory<ContentBloc>(() => ContentBloc(sl()));
   sl.registerFactory<SessionReportBloc>(
     () => SessionReportBloc(getSessionReport: sl(), createSessionReport: sl()),
+  );
+  sl.registerFactory<AssessmentBloc>(
+    () => AssessmentBloc(assessmentRepository: sl()),
+  );
+  sl.registerFactory<SurveyCompletionBloc>(
+    () => SurveyCompletionBloc(repository: sl()),
+  );
+  sl.registerFactory<AssessmentAttemptBloc>(
+    () => AssessmentAttemptBloc(repository: sl()),
   );
 }

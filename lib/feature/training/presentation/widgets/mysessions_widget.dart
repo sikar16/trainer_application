@@ -455,6 +455,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                   selectedSurveyName: _selectedSurveyName,
                   selectedAssessmentId: _selectedAssessmentId,
                   selectedAssessmentName: _selectedAssessmentName,
+                  trainingId: widget.trainingId,
                 ),
               ),
             ),

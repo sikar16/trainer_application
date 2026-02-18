@@ -12,7 +12,15 @@ import '../bloc/attendance_bloc/attendance_state.dart';
 import '../bloc/survey_completion_bloc/survey_completion_bloc.dart';
 import '../bloc/survey_completion_bloc/survey_completion_event.dart';
 import '../bloc/survey_completion_bloc/survey_completion_state.dart';
+import '../bloc/assessment_bloc/assessment_bloc.dart';
+import '../bloc/assessment_bloc/assessment_state.dart';
+import '../bloc/assessment_bloc/assessment_event.dart';
+import '../bloc/assessment_attempt_bloc/assessment_attempt_bloc.dart';
+import '../bloc/assessment_attempt_bloc/assessment_attempt_event.dart';
+import '../bloc/assessment_attempt_bloc/assessment_attempt_state.dart';
 import '../../domain/entities/trainee_entity.dart';
+import '../../domain/entities/assessment_entity.dart';
+import '../../domain/entities/assessment_attempt_entity.dart';
 import 'common_widgets.dart';
 import 'attendance_chip_widget.dart';
 import 'upload_id_dialog_widget.dart';
@@ -28,6 +36,7 @@ class TraineeDataTableWidget extends StatefulWidget {
   final String? selectedSurveyName;
   final String? selectedAssessmentId;
   final String? selectedAssessmentName;
+  final String trainingId;
 
   const TraineeDataTableWidget({
     super.key,
@@ -41,6 +50,7 @@ class TraineeDataTableWidget extends StatefulWidget {
     this.selectedSurveyName,
     this.selectedAssessmentId,
     this.selectedAssessmentName,
+    required this.trainingId,
   });
 
   @override
@@ -85,11 +95,26 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
   void initState() {
     super.initState();
     _loadTrainees();
+    // Load assessments when widget initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AssessmentBloc>().add(
+        GetAssessmentsEvent(trainingId: widget.trainingId),
+      );
+    });
   }
 
   @override
   void didUpdateWidget(TraineeDataTableWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    // Load assessment attempt data when assessment selection changes
+    if (widget.selectedAssessmentId != oldWidget.selectedAssessmentId &&
+        widget.selectedAssessmentId != null) {
+      context.read<AssessmentAttemptBloc>().add(
+        GetAssessmentAttemptsEvent(assessmentId: widget.selectedAssessmentId!),
+      );
+    }
+
     if (widget.selectedSessionId != null &&
         widget.selectedSessionId != _lastSessionId) {
       _lastSessionId = widget.selectedSessionId;
@@ -102,8 +127,6 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-
-    // Load survey completion data when survey is selected
     if (widget.selectedSurveyId != null) {
       context.read<SurveyCompletionBloc>().add(
         GetSurveyCompletionEvent(surveyId: widget.selectedSurveyId!),
@@ -139,92 +162,124 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
           isSurveyCompletionLoading = true;
         }
 
-        return BlocBuilder<TraineeBloc, TraineeState>(
-          builder: (context, traineeState) {
-            if (traineeState is TraineeLoading) {
-              return CommonCard(
-                padding: EdgeInsets.zero,
-                child: Column(
-                  children: [
-                    _buildCompleteTable(
-                      [],
-                      {},
-                      {},
-                      null,
-                      colorScheme,
-                      completedTraineeIds,
-                      isSurveyCompletionLoading: isSurveyCompletionLoading,
-                      isLoading: true,
-                    ),
-                    if (_totalPages > 1) _buildPaginationControls(),
-                  ],
-                ),
-              );
+        return BlocBuilder<AssessmentBloc, AssessmentState>(
+          builder: (context, assessmentState) {
+            AssessmentEntity? selectedAssessment;
+
+            if (assessmentState is AssessmentLoaded &&
+                widget.selectedAssessmentId != null) {
+              try {
+                selectedAssessment = assessmentState.assessments.firstWhere(
+                  (assessment) => assessment.id == widget.selectedAssessmentId,
+                );
+
+                // Trigger assessment attempt API call
+                context.read<AssessmentAttemptBloc>().add(
+                  GetAssessmentAttemptsEvent(
+                    assessmentId: selectedAssessment.id,
+                  ),
+                );
+              } catch (e) {}
+            } else {
+              if (widget.selectedAssessmentId == null) {}
+              if (assessmentState is! AssessmentLoaded) {}
             }
 
-            if (traineeState is TraineeLoaded) {
-              final trainees = traineeState.traineeList.trainees;
-              _totalPages = traineeState.traineeList.totalPages;
-              _totalElements = traineeState.traineeList.totalElements;
-              String? sessionDate;
-              final sessionState = context.read<SessionBloc>().state;
-              if (sessionState is SessionLoaded) {
-                try {
-                  final selectedSession = sessionState.sessionList.sessions
-                      .firstWhere((s) => s.id == widget.selectedSessionId);
-                  sessionDate = selectedSession.formattedDate;
-                } catch (e) {
-                  if (sessionState.sessionList.sessions.isNotEmpty) {
-                    sessionDate =
-                        sessionState.sessionList.sessions.first.formattedDate;
-                  }
-                }
-              }
-
-              if (trainees.isEmpty) {
-                return CommonCard(
-                  padding: const EdgeInsets.all(20),
-                  child: const Text('No trainees available'),
-                );
-              }
-
-              return BlocBuilder<AttendanceBloc, AttendanceState>(
-                builder: (context, attendanceState) {
-                  Map<String, bool> attendanceMap = {};
-                  Map<String, String> commentMap = {};
-                  if (attendanceState is AttendanceLoaded) {
-                    for (var attendance
-                        in attendanceState.attendanceList.attendance) {
-                      attendanceMap[attendance.trainee.id] =
-                          attendance.isPresent;
-                      if (attendance.comment.isNotEmpty) {
-                        commentMap[attendance.trainee.id] = attendance.comment;
-                      }
-                    }
-                  }
-
+            return BlocBuilder<TraineeBloc, TraineeState>(
+              builder: (context, traineeState) {
+                if (traineeState is TraineeLoading) {
                   return CommonCard(
                     padding: EdgeInsets.zero,
                     child: Column(
                       children: [
                         _buildCompleteTable(
-                          trainees,
-                          attendanceMap,
-                          commentMap,
-                          sessionDate,
+                          [],
+                          {},
+                          {},
+                          null,
                           colorScheme,
                           completedTraineeIds,
                           isSurveyCompletionLoading: isSurveyCompletionLoading,
+                          selectedAssessment,
+                          isLoading: true,
                         ),
                         if (_totalPages > 1) _buildPaginationControls(),
                       ],
                     ),
                   );
-                },
-              );
-            }
+                }
 
-            return const SizedBox.shrink();
+                if (traineeState is TraineeLoaded) {
+                  final trainees = traineeState.traineeList.trainees;
+                  _totalPages = traineeState.traineeList.totalPages;
+                  _totalElements = traineeState.traineeList.totalElements;
+                  String? sessionDate;
+                  final sessionState = context.read<SessionBloc>().state;
+                  if (sessionState is SessionLoaded) {
+                    try {
+                      final selectedSession = sessionState.sessionList.sessions
+                          .firstWhere((s) => s.id == widget.selectedSessionId);
+                      sessionDate = selectedSession.formattedDate;
+                    } catch (e) {
+                      if (sessionState.sessionList.sessions.isNotEmpty) {
+                        sessionDate = sessionState
+                            .sessionList
+                            .sessions
+                            .first
+                            .formattedDate;
+                      }
+                    }
+                  }
+
+                  if (trainees.isEmpty) {
+                    return CommonCard(
+                      padding: const EdgeInsets.all(20),
+                      child: const Text('No trainees available'),
+                    );
+                  }
+
+                  return BlocBuilder<AttendanceBloc, AttendanceState>(
+                    builder: (context, attendanceState) {
+                      Map<String, bool> attendanceMap = {};
+                      Map<String, String> commentMap = {};
+                      if (attendanceState is AttendanceLoaded) {
+                        for (var attendance
+                            in attendanceState.attendanceList.attendance) {
+                          attendanceMap[attendance.trainee.id] =
+                              attendance.isPresent;
+                          if (attendance.comment.isNotEmpty) {
+                            commentMap[attendance.trainee.id] =
+                                attendance.comment;
+                          }
+                        }
+                      }
+
+                      return CommonCard(
+                        padding: EdgeInsets.zero,
+                        child: Column(
+                          children: [
+                            _buildCompleteTable(
+                              trainees,
+                              attendanceMap,
+                              commentMap,
+                              sessionDate,
+                              colorScheme,
+                              completedTraineeIds,
+                              isSurveyCompletionLoading:
+                                  isSurveyCompletionLoading,
+                              selectedAssessment,
+                            ),
+                            if (_totalPages > 1) _buildPaginationControls(),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
+            );
           },
         );
       },
@@ -237,9 +292,10 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
     Map<String, String> commentMap,
     String? sessionDate,
     ColorScheme colorScheme,
-    List<String> completedTraineeIds, {
-    bool isLoading = false,
+    List<String> completedTraineeIds,
+    AssessmentEntity? selectedAssessment, {
     bool isSurveyCompletionLoading = false,
+    bool isLoading = false,
   }) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -419,18 +475,76 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
                                   ),
-                                  child: Text(
-                                    "Not taken",
-                                    style: TextStyle(
-                                      color: const Color.fromARGB(
-                                        255,
-                                        157,
-                                        157,
-                                        157,
+                                  child:
+                                      BlocBuilder<
+                                        AssessmentAttemptBloc,
+                                        AssessmentAttemptState
+                                      >(
+                                        builder: (context, attemptState) {
+                                          if (attemptState
+                                              is AssessmentAttemptLoaded) {
+                                            final traineeId = trainee.id;
+                                            final traineeAttempts = attemptState
+                                                .assessmentAttempt
+                                                .traineeAttemptsMap;
+                                            final traineeAttempt =
+                                                traineeAttempts[traineeId];
+
+                                            return Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 4,
+                                                      ),
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        traineeAttempt
+                                                                ?.preAssessmentScore !=
+                                                            null
+                                                        ? Colors.grey.shade300
+                                                        : Colors.grey.shade200,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          30,
+                                                        ), // pill shape
+                                                  ),
+                                                  child: Text(
+                                                    traineeAttempt
+                                                            ?.preAssessmentDisplay ??
+                                                        "Not taken",
+                                                    style: TextStyle(
+                                                      color:
+                                                          traineeAttempt
+                                                                  ?.preAssessmentScore !=
+                                                              null
+                                                          ? Colors.black87
+                                                          : Colors.grey,
+
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }
+
+                                          return Text(
+                                            "Not taken",
+                                            style: TextStyle(
+                                              color: const Color.fromARGB(
+                                                255,
+                                                157,
+                                                157,
+                                                157,
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
                                 ),
                               ),
                             if (widget.selectedAssessmentId != null)
@@ -440,17 +554,78 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
                                   ),
-                                  child: Text(
-                                    "Not taken 0 / 2 attempts",
-                                    style: TextStyle(
-                                      color: const Color.fromARGB(
-                                        255,
-                                        157,
-                                        157,
-                                        157,
-                                      ),
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                  child: BlocBuilder<AssessmentAttemptBloc, AssessmentAttemptState>(
+                                    builder: (context, attemptState) {
+                                      String totalAttemptsText = "0";
+                                      TraineeAttemptEntity? traineeAttempt;
+
+                                      if (attemptState
+                                          is AssessmentAttemptLoaded) {
+                                        final traineeId = trainee.id;
+                                        final traineeAttempts = attemptState
+                                            .assessmentAttempt
+                                            .traineeAttemptsMap;
+                                        traineeAttempt =
+                                            traineeAttempts[traineeId];
+
+                                        if (traineeAttempt != null) {
+                                          totalAttemptsText = traineeAttempt
+                                              .totalAttempts
+                                              .toString();
+                                        }
+                                      }
+
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 2,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  traineeAttempt
+                                                          ?.postAssessmentScore !=
+                                                      null
+                                                  ? Colors.green.withOpacity(
+                                                      0.25,
+                                                    ) // light green like image
+                                                  : Colors.grey.shade200,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                    30,
+                                                  ), // pill
+                                            ),
+                                            child: Text(
+                                              traineeAttempt
+                                                      ?.postAssessmentDisplay ??
+                                                  "Not taken",
+                                              style: TextStyle(
+                                                color:
+                                                    traineeAttempt
+                                                            ?.postAssessmentScore !=
+                                                        null
+                                                    ? Colors.green.shade800
+                                                    : Colors.grey,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+
+                                          const SizedBox(height: 4),
+
+                                          Text(
+                                            "Attempt $totalAttemptsText/${selectedAssessment?.maxAttempts}",
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               ),

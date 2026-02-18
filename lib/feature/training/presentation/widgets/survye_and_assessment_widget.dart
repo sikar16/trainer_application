@@ -262,6 +262,7 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                       final assessment = state.assessments.firstWhere(
                         (a) => a.id == value,
                       );
+
                       widget.onAssessmentSelected!(value, assessment?.name);
                     }
                   },

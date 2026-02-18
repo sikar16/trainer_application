@@ -9,6 +9,9 @@ import 'package:gheero/feature/training/presentation/bloc/session_bloc/session_b
 import 'package:gheero/feature/training/presentation/bloc/trainee_bloc/trainee_bloc.dart';
 import 'package:gheero/feature/training/presentation/bloc/attendance_bloc/attendance_bloc.dart';
 import 'package:gheero/feature/training/presentation/bloc/session_report_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/assessment_bloc/assessment_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/survey_completion_bloc/survey_completion_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/assessment_attempt_bloc/assessment_attempt_bloc.dart';
 
 class AppBlocProviders extends StatelessWidget {
   final Widget child;
@@ -27,6 +30,13 @@ class AppBlocProviders extends StatelessWidget {
         BlocProvider<TraineeBloc>(create: (_) => sl<TraineeBloc>()),
         BlocProvider<AttendanceBloc>(create: (_) => sl<AttendanceBloc>()),
         BlocProvider<SessionReportBloc>(create: (_) => sl<SessionReportBloc>()),
+        BlocProvider<AssessmentBloc>(create: (_) => sl<AssessmentBloc>()),
+        BlocProvider<SurveyCompletionBloc>(
+          create: (_) => sl<SurveyCompletionBloc>(),
+        ),
+        BlocProvider<AssessmentAttemptBloc>(
+          create: (_) => sl<AssessmentAttemptBloc>(),
+        ),
       ],
       child: child,
     );
