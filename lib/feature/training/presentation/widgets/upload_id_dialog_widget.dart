@@ -106,7 +106,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
     return ['Consent Form'];
   }
 
-  bool get _hasExistingDocuments {
+  bool get hasExistingDocuments {
     final trainee = widget.trainee;
     return trainee?.frontIdUrl != null ||
         trainee?.backIdUrl != null ||
@@ -254,7 +254,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
+                                          color: Colors.black.withValues(),
                                           blurRadius: 4,
                                           offset: const Offset(0, 2),
                                         ),
@@ -341,8 +341,8 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                                         shape: BoxShape.circle,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(
-                                              0.2,
+                                            color: Colors.black.withValues(
+                                              alpha: 0.8,
                                             ),
                                             blurRadius: 4,
                                             offset: const Offset(0, 2),

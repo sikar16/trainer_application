@@ -561,96 +561,101 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
                                   ),
-                                  child: BlocBuilder<AssessmentAttemptBloc, AssessmentAttemptState>(
-                                    builder: (context, attemptState) {
-                                      if (attemptState
-                                          is AssessmentAttemptLoading) {
-                                        return const Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Loading...",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }
+                                  child:
+                                      BlocBuilder<
+                                        AssessmentAttemptBloc,
+                                        AssessmentAttemptState
+                                      >(
+                                        builder: (context, attemptState) {
+                                          if (attemptState
+                                              is AssessmentAttemptLoading) {
+                                            return const Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Loading...",
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }
 
-                                      String totalAttemptsText = "0";
-                                      TraineeAttemptEntity? traineeAttempt;
+                                          String totalAttemptsText = "0";
+                                          TraineeAttemptEntity? traineeAttempt;
 
-                                      if (attemptState
-                                          is AssessmentAttemptLoaded) {
-                                        final traineeId = trainee.id;
-                                        final traineeAttempts = attemptState
-                                            .assessmentAttempt
-                                            .traineeAttemptsMap;
-                                        traineeAttempt =
-                                            traineeAttempts[traineeId];
+                                          if (attemptState
+                                              is AssessmentAttemptLoaded) {
+                                            final traineeId = trainee.id;
+                                            final traineeAttempts = attemptState
+                                                .assessmentAttempt
+                                                .traineeAttemptsMap;
+                                            traineeAttempt =
+                                                traineeAttempts[traineeId];
 
-                                        if (traineeAttempt != null) {
-                                          totalAttemptsText = traineeAttempt
-                                              .totalAttempts
-                                              .toString();
-                                        }
-                                      }
+                                            if (traineeAttempt != null) {
+                                              totalAttemptsText = traineeAttempt
+                                                  .totalAttempts
+                                                  .toString();
+                                            }
+                                          }
 
-                                      return Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                              vertical: 2,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color:
+                                          return Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 2,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      traineeAttempt
+                                                              ?.postAssessmentScore !=
+                                                          null
+                                                      ? Colors.green.withValues(
+                                                          alpha: 0.8,
+                                                        )
+                                                      : Colors.grey.shade200,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        30,
+                                                      ), // pill
+                                                ),
+                                                child: Text(
                                                   traineeAttempt
-                                                          ?.postAssessmentScore !=
-                                                      null
-                                                  ? Colors.green.withOpacity(
-                                                      0.25,
-                                                    ) // light green like image
-                                                  : Colors.grey.shade200,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                    30,
-                                                  ), // pill
-                                            ),
-                                            child: Text(
-                                              traineeAttempt
-                                                      ?.postAssessmentDisplay ??
-                                                  "Not taken",
-                                              style: TextStyle(
-                                                color:
-                                                    traineeAttempt
-                                                            ?.postAssessmentScore !=
-                                                        null
-                                                    ? Colors.green.shade800
-                                                    : Colors.grey,
-                                                fontSize: 14,
+                                                          ?.postAssessmentDisplay ??
+                                                      "Not taken",
+                                                  style: TextStyle(
+                                                    color:
+                                                        traineeAttempt
+                                                                ?.postAssessmentScore !=
+                                                            null
+                                                        ? Colors.green.shade800
+                                                        : Colors.grey,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
 
-                                          const SizedBox(height: 4),
+                                              const SizedBox(height: 4),
 
-                                          Text(
-                                            "Attempt $totalAttemptsText/${selectedAssessment?.maxAttempts}",
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ),
+                                              Text(
+                                                "Attempt $totalAttemptsText/${selectedAssessment?.maxAttempts}",
+                                                style: const TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
                                 ),
                               ),
                           ],

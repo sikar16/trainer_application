@@ -6,8 +6,6 @@ import '../bloc/survey_bloc/survey_state.dart';
 import '../bloc/assessment_bloc/assessment_bloc.dart';
 import '../bloc/assessment_bloc/assessment_event.dart';
 import '../bloc/assessment_bloc/assessment_state.dart';
-import '../../domain/entities/survey_entity.dart';
-import '../../domain/entities/assessment_entity.dart';
 
 class SurveyAndAssessment extends StatefulWidget {
   const SurveyAndAssessment({
@@ -129,7 +127,7 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
           border: Border.all(color: Colors.grey.shade300),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.8),
               blurRadius: 6,
               offset: const Offset(0, 3),
             ),
@@ -196,7 +194,7 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                       final survey = state.surveys.firstWhere(
                         (s) => s.id == value,
                       );
-                      widget.onSurveySelected!(value, survey?.name);
+                      widget.onSurveySelected!(value, survey.name);
                     }
                   },
                 ),
@@ -263,7 +261,7 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                         (a) => a.id == value,
                       );
 
-                      widget.onAssessmentSelected!(value, assessment?.name);
+                      widget.onAssessmentSelected!(value, assessment.name);
                     }
                   },
                 ),

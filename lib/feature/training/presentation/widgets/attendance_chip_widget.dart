@@ -146,7 +146,9 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
                     color: _isPresent ? presentColor : Colors.grey.shade400,
                     width: 2,
                   ),
-                  color: _isPresent ? presentColor.withOpacity(0.1) : null,
+                  color: _isPresent
+                      ? presentColor.withValues(alpha: 0.8)
+                      : null,
                 ),
                 child: Icon(
                   Icons.check,
@@ -168,7 +170,9 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
                     color: !_isPresent ? absentColor : Colors.grey.shade400,
                     width: 2,
                   ),
-                  color: !_isPresent ? absentColor.withOpacity(0.1) : null,
+                  color: !_isPresent
+                      ? absentColor.withValues(alpha: 0.8)
+                      : null,
                 ),
                 child: Icon(
                   Icons.close,
@@ -285,7 +289,7 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: _isPresent
-                      ? presentColor.withOpacity(0.1)
+                      ? presentColor.withValues(alpha: 0.8)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -303,7 +307,7 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: !_isPresent
-                      ? absentColor.withOpacity(0.1)
+                      ? absentColor.withValues(alpha: 0.8)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -364,7 +368,7 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
         height: 36,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: color.withOpacity(0.4)),
+          border: Border.all(color: color.withValues(alpha: 0.8)),
         ),
         child: Icon(icon, size: 18, color: color),
       ),
