@@ -255,59 +255,61 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                 });
               },
             ),
-            const SizedBox(height: 20),
-            SizedBox(
-              height: _surveyAssessmentHeight,
-              child: MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) => SurveyCompletionBloc(
-                      repository: SurveyCompletionRepositoryImpl(
-                        SurveyCompletionRemoteDataSource(
-                          apiClient: ApiClient(),
+            if (_hasSessions) ...[
+              const SizedBox(height: 20),
+              SizedBox(
+                height: _surveyAssessmentHeight,
+                child: MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => SurveyCompletionBloc(
+                        repository: SurveyCompletionRepositoryImpl(
+                          SurveyCompletionRemoteDataSource(
+                            apiClient: ApiClient(),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  BlocProvider(
-                    create: (context) => SurveyBloc(apiClient: ApiClient()),
-                  ),
-                  BlocProvider(
-                    create: (context) => AssessmentBloc(
-                      assessmentRepository: AssessmentRepositoryImpl(
-                        remoteDataSource: AssessmentRemoteDataSource(
-                          apiClient: ApiClient(),
+                    BlocProvider(
+                      create: (context) => SurveyBloc(apiClient: ApiClient()),
+                    ),
+                    BlocProvider(
+                      create: (context) => AssessmentBloc(
+                        assessmentRepository: AssessmentRepositoryImpl(
+                          remoteDataSource: AssessmentRemoteDataSource(
+                            apiClient: ApiClient(),
+                          ),
                         ),
                       ),
                     ),
+                  ],
+                  child: SurveyAndAssessment(
+                    trainingId: widget.trainingId,
+                    onHeightChanged: (height) {
+                      setState(() {
+                        _surveyAssessmentHeight = height;
+                      });
+                    },
+                    onSurveySelected: (surveyId, surveyName) {
+                      setState(() {
+                        _selectedSurveyId = surveyId;
+                        _selectedSurveyName = surveyName;
+                        _selectedAssessmentId = null;
+                        _selectedAssessmentName = null;
+                      });
+                    },
+                    onAssessmentSelected: (assessmentId, assessmentName) {
+                      setState(() {
+                        _selectedAssessmentId = assessmentId;
+                        _selectedAssessmentName = assessmentName;
+                        _selectedSurveyId = null;
+                        _selectedSurveyName = null;
+                      });
+                    },
                   ),
-                ],
-                child: SurveyAndAssessment(
-                  trainingId: widget.trainingId,
-                  onHeightChanged: (height) {
-                    setState(() {
-                      _surveyAssessmentHeight = height;
-                    });
-                  },
-                  onSurveySelected: (surveyId, surveyName) {
-                    setState(() {
-                      _selectedSurveyId = surveyId;
-                      _selectedSurveyName = surveyName;
-                      _selectedAssessmentId = null;
-                      _selectedAssessmentName = null;
-                    });
-                  },
-                  onAssessmentSelected: (assessmentId, assessmentName) {
-                    setState(() {
-                      _selectedAssessmentId = assessmentId;
-                      _selectedAssessmentName = assessmentName;
-                      _selectedSurveyId = null;
-                      _selectedSurveyName = null;
-                    });
-                  },
                 ),
               ),
-            ),
+            ],
             if (_hasSessions) ...[
               const SizedBox(height: 20),
               BlocListener<SessionReportBloc, SessionReportState>(

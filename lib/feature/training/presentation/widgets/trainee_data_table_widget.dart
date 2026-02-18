@@ -482,6 +482,17 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                       >(
                                         builder: (context, attemptState) {
                                           if (attemptState
+                                              is AssessmentAttemptLoading) {
+                                            return const Text(
+                                              "Loading...",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14,
+                                              ),
+                                            );
+                                          }
+
+                                          if (attemptState
                                               is AssessmentAttemptLoaded) {
                                             final traineeId = trainee.id;
                                             final traineeAttempts = attemptState
@@ -532,15 +543,11 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                             );
                                           }
 
-                                          return Text(
+                                          return const Text(
                                             "Not taken",
                                             style: TextStyle(
-                                              color: const Color.fromARGB(
-                                                255,
-                                                157,
-                                                157,
-                                                157,
-                                              ),
+                                              color: Colors.grey,
+                                              fontSize: 14,
                                             ),
                                           );
                                         },
@@ -556,6 +563,23 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                   ),
                                   child: BlocBuilder<AssessmentAttemptBloc, AssessmentAttemptState>(
                                     builder: (context, attemptState) {
+                                      if (attemptState
+                                          is AssessmentAttemptLoading) {
+                                        return const Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Loading...",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }
+
                                       String totalAttemptsText = "0";
                                       TraineeAttemptEntity? traineeAttempt;
 
