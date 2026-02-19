@@ -27,7 +27,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         emit(LoginSuccess(user));
       } catch (e) {
-        emit(LoginFailure("Invalid email or password"));
+        String errorMessage = 'An error occurred';
+        if (e is Exception) {
+          errorMessage = e.toString().replaceFirst('Exception: ', '');
+        }
+        emit(LoginFailure(errorMessage));
       }
     });
   }

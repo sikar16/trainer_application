@@ -14,7 +14,13 @@ class AuthRemoteDataSource {
     if (response.statusCode == 200) {
       return UserModel.fromJson(response.data);
     } else {
-      throw Exception('Login failed');
+      String errorMessage = 'Login failed';
+
+      if (response.data != null && response.data is Map<String, dynamic>) {
+        final data = response.data as Map<String, dynamic>;
+        errorMessage = data['message'] ?? 'Login failed';
+      }
+      throw Exception(errorMessage);
     }
   }
 }
