@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:gheero/core/widgets/app_drawer.dart';
 import 'package:gheero/core/widgets/custom_appbar.dart';
 import 'package:gheero/feature/training/presentation/widgets/audience_profile_widget.dart';
 import 'package:gheero/feature/training/presentation/widgets/content_widget.dart';
@@ -21,8 +19,6 @@ class TrainingDetailScreen extends StatefulWidget {
   @override
   State<TrainingDetailScreen> createState() => _TrainingDetailScreenState();
 }
-
-final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
   int selectedIndex = 0;
@@ -55,19 +51,10 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
         }
 
         return Scaffold(
-          key: scaffoldKey,
-          drawer: const AppDrawer(),
           appBar: CustomAppBar(
             title: title,
             showBackButton: true,
-            onBackTap: () {
-              if (GoRouter.of(context).canPop()) {
-                context.pop();
-              } else {
-                context.go('/training');
-              }
-            },
-
+            onMenuTap: () {},
             onNotificationTap: () {},
             onProfileTap: () {},
           ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gheero/core/widgets/app_drawer.dart';
 import 'package:gheero/core/widgets/custom_appbar.dart';
+import 'package:gheero/core/widgets/bottom_navigation.dart';
 import 'package:gheero/core/widgets/custom_card.dart';
 import '../bloc/training_bloc/training_bloc.dart';
 import '../bloc/training_bloc/training_event.dart';
@@ -15,8 +15,6 @@ class TrainingScreen extends StatefulWidget {
   @override
   State<TrainingScreen> createState() => _TrainingScreenState();
 }
-
-final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _TrainingScreenState extends State<TrainingScreen> {
   final int _currentPage = 1;
@@ -53,16 +51,13 @@ class _TrainingScreenState extends State<TrainingScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      key: scaffoldKey,
-      drawer: const AppDrawer(),
       appBar: CustomAppBar(
         title: "Training",
-        onMenuTap: () {
-          scaffoldKey.currentState?.openDrawer();
-        },
+        onMenuTap: () {},
         onNotificationTap: () {},
         onProfileTap: () {},
       ),
+      bottomNavigationBar: const BottomNavigation(currentIndex: 0),
       body: BlocBuilder<TrainingBloc, TrainingState>(
         builder: (context, state) {
           if (state is TrainingLoading) {

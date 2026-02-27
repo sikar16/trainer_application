@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state is LoginSuccess) {
           CustomSnackBar.success(context, 'Login successful!');
-          context.go('/dashboard');
+          context.go('/training');
         } else if (state is LoginFailure) {
           setState(() {
             _passwordError = state.message;

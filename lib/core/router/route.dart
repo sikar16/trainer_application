@@ -2,10 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:gheero/core/router/error_page.dart';
 import 'package:gheero/core/storage/storage_service.dart';
 import 'package:gheero/feature/auth/presentation/pages/login_screen.dart';
-import 'package:gheero/feature/dashborad/presentation/pages/dashboard_screen.dart';
 import 'package:gheero/feature/job/presentation/pages/job_screen.dart';
 import 'package:gheero/feature/profile/presentation/pages/profile_screen.dart';
-import 'package:gheero/feature/setting/presentation/pages/setting_screen.dart';
 import 'package:gheero/feature/splash/presentation/pages/splash_screen.dart';
 import 'package:gheero/feature/training/presentation/pages/traning_screen.dart';
 import 'package:gheero/feature/job/presentation/widgets/job_detail_screen.dart';
@@ -18,8 +16,11 @@ final GoRouter router = GoRouter(
   errorBuilder: (context, state) => ErrorPage(error: state.error),
   redirect: (context, state) async {
     final token = await StorageService.getToken();
-    if (token == null) return '/login';
-    if (state.path == '/splash') return null;
+    if (token == null) {
+      if (state.path != '/login') return '/login';
+      return null;
+    }
+    if (state.path == '/splash') return '/training';
     return null;
   },
   routes: [
@@ -35,11 +36,6 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const LoginScreen(),
     ),
     // private routes
-    GoRoute(
-      path: '/dashboard',
-      name: "dashboard",
-      builder: (context, state) => const DashboardScreen(),
-    ),
     GoRoute(
       path: '/training',
       name: "training",
@@ -73,11 +69,6 @@ final GoRouter router = GoRouter(
       path: '/job',
       name: "job",
       builder: (context, state) => const JobScreen(),
-    ),
-    GoRoute(
-      path: '/setting',
-      name: "setting",
-      builder: (context, state) => const SettingScreen(),
     ),
     GoRoute(
       path: '/profile',

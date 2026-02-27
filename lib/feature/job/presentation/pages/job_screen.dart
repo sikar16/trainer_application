@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gheero/core/widgets/app_drawer.dart';
 import 'package:gheero/core/widgets/custom_appbar.dart';
+import 'package:gheero/core/widgets/bottom_navigation.dart';
 import '../widgets/job_list_widget.dart';
 import '../widgets/application_list_widget.dart';
 
@@ -13,22 +13,19 @@ class JobScreen extends StatefulWidget {
   State<JobScreen> createState() => _JobScreenState();
 }
 
-final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
 class _JobScreenState extends State<JobScreen> {
   TopTab selectedTopTab = TopTab.jobs;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      drawer: const AppDrawer(),
       appBar: CustomAppBar(
         title: "Job",
-        onMenuTap: () => scaffoldKey.currentState?.openDrawer(),
+        onMenuTap: () {},
         onNotificationTap: () {},
         onProfileTap: () {},
       ),
+      bottomNavigationBar: const BottomNavigation(currentIndex: 1),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

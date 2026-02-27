@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gheero/core/snack_bar/snack_bar_widget.dart';
 
-import 'package:gheero/core/widgets/app_drawer.dart';
 import 'package:gheero/core/widgets/custom_appbar.dart';
+import 'package:gheero/core/widgets/bottom_navigation.dart';
 
 import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';
@@ -17,8 +17,6 @@ class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
-
-final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isEditing = false;
@@ -498,14 +496,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       },
       child: Scaffold(
-        key: scaffoldKey,
-        drawer: const AppDrawer(),
         appBar: CustomAppBar(
           title: "Profile",
-          onMenuTap: () => scaffoldKey.currentState?.openDrawer(),
+          onMenuTap: () {},
           onNotificationTap: () {},
           onProfileTap: () {},
         ),
+        bottomNavigationBar: const BottomNavigation(currentIndex: 2),
         body: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
             ProfileEntity? profile;
