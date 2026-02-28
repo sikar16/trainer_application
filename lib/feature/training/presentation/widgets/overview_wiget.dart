@@ -33,15 +33,10 @@ class OverviewWiget extends StatelessWidget {
                 children: [
                   Text(
                     "Overview",
-                    style: textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    "A concise summary of the course, outlining its purpose, scope, and key features",
-                    style: textTheme.bodyMedium,
-                  ),
+
                   const SizedBox(height: 16),
                   CostomDropDown(
                     title: "Basic information",
@@ -49,15 +44,39 @@ class OverviewWiget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Title:", style: textTheme.titleMedium),
+                        Text(
+                          "Title:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
-                        Text(training?.title ?? "N/A"),
+                        Text(
+                          training?.title ?? "N/A",
+                          style: TextStyle(fontSize: 12),
+                        ),
                         const SizedBox(height: 10),
-                        Text("Rationale:", style: textTheme.titleMedium),
+                        Text(
+                          "Rationale:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
-                        Text(training?.rationale ?? "N/A"),
+                        Text(
+                          training?.rationale ?? "N/A",
+                          style: TextStyle(fontSize: 12),
+                        ),
                         const SizedBox(height: 10),
-                        Text("Training Tags:", style: textTheme.titleMedium),
+                        Text(
+                          "Training Tags:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Wrap(
                           spacing: 8,
@@ -74,14 +93,11 @@ class OverviewWiget extends StatelessWidget {
                                     border: Border.all(
                                       color: colorTheme.surfaceContainer,
                                     ),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(22),
                                   ),
                                   child: Text(
                                     tag.name,
-                                    style: textTheme.bodySmall?.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                    style: TextStyle(fontSize: 10),
                                   ),
                                 ),
                               )
@@ -98,28 +114,49 @@ class OverviewWiget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Countries:", style: textTheme.titleMedium),
+                        Text(
+                          "Countries:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Text(
                           training?.zones.isNotEmpty == true
                               ? training!.zones.first.region.country.name
                               : "N/A",
+                          style: TextStyle(fontSize: 12),
                         ),
                         const SizedBox(height: 20),
-                        Text("Regions:", style: textTheme.titleMedium),
+                        Text(
+                          "Regions:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Text(
                           training?.zones.isNotEmpty == true
                               ? training!.zones.first.region.name
                               : "N/A",
+                          style: TextStyle(fontSize: 12),
                         ),
                         const SizedBox(height: 20),
-                        Text("Zones:", style: textTheme.titleMedium),
+                        Text(
+                          "Zones:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Text(
                           training?.zones.isNotEmpty == true
                               ? training!.zones.map((z) => z.name).join(", ")
                               : "N/A",
+                          style: TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
@@ -131,32 +168,75 @@ class OverviewWiget extends StatelessWidget {
                     content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Duration:", style: textTheme.titleMedium),
+                        Text(
+                          "Duration:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Text(
                           training != null
                               ? "${training!.duration.toStringAsFixed(training!.duration.truncateToDouble() == training!.duration ? 0 : 1)} ${training!.durationType.toLowerCase()}"
                               : "N/A",
+                          style: TextStyle(fontSize: 12),
                         ),
                         const SizedBox(height: 20),
-                        Text("Delivery Method:", style: textTheme.titleMedium),
+                        Text(
+                          "Delivery Method:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
-                        Text(training?.deliveryMethod ?? "N/A"),
+                        Text(
+                          training?.deliveryMethod ?? "N/A",
+                          style: TextStyle(fontSize: 12),
+                        ),
 
                         const SizedBox(height: 20),
-                        Text("Start Date:", style: textTheme.titleMedium),
+                        Text(
+                          "Start Date:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
-                        Text(formatDate(training?.startDate)),
+                        Text(
+                          formatDate(training?.startDate),
+                          style: TextStyle(fontSize: 12),
+                        ),
 
                         const SizedBox(height: 20),
-                        Text("End Date:", style: textTheme.titleMedium),
+                        Text(
+                          "End Date:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
-                        Text(formatDate(training?.endDate)),
+                        Text(
+                          formatDate(training?.endDate),
+                          style: TextStyle(fontSize: 12),
+                        ),
 
                         const SizedBox(height: 20),
-                        Text("Training Type:", style: textTheme.titleMedium),
+                        Text(
+                          "Training Type:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
-                        Text(training?.trainingType?.name ?? "N/A"),
+                        Text(
+                          training?.trainingType?.name ?? "N/A",
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ],
                     ),
                   ),
@@ -169,17 +249,23 @@ class OverviewWiget extends StatelessWidget {
                       children: [
                         Text(
                           "Total Participants:",
-                          style: textTheme.titleMedium,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Text(
                           training?.totalParticipants.toString() ?? "N/A",
-                          style: textTheme.bodySmall,
+                          style: TextStyle(fontSize: 12),
                         ),
                         const SizedBox(height: 20),
                         Text(
                           "Gender Distribution:",
-                          style: textTheme.titleMedium,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Wrap(
@@ -195,7 +281,13 @@ class OverviewWiget extends StatelessWidget {
                         ),
 
                         const SizedBox(height: 20),
-                        Text("Age Groups:", style: textTheme.titleMedium),
+                        Text(
+                          "Age Groups:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Wrap(
                           children: (training?.ageGroups ?? [])
@@ -214,31 +306,40 @@ class OverviewWiget extends StatelessWidget {
                         const SizedBox(height: 20),
                         Text(
                           "Economic Backgrounds:",
-                          style: textTheme.titleMedium,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Text(
                           (training?.economicBackgrounds ?? [])
                               .map((eb) => eb.name)
                               .join(', '),
-                          style: textTheme.bodyMedium,
+                          style: TextStyle(fontSize: 12),
                         ),
                         const SizedBox(height: 20),
                         Text(
                           "Academic Qualifications:",
-                          style: textTheme.titleMedium,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Text(
                           (training?.academicQualifications ?? [])
                               .map((aq) => aq.name)
                               .join(', '),
-                          style: textTheme.bodyMedium,
+                          style: TextStyle(fontSize: 12),
                         ),
                         const SizedBox(height: 20),
                         Text(
                           "Disability Distribution:",
-                          style: textTheme.titleMedium,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Wrap(
@@ -256,7 +357,10 @@ class OverviewWiget extends StatelessWidget {
                         const SizedBox(height: 20),
                         Text(
                           "Marginalized Groups:",
-                          style: textTheme.titleMedium,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Wrap(
@@ -283,27 +387,38 @@ class OverviewWiget extends StatelessWidget {
                     content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Training Purpose:", style: textTheme.titleMedium),
+                        Text(
+                          "Training Purpose:",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
                           children: (training?.trainingPurposes ?? [])
-                              .map((tp) => Text(tp.name))
+                              .map(
+                                (tp) => Text(
+                                  tp.name,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              )
                               .toList(),
                         ),
                         const SizedBox(height: 20),
                         Text(
                           "Certificate Description:",
-                          style: textTheme.titleMedium,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 10),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: [
-                            Text(training?.certificateDescription ?? "N/A"),
-                          ],
+                        Text(
+                          training?.certificateDescription ?? "N/A",
+                          style: TextStyle(fontSize: 12),
                         ),
                       ],
                     ),

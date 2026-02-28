@@ -32,11 +32,11 @@ class ModuleInformation extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "Detailed information about the module's content, teaching methods, and resources.",
-                      style: textTheme.bodyMedium,
-                    ),
+                    // const SizedBox(height: 10),
+                    // Text(
+                    //   "Detailed information about the module's content, teaching methods, and resources.",
+                    //   style: textTheme.bodyMedium,
+                    // ),
                     const SizedBox(height: 16),
                     CostomDropDown(
                       title: "Key Concepts",
@@ -48,6 +48,7 @@ class ModuleInformation extends StatelessWidget {
                             module.keyConcepts.isNotEmpty
                                 ? module.keyConcepts
                                 : "No key concepts available",
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -61,7 +62,10 @@ class ModuleInformation extends StatelessWidget {
                         children: [
                           Text(
                             "Primary Materials",
-                            style: textTheme.titleMedium,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           const SizedBox(height: 10),
                           ...module.primaryMaterials.map(
@@ -80,7 +84,7 @@ class ModuleInformation extends StatelessWidget {
                                       material.isNotEmpty
                                           ? material
                                           : "Not specified",
-                                      style: textTheme.bodyMedium,
+                                      style: TextStyle(fontSize: 12),
                                     ),
                                   ),
                                 ],
@@ -90,7 +94,10 @@ class ModuleInformation extends StatelessWidget {
                           const SizedBox(height: 10),
                           Text(
                             "Secondary Materials",
-                            style: textTheme.titleMedium,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           const SizedBox(height: 10),
                           ...module.secondaryMaterials.map(
@@ -109,7 +116,7 @@ class ModuleInformation extends StatelessWidget {
                                       material.isNotEmpty
                                           ? material
                                           : "Not specified",
-                                      style: textTheme.bodyMedium,
+                                      style: TextStyle(fontSize: 12),
                                     ),
                                   ),
                                 ],
@@ -117,7 +124,13 @@ class ModuleInformation extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Text("Digital Tools", style: textTheme.titleMedium),
+                          Text(
+                            "Digital Tools",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                           const SizedBox(height: 10),
                           ...module.digitalTools.map(
                             (tool) => Padding(
@@ -133,7 +146,7 @@ class ModuleInformation extends StatelessWidget {
                                   Expanded(
                                     child: Text(
                                       tool.isNotEmpty ? tool : "Not specified",
-                                      style: textTheme.bodyMedium,
+                                      style: TextStyle(fontSize: 12),
                                     ),
                                   ),
                                 ],
@@ -152,42 +165,54 @@ class ModuleInformation extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("Methods", style: textTheme.titleMedium),
+                          Text(
+                            "Methods",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                           const SizedBox(height: 10),
                           Text(
                             module.instructionMethods
                                 .map((method) => method.name)
                                 .join(', '),
-                            style: textTheme.bodyMedium,
+                            style: TextStyle(fontSize: 12),
                           ),
 
                           const SizedBox(height: 10),
                           Text(
                             "Technology Integration",
-                            style: textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.all(12),
-
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(module.technologyIntegration.name),
-                              ],
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           const SizedBox(height: 10),
+                          Column(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                module.technologyIntegration.name,
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 10),
                           Text(
                             "Differentiation Strategies",
-                            style: textTheme.titleMedium,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           const SizedBox(height: 10),
                           Text(
                             module.differentationStrategies.isNotEmpty
                                 ? module.differentationStrategies
                                 : "No differentiation strategies available",
-                            style: textTheme.bodyMedium,
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -203,7 +228,7 @@ class ModuleInformation extends StatelessWidget {
                             module.teachingStrategy.isNotEmpty
                                 ? module.teachingStrategy
                                 : "No teaching strategies available",
-                            style: textTheme.bodyMedium,
+                            style: TextStyle(fontSize: 12),
                           ),
 
                           const SizedBox(height: 10),
@@ -221,7 +246,7 @@ class ModuleInformation extends StatelessWidget {
                             module.inclusionStrategy.isNotEmpty
                                 ? module.inclusionStrategy
                                 : "No inclusion strategies available",
-                            style: textTheme.bodyMedium,
+                            style: TextStyle(fontSize: 12),
                           ),
 
                           const SizedBox(height: 10),
@@ -237,7 +262,7 @@ class ModuleInformation extends StatelessWidget {
                         children: [
                           Text(
                             "${module.duration.toStringAsFixed(0)} ${module.durationType.toLowerCase()}",
-                            style: textTheme.bodyMedium,
+                            style: TextStyle(fontSize: 12),
                           ),
 
                           const SizedBox(height: 10),

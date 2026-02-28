@@ -229,9 +229,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
           children: [
             Text(
               "Attendance",
-              style: textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
 
             const SizedBox(height: 24),

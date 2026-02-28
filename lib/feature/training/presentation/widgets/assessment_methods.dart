@@ -45,11 +45,11 @@ class AssessmentMethods extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      "Methods used to evaluate learning progress and outcomes.",
-                      style: textTheme.bodyMedium,
-                    ),
 
+                    // Text(
+                    //   "Methods used to evaluate learning progress and outcomes.",
+                    //   style: textTheme.bodyMedium,
+                    // ),
                     const SizedBox(height: 16),
                     CostomDropDown(
                       title: "Formative Assessments",
@@ -60,7 +60,7 @@ class AssessmentMethods extends StatelessWidget {
                           if (formativeAssessments.isEmpty)
                             Text(
                               "No formative assessments available",
-                              style: textTheme.bodyMedium,
+                              style: TextStyle(fontSize: 12),
                             )
                           else
                             ...formativeAssessments.map(
@@ -73,7 +73,10 @@ class AssessmentMethods extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         assessment.name,
-                                        style: textTheme.bodyMedium,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          // fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -94,7 +97,7 @@ class AssessmentMethods extends StatelessWidget {
                           if (summativeAssessments.isEmpty)
                             Text(
                               "No summative assessments available",
-                              style: textTheme.bodyMedium,
+                              style: TextStyle(fontSize: 12),
                             )
                           else
                             ...summativeAssessments.map(
@@ -107,7 +110,7 @@ class AssessmentMethods extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         assessment.name,
-                                        style: textTheme.bodyMedium,
+                                        style: TextStyle(fontSize: 12),
                                       ),
                                     ),
                                   ],
@@ -131,7 +134,7 @@ class AssessmentMethods extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   "No other assessments available",
-                                  style: textTheme.bodyMedium,
+                                  style: TextStyle(fontSize: 12),
                                 ),
                               ),
                             ],

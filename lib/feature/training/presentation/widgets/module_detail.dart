@@ -46,8 +46,14 @@ class _ModuleDetailViewState extends State<ModuleDetailView> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.trainingTitle),
+        backgroundColor: Colors.white,
+        centerTitle: false,
+        title: Text(
+          widget.trainingTitle,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

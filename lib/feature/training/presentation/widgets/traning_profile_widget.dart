@@ -64,6 +64,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
     TrainingProfileResponseEntity? trainingProfile,
     TextTheme textTheme,
   ) {
+    final colorTheme = Theme.of(context).colorScheme;
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -80,15 +81,10 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                 children: [
                   Text(
                     "Traning Profile",
-                    style: textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    "The Training Profile section is designed to provide a comprehensive overview of a training program.",
-                    style: textTheme.bodyMedium,
-                  ),
+
                   const SizedBox(height: 16),
                   CostomDropDown(
                     title: "Keywords",
@@ -104,19 +100,12 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                       vertical: 6,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                        255,
-                                        232,
-                                        232,
-                                        232,
-                                      ),
-                                      borderRadius: BorderRadius.circular(4),
+                                      color: colorTheme.surfaceContainer,
+                                      borderRadius: BorderRadius.circular(22),
                                     ),
                                     child: Text(
                                       keyword,
-                                      style: textTheme.bodyLarge?.copyWith(
-                                        color: Colors.black,
-                                      ),
+                                      style: TextStyle(fontSize: 10),
                                     ),
                                   ),
                                 )
@@ -170,7 +159,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       children: [
                         Text(
                           trainingProfile?.trainingProfile.scope ?? "",
-                          style: textTheme.bodyLarge,
+                          style: TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
@@ -184,7 +173,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       children: [
                         Text(
                           "${trainingProfile?.trainingProfile.attendanceRequirementPercentage ?? 100}% minimum attendance required",
-                          style: textTheme.bodyLarge,
+                          style: TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
@@ -198,7 +187,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       children: [
                         Text(
                           "${trainingProfile?.trainingProfile.assessmentResultPercentage ?? 100}% minimum assessment result required",
-                          style: textTheme.bodyLarge,
+                          style: TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
@@ -216,7 +205,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                   ?.trainingProfile
                                   .professionalBackground ??
                               '',
-                          style: textTheme.bodyLarge,
+                          style: TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
@@ -239,11 +228,14 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("• ", style: textTheme.bodyLarge),
+                                      Text(
+                                        "• ",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
                                       Expanded(
                                         child: Text(
                                           alignment.name,
-                                          style: textTheme.bodyLarge,
+                                          style: TextStyle(fontSize: 12),
                                         ),
                                       ),
                                     ],
@@ -271,7 +263,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                     .priorKnowledgeList
                                     .join(", ")
                               : "No prior knowledge required",
-                          style: textTheme.bodyLarge,
+                          style: TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
@@ -294,11 +286,14 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("• ", style: textTheme.bodyLarge),
+                                      Text(
+                                        "• ",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
                                       Expanded(
                                         child: Text(
                                           style.name,
-                                          style: textTheme.bodyLarge,
+                                          style: TextStyle(fontSize: 12),
                                         ),
                                       ),
                                     ],
@@ -323,11 +318,14 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("• ", style: textTheme.bodyLarge),
+                                      Text(
+                                        "• ",
+                                        style: TextStyle(fontSize: 12),
+                                      ),
                                       Expanded(
                                         child: Text(
                                           tool.name,
-                                          style: textTheme.bodyLarge,
+                                          style: TextStyle(fontSize: 12),
                                         ),
                                       ),
                                     ],
@@ -346,8 +344,9 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       children: [
                         Text(
                           "For Learners",
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(height: 5),
@@ -369,7 +368,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                       Expanded(
                                         child: Text(
                                           req.name,
-                                          style: textTheme.bodyLarge,
+                                          style: TextStyle(fontSize: 12),
                                         ),
                                       ),
                                     ],
@@ -382,8 +381,9 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
 
                         Text(
                           "For Instructors",
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(height: 5),
@@ -405,7 +405,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                                       Expanded(
                                         child: Text(
                                           req.name,
-                                          style: textTheme.bodyLarge,
+                                          style: TextStyle(fontSize: 12),
                                         ),
                                       ),
                                     ],
@@ -422,13 +422,22 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                     content: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("General Objective", style: textTheme.titleMedium),
+                        Text(
+                          "General Objective",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
                           children: const [
-                            Text("No general objective available"),
+                            Text(
+                              "No general objective available",
+                              style: TextStyle(fontSize: 12),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 20),

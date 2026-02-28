@@ -8,6 +8,7 @@ import 'package:gheero/feature/training/presentation/widgets/module_widget.dart'
 import 'package:gheero/feature/training/presentation/widgets/mysessions_widget.dart';
 import 'package:gheero/feature/training/presentation/widgets/overview_wiget.dart';
 import 'package:gheero/feature/training/presentation/widgets/traning_profile_widget.dart';
+import 'package:go_router/go_router.dart';
 import '../bloc/training_bloc/training_bloc.dart';
 import '../bloc/training_bloc/training_event.dart';
 import '../bloc/training_bloc/training_state.dart';
@@ -57,12 +58,13 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
             title: title,
             showBackButton: true,
             onBackTap: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              });
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              } else {
+                context.go('/training');
+              }
             },
+
             onMenuTap: () {},
             onNotificationTap: () {},
             onProfileTap: () {},

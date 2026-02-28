@@ -59,15 +59,16 @@ class _ModuleWidgetState extends State<ModuleWidget> {
                     children: [
                       Text(
                         "Modules",
-                        style: textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        "A concise summary of course modules, outlining their content and structure",
-                        style: textTheme.bodyMedium,
-                      ),
+                      // Text(
+                      //   "A concise summary of course modules, outlining their content and structure",
+                      //   style: textTheme.bodyMedium,
+                      // ),
                       const SizedBox(height: 16),
                       if (state is ModuleLoading)
                         const Center(child: CircularProgressIndicator())

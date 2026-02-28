@@ -80,15 +80,13 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                 children: [
                   Text(
                     "Audience Profile",
-                    style: textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    "A concise summary of the course audience, outlining their learning level and prerequisites",
-                    style: textTheme.bodyMedium,
-                  ),
+                  // Text(
+                  //   "A concise summary of the course audience, outlining their learning level and prerequisites",
+                  //   style: textTheme.bodyMedium,
+                  // ),
                   const SizedBox(height: 16),
                   CostomDropDown(
                     title: "Learner Characteristics",
@@ -97,8 +95,9 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                       children: [
                         Text(
                           "Learning Level",
-                          style: textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -109,7 +108,7 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                             null)
                           Text(
                             audienceProfile!.audienceProfile.learnerLevel.name,
-                            style: textTheme.bodyLarge,
+                            style: TextStyle(fontSize: 12),
                           ),
                         const SizedBox(height: 10),
                       ],
@@ -123,8 +122,9 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                       children: [
                         Text(
                           "Language",
-                          style: textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -132,14 +132,15 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                             null)
                           Text(
                             audienceProfile!.audienceProfile.language.name,
-                            style: textTheme.bodyLarge,
+                            style: TextStyle(fontSize: 12),
                           ),
                         const SizedBox(height: 20),
 
                         Text(
                           "Education Level",
-                          style: textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -153,14 +154,15 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                                 .audienceProfile
                                 .educationLevel
                                 .name,
-                            style: textTheme.bodyLarge,
+                            style: TextStyle(fontSize: 12),
                           ),
                         const SizedBox(height: 20),
 
                         Text(
                           "Work Experience",
-                          style: textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -174,7 +176,7 @@ class _AudienceProfileWidgetState extends State<AudienceProfileWidget> {
                                 .audienceProfile
                                 .workExperience
                                 .name,
-                            style: textTheme.bodyLarge,
+                            style: TextStyle(fontSize: 12),
                           ),
                         const SizedBox(height: 10),
                       ],
