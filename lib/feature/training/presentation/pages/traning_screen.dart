@@ -51,8 +51,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: "Training",
+        title: "Trainings",
         onMenuTap: () {},
         onNotificationTap: () {},
         onProfileTap: () {},
@@ -133,39 +134,44 @@ class _TrainingScreenState extends State<TrainingScreen> {
               );
             }
 
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<TrainingBloc>().add(
-                  GetTrainingsEvent(page: _currentPage, pageSize: _pageSize),
-                );
-              },
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: trainings.length,
-                itemBuilder: (context, index) {
-                  final training = trainings[index];
-                  return Card(
-                    elevation: 4,
-                    margin: const EdgeInsets.only(bottom: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: CustomCard(
-                      traningName: training.title,
-                      locaton: _formatZones(training.zones),
-                      time: _formatDuration(
-                        training.duration,
-                        training.durationType,
-                      ),
-                      age: _formatAgeGroups(training.ageGroups),
-                      rationale: training.rationale,
-                      nextpage: 'View training',
-                      onNextTap: () {
-                        context.go('/trainingDetails/${training.id}');
-                      },
-                    ),
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  context.read<TrainingBloc>().add(
+                    GetTrainingsEvent(page: _currentPage, pageSize: _pageSize),
                   );
                 },
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: trainings.length,
+                  itemBuilder: (context, index) {
+                    final training = trainings[index];
+                    return Card(
+                      elevation: 0,
+                      color: Colors.white,
+                      margin: const EdgeInsets.only(bottom: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(color: Colors.grey.shade300, width: 1),
+                      ),
+                      child: CustomCard(
+                        traningName: training.title,
+                        locaton: _formatZones(training.zones),
+                        time: _formatDuration(
+                          training.duration,
+                          training.durationType,
+                        ),
+                        age: _formatAgeGroups(training.ageGroups),
+                        rationale: training.rationale,
+                        nextpage: 'View training',
+                        onNextTap: () {
+                          context.go('/trainingDetails/${training.id}');
+                        },
+                      ),
+                    );
+                  },
+                ),
               ),
             );
           }

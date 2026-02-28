@@ -26,16 +26,15 @@ class CustomCard extends StatelessWidget {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             traningName,
-            style: textTheme.titleLarge?.copyWith(color: colorTheme.primary),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
-
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
 
           Row(
             children: [
@@ -45,23 +44,23 @@ class CustomCard extends StatelessWidget {
                 color: colorTheme.secondary,
               ),
               const SizedBox(width: 5),
-              Text("N/A", style: textTheme.bodySmall),
+              Text("N/A", style: TextStyle(fontSize: 12)),
               const SizedBox(width: 20),
 
               Icon(Icons.timer_outlined, size: 16, color: colorTheme.secondary),
               const SizedBox(width: 5),
-              Text(time, style: textTheme.bodySmall),
+              Text(time, style: TextStyle(fontSize: 12)),
               const SizedBox(width: 20),
 
-              Text(age, style: textTheme.bodySmall),
+              Text(age, style: TextStyle(fontSize: 12)),
             ],
           ),
 
+          const SizedBox(height: 15),
+
+          Text(rationale, style: TextStyle(fontSize: 12)),
+
           const SizedBox(height: 20),
-
-          Text(rationale, style: textTheme.bodyMedium),
-
-          const SizedBox(height: 16),
 
           Align(
             alignment: Alignment.centerRight,
@@ -69,16 +68,21 @@ class CustomCard extends StatelessWidget {
               onTap: onNextTap,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     nextpage,
-                    style: textTheme.bodyMedium?.copyWith(
+                    style: TextStyle(
+                      fontSize: 12,
                       color: colorTheme.primary,
+                      height: 1,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
+                  const SizedBox(width: 5),
                   Icon(
-                    Icons.navigate_next,
-                    size: 20,
+                    Icons.arrow_forward,
+                    size: 16,
                     color: colorTheme.primary,
                   ),
                 ],

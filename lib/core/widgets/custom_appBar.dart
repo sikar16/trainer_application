@@ -24,24 +24,36 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.only(bottom: 10, left: 32, top: 5),
+      margin: EdgeInsets.only(bottom: 5),
+      padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
       // decoration: const BoxDecoration(
       //   border: Border(
       //     bottom: BorderSide(color: Color.fromARGB(255, 210, 210, 210)),
       //   ),
       // ),
       child: AppBar(
-        backgroundColor: colorScheme.surface,
-
+        backgroundColor: Colors.white,
         elevation: 0,
+        toolbarHeight: 40,
+        leadingWidth: 30,
         leading: showBackButton
             ? IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: onBackTap ?? () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.navigate_before),
+                onPressed:
+                    onBackTap ??
+                    () {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        context.go('/training');
+                      }
+                    },
               )
             : null,
-        title: Text(title, style: textTheme.titleMedium),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
         centerTitle: false,
       ),
     );

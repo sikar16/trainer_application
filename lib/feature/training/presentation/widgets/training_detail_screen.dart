@@ -51,9 +51,17 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
         }
 
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: CustomAppBar(
             title: title,
             showBackButton: true,
+            onBackTap: () {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              });
+            },
             onMenuTap: () {},
             onNotificationTap: () {},
             onProfileTap: () {},
