@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gheero/core/widgets/custom_appbar.dart';
 import 'package:gheero/feature/training/presentation/widgets/audience_profile_widget.dart';
 import 'package:gheero/feature/training/presentation/widgets/content_widget.dart';
@@ -131,7 +132,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          height: 30,
+          height: 20,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: tabs.length,
@@ -146,12 +147,9 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                 },
                 child: Row(
                   children: [
-                    Icon(
-                      _getIconForTab(tabs[index]),
-                      size: 20,
-                      color: isSelected
-                          ? colorTheme.primary
-                          : colorTheme.secondary,
+                    _getIconForTab(
+                      tabs[index],
+                      isSelected ? colorTheme.primary : colorTheme.secondary,
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -182,22 +180,52 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
     );
   }
 
-  IconData _getIconForTab(String tab) {
+  Widget _getIconForTab(String tab, Color color) {
     switch (tab) {
       case "Overview":
-        return Icons.dashboard_outlined;
+        return SvgPicture.asset(
+          'assets/icons/overview.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        );
       case "Training Profile":
-        return Icons.cast_for_education;
+        return SvgPicture.asset(
+          'assets/icons/training_profile.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        );
       case "Audience Profile":
-        return Icons.group_outlined;
+        return SvgPicture.asset(
+          'assets/icons/audience_profile.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        );
       case "Module":
-        return Icons.view_module_outlined;
+        return SvgPicture.asset(
+          'assets/icons/module.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        );
       case "My Sessions":
-        return Icons.event_note_outlined;
+        return SvgPicture.asset(
+          'assets/icons/sessions.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        );
       case "Content":
-        return Icons.menu_book_outlined;
+        return SvgPicture.asset(
+          'assets/icons/content.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        );
       default:
-        return Icons.help_outline;
+        return Icon(Icons.help_outline, color: color, size: 20);
     }
   }
 

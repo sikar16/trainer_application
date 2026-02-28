@@ -40,9 +40,9 @@ class AppMenu extends StatelessWidget {
           // Header with logo
           Row(
             children: [
-              Image.asset('asset/images/gheero.png', width: 40, height: 40),
+              Image.asset('assets/images/gheero.png', width: 40, height: 40),
               const SizedBox(width: 8),
-              Image.asset('asset/images/gheeroH.png', width: 50, height: 35),
+              Image.asset('assets/images/gheeroH.png', width: 50, height: 35),
             ],
           ),
           const SizedBox(height: 20),

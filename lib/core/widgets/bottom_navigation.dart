@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class BottomNavigation extends StatelessWidget {
@@ -11,13 +12,16 @@ class BottomNavigation extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
+        border: Border(
+          top: BorderSide(color: Colors.grey.withValues(alpha: 0.2)),
+        ),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.1),
+        //     blurRadius: 10,
+        //     offset: const Offset(0, -2),
+        //   ),
+        // ],
       ),
       child: BottomNavigationBar(
         currentIndex: currentIndex,
@@ -48,20 +52,74 @@ class BottomNavigation extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
 
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.school_outlined),
-            activeIcon: Icon(Icons.school),
+            icon: SvgPicture.asset(
+              'assets/icons/training_profile.svg',
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                currentIndex == 0
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
+                BlendMode.srcIn,
+              ),
+            ),
+            activeIcon: SvgPicture.asset(
+              'assets/icons/training_profile.svg',
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
+              ),
+            ),
             label: 'Trainings',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.work_outline),
-            activeIcon: Icon(Icons.work),
+            icon: SvgPicture.asset(
+              'assets/icons/job.svg',
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                currentIndex == 1
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
+                BlendMode.srcIn,
+              ),
+            ),
+            activeIcon: SvgPicture.asset(
+              'assets/icons/job.svg',
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
+              ),
+            ),
             label: 'Jobs',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
+            icon: SvgPicture.asset(
+              'assets/icons/account.svg',
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                currentIndex == 2
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
+                BlendMode.srcIn,
+              ),
+            ),
+            activeIcon: SvgPicture.asset(
+              'assets/icons/account.svg',
+              width: 20,
+              height: 20,
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).primaryColor,
+                BlendMode.srcIn,
+              ),
+            ),
             label: 'Account',
           ),
         ],
