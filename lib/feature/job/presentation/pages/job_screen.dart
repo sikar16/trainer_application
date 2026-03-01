@@ -21,7 +21,7 @@ class _JobScreenState extends State<JobScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
       appBar: CustomAppBar(
-        title: "Job",
+        title: "Jobs",
         onMenuTap: () {},
         onNotificationTap: () {},
         onProfileTap: () {},
@@ -55,25 +55,28 @@ class _JobScreenState extends State<JobScreen> {
 
     return GestureDetector(
       onTap: () => setState(() => selectedTopTab = tab),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.normal,
-              color: selected ? Theme.of(context).primaryColor : Colors.grey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: selected ? Theme.of(context).primaryColor : Colors.grey,
+              ),
             ),
-          ),
-          if (selected)
-            Container(
-              margin: const EdgeInsets.only(top: 6),
-              height: 2,
-              width: tab == TopTab.jobs ? 40 : 120,
-              color: Theme.of(context).primaryColor,
-            ),
-        ],
+            if (selected)
+              Container(
+                margin: const EdgeInsets.only(top: 6),
+                height: 2,
+                width: tab == TopTab.jobs ? 40 : 120,
+                color: Theme.of(context).primaryColor,
+              ),
+          ],
+        ),
       ),
     );
   }

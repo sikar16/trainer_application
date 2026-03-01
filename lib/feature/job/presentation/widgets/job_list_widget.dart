@@ -60,9 +60,9 @@ class _JobListWidgetState extends State<JobListWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _searchBar(),
-        const SizedBox(height: 16),
-        _filterTabs(),
+        // _searchBar(), // Commented out search functionality
+        // const SizedBox(height: 16),
+        // _filterTabs(), // Commented out filter functionality
         const SizedBox(height: 16),
         Expanded(child: _content()),
       ],
@@ -273,6 +273,7 @@ class JobCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeColor = Theme.of(context).primaryColor;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -285,7 +286,7 @@ class JobCard extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           ),
 
           const SizedBox(height: 16),
@@ -298,14 +299,17 @@ class JobCard extends StatelessWidget {
                 children: [
                   Text(
                     createdAt,
-                    style: TextStyle(color: Colors.grey.shade600),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
                   ),
                   const SizedBox(width: 8),
-                  Text("-", style: TextStyle(color: Colors.grey.shade600)),
+                  Text(
+                    "-",
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     deadlineDate,
-                    style: TextStyle(color: Colors.grey.shade600),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
                   ),
                 ],
               ),
@@ -318,7 +322,7 @@ class JobCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 "$sessions Sessions",
-                style: TextStyle(color: Colors.grey.shade600),
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
               ),
             ],
           ),
@@ -327,7 +331,7 @@ class JobCard extends StatelessWidget {
 
           Text(
             description,
-            style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
           ),
 
           const SizedBox(height: 12),
@@ -337,7 +341,7 @@ class JobCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 "3 months ago",
-                style: TextStyle(color: Colors.grey.shade600),
+                style: TextStyle(color: colorScheme.primary, fontSize: 10),
               ),
             ],
           ),
@@ -351,18 +355,15 @@ class JobCard extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: themeColor),
                 foregroundColor: themeColor,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 6,
-                ),
+                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(6),
                 ),
               ),
               child: InkWell(
                 onTap: () => GoRouter.of(context).go('/job_detail/$id'),
                 child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   child: Text(
                     "View Detaile",
                     style: TextStyle(fontWeight: FontWeight.w600),

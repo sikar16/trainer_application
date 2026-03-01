@@ -49,7 +49,7 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _filterTabs(),
+        // _filterTabs(), // Commented out filter functionality
         const SizedBox(height: 16),
         Expanded(child: _content()),
       ],
@@ -245,8 +245,8 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
                 child: Text(
                   application.job.title,
                   style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -262,13 +262,13 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
                 children: [
                   Icon(
                     Icons.calendar_today,
-                    size: 16,
+                    size: 10,
                     color: Colors.grey.shade600,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 4),
                   Text(
                     _formatDate(application.createdAt),
-                    style: TextStyle(color: Colors.grey.shade600),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
                   ),
                 ],
               ),
@@ -276,13 +276,13 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
                 children: [
                   Icon(
                     Icons.menu_book_outlined,
-                    size: 16,
+                    size: 10,
                     color: Colors.grey.shade600,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     "${application.job.numberOfSessions} Sessions",
-                    style: TextStyle(color: Colors.grey.shade600),
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
                   ),
                 ],
               ),
@@ -322,7 +322,7 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
                           _getAppliedRole(application.applicationType),
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 13,
+                            fontSize: 12,
                           ),
                         ),
                         const SizedBox(width: 8),
