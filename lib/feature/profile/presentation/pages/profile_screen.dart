@@ -496,7 +496,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFFFFFFF),
         appBar: CustomAppBar(
           title: "Profile",
           onMenuTap: () {},

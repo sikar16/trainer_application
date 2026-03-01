@@ -290,7 +290,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
               : null;
 
           return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: const Color(0xFFFFFFFF),
             appBar: AppBar(
               title: Text(
                 hasReport ? 'View Session Report' : 'Add Report',
@@ -300,9 +300,9 @@ class _ViewReportPageState extends State<ViewReportPage> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: const Color(0xFFFFFFFF),
               centerTitle: false,
-              foregroundColor: Colors.black,
+              // foregroundColor: Colors.black,
               elevation: 1,
             ),
             body: isLoading

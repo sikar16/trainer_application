@@ -67,6 +67,7 @@ class _JobDetailViewState extends State<JobDetailView> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFFFFFFFF),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -331,7 +332,7 @@ class _JobDetailViewState extends State<JobDetailView> {
               });
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.primary,
+              backgroundColor: const Color(0xFFFFFFFF),
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

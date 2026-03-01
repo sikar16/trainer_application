@@ -51,7 +51,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: CustomAppBar(
         title: "Trainings",
         onMenuTap: () {},

@@ -59,14 +59,17 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
     return BlocProvider(
       create: (context) => sl<ProfileBloc>(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Edit Profile')),
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFFFFFFF),
+          title: const Text('Edit Profile'),
+        ),
         body: BlocListener<ProfileBloc, ProfileState>(
           listener: (context, state) {
             if (state is ProfileEditSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
-                  backgroundColor: Colors.green,
+                  backgroundColor: const Color(0xFFFFFFFF),
                 ),
               );
 

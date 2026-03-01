@@ -19,7 +19,7 @@ class _JobScreenState extends State<JobScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: CustomAppBar(
         title: "Job",
         onMenuTap: () {},

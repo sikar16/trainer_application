@@ -46,9 +46,9 @@ class _ModuleDetailViewState extends State<ModuleDetailView> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFFFFFF),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFFFFFFF),
         centerTitle: false,
         title: Text(
           widget.trainingTitle,
