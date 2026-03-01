@@ -436,6 +436,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                     SurveyCompletionRemoteDataSource(apiClient: ApiClient()),
                   ),
                 ),
+
                 child: TraineeDataTableWidget(
                   selectedCohortId: _selectedCohortId,
                   selectedSessionId: _selectedSessionId,

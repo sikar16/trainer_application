@@ -235,7 +235,10 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                   if (trainees.isEmpty) {
                     return CommonCard(
                       padding: const EdgeInsets.all(20),
-                      child: const Text('No trainees available'),
+                      child: const Text(
+                        'No trainees available',
+                        style: TextStyle(fontSize: 12),
+                      ),
                     );
                   }
 
@@ -333,52 +336,52 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
               DataColumn(
                 label: Text(
                   "Full Name",
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
               ),
               DataColumn(
                 label: Text(
                   "Phone Number",
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
               ),
               DataColumn(
                 label: Text(
                   "Date",
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
               ),
               DataColumn(
                 label: Text(
                   "Attendance",
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
               ),
               DataColumn(
                 label: Text(
                   "ID & Consent Form",
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
               ),
               if (widget.selectedSurveyId != null)
                 DataColumn(
                   label: Text(
                     "Survey Status",
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                 ),
               if (widget.selectedAssessmentId != null)
                 DataColumn(
                   label: Text(
                     "Pre Assessment Score",
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                 ),
               if (widget.selectedAssessmentId != null)
                 DataColumn(
                   label: Text(
                     "Post Assessment Score",
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   ),
                 ),
             ],
@@ -411,9 +414,27 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                 },
                               ),
                             ),
-                            DataCell(Text(trainee.fullName)),
-                            DataCell(Text(trainee.contactPhone)),
-                            DataCell(Text(sessionDate ?? 'N/A')),
+                            DataCell(
+                              Text(
+                                trainee.fullName,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                trainee.contactPhone,
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                sessionDate ?? 'N/A',
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ),
                             DataCell(
                               AttendanceChipWidget(
                                 initialIsPresent: initialIsPresent,
@@ -451,7 +472,6 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                           "Loading...",
                                           style: TextStyle(
                                             color: Colors.grey.shade600,
-                                            fontWeight: FontWeight.w500,
                                             fontSize: 12,
                                           ),
                                         )
@@ -478,14 +498,14 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                                     trainee.id,
                                                   )
                                                   ? "Completed"
-                                                  : "Not completed",
+                                                  : "Not Completed",
                                               style: TextStyle(
                                                 color:
                                                     completedTraineeIds
                                                         .contains(trainee.id)
-                                                    ? const Color(0xFF16A349)
+                                                    ? Colors.green
                                                     : Colors.grey.shade500,
-                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
                                               ),
                                             ),
                                           ],
@@ -511,7 +531,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                               "Loading...",
                                               style: TextStyle(
                                                 color: Colors.grey,
-                                                fontSize: 14,
+                                                fontSize: 12,
                                               ),
                                             );
                                           }
@@ -556,10 +576,9 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                                           traineeAttempt
                                                                   ?.preAssessmentScore !=
                                                               null
-                                                          ? Colors.black87
+                                                          ? Colors.black
                                                           : Colors.grey,
-
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                     ),
                                                   ),
                                                 ),
@@ -571,7 +590,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                             "Not taken",
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14,
+                                              fontSize: 12,
                                             ),
                                           );
                                         },
@@ -601,7 +620,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                                   "Loading...",
                                                   style: TextStyle(
                                                     color: Colors.grey,
-                                                    fontSize: 14,
+                                                    fontSize: 12,
                                                   ),
                                                 ),
                                               ],
@@ -665,7 +684,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                                             46,
                                                           )
                                                         : Colors.grey,
-                                                    fontSize: 14,
+                                                    fontSize: 12,
                                                   ),
                                                 ),
                                               ),
@@ -871,7 +890,6 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
       );
 
       if (i == endPage && endPage < _totalPages) {
-        // Add ellipsis if needed
         pageNumbers.add(
           Container(margin: const EdgeInsets.symmetric(horizontal: 2)),
         );
@@ -938,7 +956,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                         "No documents",
                         style: TextStyle(
                           color: Colors.grey.shade600,
-                          fontSize: 11,
+                          fontSize: 12,
                         ),
                       ),
                     ],
