@@ -702,6 +702,10 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
 
   Widget _buildPaginationControls() {
     final colorScheme = Theme.of(context).colorScheme;
+    final startItem = (_currentPage - 1) * _pageSize + 1;
+    final endItem = (_currentPage * _pageSize < _totalElements)
+        ? _currentPage * _pageSize
+        : _totalElements;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -712,115 +716,169 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
           bottomRight: Radius.circular(12),
         ),
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Show:',
-                      style: TextStyle(
-                        color: colorScheme.onSurface,
-                        fontSize: 12,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: colorScheme.outline),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: DropdownButton<int>(
-                        value: _pageSize,
-                        underline: const SizedBox(),
-                        isDense: true,
-                        items: [5, 10, 20, 50].map((size) {
-                          return DropdownMenuItem(
-                            value: size,
-                            child: Text(
-                              '$size',
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != null) {
-                            _onPageSizeChanged(value);
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
               Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButton(
-                    onPressed: _currentPage > 1
-                        ? () => _onPageChanged(_currentPage - 1)
-                        : null,
-                    icon: const Icon(Icons.chevron_left, size: 20),
-                    style: IconButton.styleFrom(
-                      backgroundColor: _currentPage > 1
-                          ? colorScheme.primary
-                          : colorScheme.surface,
-                      foregroundColor: _currentPage > 1
-                          ? colorScheme.onPrimary
-                          : colorScheme.onSurface,
-                      minimumSize: const Size(32, 32),
-                      padding: const EdgeInsets.all(4),
+                  Text(
+                    'Show',
+                    style: TextStyle(
+                      color: colorScheme.onSurface,
+                      fontSize: 14,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
-                      vertical: 6,
+                      vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: colorScheme.primary,
+                      border: Border.all(color: colorScheme.outline),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Text(
-                      '$_currentPage',
+                    child: DropdownButton<int>(
+                      value: _pageSize,
+                      underline: const SizedBox(),
+                      isDense: true,
                       style: TextStyle(
-                        color: colorScheme.onPrimary,
-                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
                         fontSize: 14,
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  IconButton(
-                    onPressed: _currentPage < _totalPages
-                        ? () => _onPageChanged(_currentPage + 1)
-                        : null,
-                    icon: const Icon(Icons.chevron_right, size: 20),
-                    style: IconButton.styleFrom(
-                      backgroundColor: _currentPage < _totalPages
-                          ? colorScheme.primary
-                          : colorScheme.surface,
-                      foregroundColor: _currentPage < _totalPages
-                          ? colorScheme.onPrimary
-                          : colorScheme.onSurface,
-                      minimumSize: const Size(32, 32),
-                      padding: const EdgeInsets.all(4),
+                      items: [5, 7, 10, 20, 50].map((size) {
+                        return DropdownMenuItem(
+                          value: size,
+                          child: Text(
+                            '$size',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          _onPageSizeChanged(value);
+                        }
+                      },
                     ),
                   ),
                 ],
               ),
             ],
           ),
+
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: _currentPage > 1
+                    ? () => _onPageChanged(_currentPage - 1)
+                    : null,
+                icon: const Icon(Icons.chevron_left, size: 20),
+                style: IconButton.styleFrom(
+                  // backgroundColor: _currentPage > 1
+                  //     ? colorScheme.primary
+                  //     : colorScheme.surface,
+                  // foregroundColor: _currentPage > 1
+                  //     ? colorScheme.onPrimary
+                  //     : colorScheme.onSurface,
+                  minimumSize: const Size(32, 32),
+                  padding: const EdgeInsets.all(4),
+                ),
+              ),
+
+              ..._buildPageNumbers(colorScheme),
+
+              IconButton(
+                onPressed: _currentPage < _totalPages
+                    ? () => _onPageChanged(_currentPage + 1)
+                    : null,
+                icon: const Icon(Icons.chevron_right, size: 20),
+                style: IconButton.styleFrom(
+                  minimumSize: const Size(32, 32),
+                  padding: const EdgeInsets.all(4),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildPageNumbers(ColorScheme colorScheme) {
+    final List<Widget> pageNumbers = [];
+    final maxVisiblePages = 2;
+
+    int startPage = 1;
+    int endPage = _totalPages;
+
+    if (_totalPages > maxVisiblePages) {
+      final halfVisible = maxVisiblePages ~/ 2;
+      startPage = (_currentPage - halfVisible).clamp(
+        1,
+        _totalPages - maxVisiblePages + 1,
+      );
+      endPage = startPage + maxVisiblePages - 1;
+    }
+
+    for (int i = startPage; i <= endPage; i++) {
+      // if (i == startPage && startPage > 1) {
+      //   pageNumbers.add(
+      //     Container(
+      //       margin: const EdgeInsets.symmetric(horizontal: 2),
+      //       child: Text(
+      //         '...',
+      //         style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
+      //       ),
+      //     ),
+      //   );
+      // }
+
+      pageNumbers.add(
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+          child: GestureDetector(
+            onTap: () => _onPageChanged(i),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: i == _currentPage ? colorScheme.primary : Colors.white,
+                ),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Center(
+                child: Text(
+                  '$i',
+                  style: TextStyle(
+                    // color: i == _currentPage
+                    //     ? colorScheme.onPrimary
+                    //     : colorScheme.onSurface,
+                    fontSize: 14,
+                    fontWeight: i == _currentPage
+                        ? FontWeight.w600
+                        : FontWeight.normal,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      if (i == endPage && endPage < _totalPages) {
+        // Add ellipsis if needed
+        pageNumbers.add(
+          Container(margin: const EdgeInsets.symmetric(horizontal: 2)),
+        );
+      }
+    }
+
+    return pageNumbers;
   }
 
   Widget _buildDocumentLinksWithEdit(
