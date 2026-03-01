@@ -136,8 +136,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                       widget.trainee != null
                           ? "Edit Documents"
                           : "Upload ID Documents",
-                      style: textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     IconButton(
@@ -160,7 +161,8 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                   children: [
                     Text(
                       "ID Type",
-                      style: textTheme.titleMedium?.copyWith(
+                      style: TextStyle(
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -183,14 +185,15 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                     underline: const SizedBox(),
                     hint: Text(
                       "Select ID type",
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     items: _availableIdTypes.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value, style: textTheme.bodyMedium),
+                        child: Text(value, style: TextStyle(fontSize: 12)),
                       );
                     }).toList(),
                     onChanged: (String? newValue) {
@@ -215,7 +218,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                   _selectedIdType == 'Consent Form'
                       ? "Consent Form"
                       : "Front of ID",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 12),
                 GestureDetector(
@@ -246,22 +249,15 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                                 child: GestureDetector(
                                   onTap: () => _pickFile(false),
                                   child: Container(
-                                    width: 32,
-                                    height: 32,
+                                    width: 26,
+                                    height: 26,
                                     decoration: BoxDecoration(
                                       color: colorScheme.primary,
                                       shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withValues(),
-                                          blurRadius: 4,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
                                     ),
                                     child: Icon(
                                       Icons.edit,
-                                      size: 16,
+                                      size: 14,
                                       color: colorScheme.onPrimary,
                                     ),
                                   ),
@@ -282,8 +278,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                                 _selectedIdType == 'Consent Form'
                                     ? "Upload Consent Form"
                                     : "Upload Front",
-                                style: textTheme.bodyMedium?.copyWith(
-                                  color: colorScheme.onSurfaceVariant,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
@@ -300,9 +297,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                 children: [
                   Text(
                     "Back of ID",
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 12),
                   GestureDetector(
@@ -333,24 +328,15 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                                   child: GestureDetector(
                                     onTap: () => _pickFile(true),
                                     child: Container(
-                                      width: 32,
-                                      height: 32,
+                                      width: 26,
+                                      height: 26,
                                       decoration: BoxDecoration(
                                         color: colorScheme.primary,
                                         shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withValues(
-                                              alpha: 0.8,
-                                            ),
-                                            blurRadius: 4,
-                                            offset: const Offset(0, 2),
-                                          ),
-                                        ],
                                       ),
                                       child: Icon(
                                         Icons.edit,
-                                        size: 16,
+                                        size: 14,
                                         color: colorScheme.onPrimary,
                                       ),
                                     ),
@@ -369,8 +355,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                                 const SizedBox(height: 8),
                                 Text(
                                   "Upload Back",
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    color: colorScheme.onSurfaceVariant,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ],
@@ -388,9 +375,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                 children: [
                   Text(
                     "Signature",
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 12),
                   GestureDetector(
@@ -413,7 +398,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                     },
                     child: Text(
                       "View Signature",
-                      style: textTheme.bodyMedium?.copyWith(
+
+                      style: TextStyle(
+                        fontSize: 12,
                         color: colorScheme.primary,
                         decoration: TextDecoration.underline,
                       ),
@@ -430,9 +417,7 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                 children: [
                   Text(
                     "Consent Form",
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 12),
                   GestureDetector(
@@ -455,9 +440,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                     },
                     child: Text(
                       "View Consent Form",
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.primary,
-                        decoration: TextDecoration.underline,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -499,8 +484,9 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                       _selectedIdType == 'Consent Form'
                           ? "Upload Consent Form"
                           : "Upload ID",
-                      style: textTheme.labelLarge?.copyWith(
-                        color: colorScheme.onPrimary,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
