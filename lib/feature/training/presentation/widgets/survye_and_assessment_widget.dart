@@ -50,7 +50,6 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
       widget.onHeightChanged!(height);
     }
 
-    // Clear selections when both are collapsed
     if (!isSurveyExpanded && !isAssessmentExpanded) {
       if (widget.onSurveySelected != null) {
         widget.onSurveySelected!(null, null);
@@ -64,6 +63,7 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -101,8 +101,6 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                 ],
               ),
 
-              const SizedBox(height: 10),
-
               if (isSurveyExpanded) _buildSurveyContent(),
 
               if (isAssessmentExpanded) _buildAssessmentContent(),
@@ -123,15 +121,8 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.grey.shade300),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.8),
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
-          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,7 +158,8 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButtonFormField<String>(
-                  value: selectedSurvey,
+                  initialValue: selectedSurvey,
+                  style: const TextStyle(fontSize: 14, color: Colors.black),
                   hint: const Text("Select survey to view completion status"),
                   isExpanded: true,
                   decoration: InputDecoration(
@@ -201,7 +193,7 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                 const SizedBox(height: 12),
                 const Text(
                   "Shows which students have completed the selected survey",
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ],
             ),
@@ -233,7 +225,8 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButtonFormField<String>(
-                  value: selectedAssessment,
+                  initialValue: selectedAssessment,
+                  style: const TextStyle(fontSize: 14, color: Colors.black),
                   hint: const Text("Select assessment to view scores"),
                   isExpanded: true,
                   decoration: InputDecoration(
@@ -268,7 +261,7 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                 const SizedBox(height: 12),
                 const Text(
                   "Shows assessment scores for selected assessment",
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ],
             ),

@@ -254,7 +254,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               },
             ),
             if (_hasSessions) ...[
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               SizedBox(
                 height: _surveyAssessmentHeight,
                 child: MultiBlocProvider(
@@ -307,9 +307,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                   ),
                 ),
               ),
-            ],
-            if (_hasSessions) ...[
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               BlocListener<SessionReportBloc, SessionReportState>(
                 listener: (context, state) {
                   setState(() {
@@ -334,14 +332,14 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                           }
                         : null,
                     icon: Icon(_hasReport ? Icons.visibility : Icons.add),
-                    label: Text(_hasReport ? "View Report" : "Add Report"),
+                    label: Text(
+                      _hasReport ? "View Report" : "Add Report",
+                      style: TextStyle(fontSize: 14),
+                    ),
                     style: OutlinedButton.styleFrom(
                       backgroundColor: colorScheme.primary,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: BorderSide(color: colorScheme.surface),
@@ -352,9 +350,10 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
               ),
               const SizedBox(height: 16),
 
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+              SizedBox(
+                width: double.infinity,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     BlocListener<AttendanceBloc, AttendanceState>(
                       listener: (context, state) {},
@@ -362,7 +361,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                         onPressed: _hasUnsavedChanges ? _saveAttendance : null,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
+                            horizontal: 14,
                             vertical: 12,
                           ),
                           backgroundColor: _hasUnsavedChanges
@@ -376,20 +375,17 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                           ),
                           elevation: 0,
                         ),
-                        child: SizedBox(
-                          child: Text(
-                            "Save Attendance",
-                            style: textTheme.labelLarge?.copyWith(
-                              color: _hasUnsavedChanges
-                                  ? colorScheme.onPrimary
-                                  : colorScheme.onSurfaceVariant,
-                            ),
+                        child: Text(
+                          "Save Attendance",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: _hasUnsavedChanges
+                                ? colorScheme.onPrimary
+                                : colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),
                     ),
-
-                    const SizedBox(width: 24),
 
                     SizedBox(
                       width: 235,
@@ -409,12 +405,9 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
                         ),
                       ),
                     ),
-
-                    const SizedBox(width: 12),
                   ],
                 ),
               ),
-
               const SizedBox(height: 16),
             ],
 

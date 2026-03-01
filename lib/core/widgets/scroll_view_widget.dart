@@ -46,7 +46,7 @@ class ScrollViewWidget extends StatelessWidget {
               _scrollItem(
                 context,
                 icon: Icons.event_note_outlined,
-                label: "My Sessions",
+                label: "Sessions",
                 route: '/my-sessions',
               ),
               const SizedBox(width: 40),

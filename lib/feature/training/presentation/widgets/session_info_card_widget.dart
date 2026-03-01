@@ -30,35 +30,31 @@ class SessionInfoCardWidget extends StatelessWidget {
     }
 
     return CommonCard(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InfoColumn(
-              title: selectedSession.name,
-              subtitle: "Cohort: ${selectedSession.cohort.name}",
-            ),
-            const SizedBox(width: 32),
-            InfoColumn(
-              title: "Date",
-              subtitle: selectedSession.formattedDate,
-              icon: Icons.calendar_today_outlined,
-            ),
-            const SizedBox(width: 32),
-            InfoColumn(
-              title: "Time",
-              subtitle: selectedSession.formattedTime,
-            ),
-            const SizedBox(width: 32),
-            InfoColumn(
-              title: "Location",
-              subtitle: selectedSession.trainingVenue?.location ??
-                  selectedSession.trainingVenue?.name ??
-                  "N/A",
-            ),
-          ],
-        ),
+      child: GridView.count(
+        crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        childAspectRatio: 2,
+        crossAxisSpacing: 6,
+        children: [
+          InfoColumn(
+            title: selectedSession.name,
+            subtitle: "Cohort: ${selectedSession.cohort.name}",
+          ),
+          InfoColumn(
+            title: "Date",
+            subtitle: selectedSession.formattedDate,
+            icon: Icons.calendar_today_outlined,
+          ),
+          InfoColumn(title: "Time", subtitle: selectedSession.formattedTime),
+          InfoColumn(
+            title: "Location",
+            subtitle:
+                selectedSession.trainingVenue?.location ??
+                selectedSession.trainingVenue?.name ??
+                "N/A",
+          ),
+        ],
       ),
     );
   }

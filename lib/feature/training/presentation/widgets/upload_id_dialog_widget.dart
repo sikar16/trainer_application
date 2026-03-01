@@ -127,28 +127,27 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.trainee != null
-                        ? "Edit Documents "
-                        : "Upload ID Documents",
-                    style: textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+              child: SizedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.trainee != null
+                          ? "Edit Documents"
+                          : "Upload ID Documents",
+                      style: textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 70),
-                  IconButton(
-                    icon: Icon(Icons.close),
-
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
 

@@ -15,7 +15,7 @@ class CommonCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: colorScheme.outlineVariant),
-        color: colorScheme.surface,
+        color: Colors.white,
       ),
       child: child,
     );
@@ -80,19 +80,12 @@ class InfoColumn extends StatelessWidget {
             if (icon != null) const SizedBox(width: 6),
             Text(
               title,
-              style: textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
             ),
           ],
         ),
         const SizedBox(height: 6),
-        Text(
-          subtitle,
-          style: textTheme.bodySmall?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
+        Text(subtitle, maxLines: 2, overflow: TextOverflow.ellipsis),
       ],
     );
   }

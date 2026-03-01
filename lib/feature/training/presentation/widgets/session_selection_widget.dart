@@ -27,7 +27,7 @@ class SessionSelectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    
+
     if (selectedCohortId == null) return const SizedBox.shrink();
 
     return BlocListener<SessionBloc, SessionState>(

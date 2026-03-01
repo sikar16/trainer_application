@@ -246,9 +246,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
           ? (context.read<SessionReportBloc>().state as FilesUpdated).files
                 .map(
                   (file) => {
-                    'reportFileTypeId':
-                        file['typeId'] ??
-                        '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    'reportFileTypeId': file['typeId'],
                     'file': file['path'] ?? file['name'] ?? '',
                   },
                 )
@@ -292,9 +290,18 @@ class _ViewReportPageState extends State<ViewReportPage> {
               : null;
 
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              title: Text(hasReport ? 'View Session Report' : 'Add Report'),
+              title: Text(
+                hasReport ? 'View Session Report' : 'Add Report',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               backgroundColor: Colors.white,
+              centerTitle: false,
               foregroundColor: Colors.black,
               elevation: 1,
             ),
@@ -377,7 +384,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
         children: [
           const Text(
             "Session Overview",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 40),
 
@@ -419,10 +426,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
+        Text(title, style: const TextStyle(fontSize: 14, color: Colors.black)),
         const SizedBox(height: 12),
         ...controllers.asMap().entries.map((entry) {
           int index = entry.key;
@@ -445,12 +449,14 @@ class _ViewReportPageState extends State<ViewReportPage> {
                       child: TextField(
                         controller: controller,
                         readOnly: hasReport,
+                        style: const TextStyle(fontSize: 14),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.all(12),
                           hintText: hasReport ? null : hintText,
+                          hintStyle: const TextStyle(fontSize: 14),
                           errorText: showError ? validationMessage : null,
                           errorStyle: const TextStyle(
                             color: Colors.red,
@@ -504,7 +510,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
         children: [
           const Text(
             "Learner Feedback and Satisfaction",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 40),
 
@@ -573,7 +579,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
         children: [
           const Text(
             "Self-Reflection on Teaching Practices",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 40),
 
@@ -631,7 +637,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
         children: [
           const Text(
             "Recommendations",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 40),
 
@@ -703,7 +709,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
         children: [
           const Text(
             "Supporting Documents",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 40),
 
@@ -840,7 +846,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
           ] else ...[
             const Text(
               "Attached Documents:",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 12),
             const Text('No documents attached'),
@@ -870,7 +876,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 12),
         TextField(
@@ -881,6 +887,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
             contentPadding: const EdgeInsets.all(12),
             hintText: hasReport ? null : hintText,
+            hintStyle: const TextStyle(fontSize: 14),
             errorText: showError ? validationMessage : null,
             errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
             focusedBorder: OutlineInputBorder(
@@ -898,6 +905,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
               ),
             ),
           ),
+          style: const TextStyle(fontSize: 14),
         ),
       ],
     );
@@ -923,7 +931,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 12),
         if (hasReport)
@@ -940,6 +948,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
               ),
               contentPadding: const EdgeInsets.all(16),
             ),
+            style: const TextStyle(fontSize: 14),
           )
         else
           DropdownButtonFormField<int>(
@@ -950,6 +959,7 @@ class _ViewReportPageState extends State<ViewReportPage> {
               ),
               contentPadding: const EdgeInsets.all(16),
               hintText: 'Select score',
+              hintStyle: const TextStyle(fontSize: 14),
               errorText: showError ? validationMessage : null,
               errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
               focusedBorder: OutlineInputBorder(
@@ -967,11 +977,15 @@ class _ViewReportPageState extends State<ViewReportPage> {
                 ),
               ),
             ),
+            style: const TextStyle(fontSize: 14),
             items: [
               for (int score = 1; score <= 5; score++)
                 DropdownMenuItem(
                   value: score,
-                  child: Text('$score - ${getText(score)}'),
+                  child: Text(
+                    '$score - ${getText(score)}',
+                    style: const TextStyle(fontSize: 14),
+                  ),
                 ),
             ],
             onChanged: onChanged,

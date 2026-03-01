@@ -146,9 +146,7 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
                     color: _isPresent ? presentColor : Colors.grey.shade400,
                     width: 2,
                   ),
-                  color: _isPresent
-                      ? presentColor.withValues(alpha: 0.8)
-                      : null,
+                  color: Colors.transparent,
                 ),
                 child: Icon(
                   Icons.check,
@@ -170,9 +168,7 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
                     color: !_isPresent ? absentColor : Colors.grey.shade400,
                     width: 2,
                   ),
-                  color: !_isPresent
-                      ? absentColor.withValues(alpha: 0.8)
-                      : null,
+                  color: Colors.transparent,
                 ),
                 child: Icon(
                   Icons.close,
@@ -288,9 +284,7 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
               child: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: _isPresent
-                      ? presentColor.withValues(alpha: 0.8)
-                      : Colors.transparent,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
@@ -306,9 +300,7 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
               child: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: !_isPresent
-                      ? absentColor.withValues(alpha: 0.8)
-                      : Colors.transparent,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(

@@ -63,6 +63,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
   int _pageSize = 10;
   int _totalPages = 1;
   int _totalElements = 0;
+  Set<String> _selectedTraineeIds = {};
 
   void _loadTrainees() {
     if (widget.selectedCohortId != null) {
@@ -306,12 +307,27 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
             horizontalMargin: 16,
             headingRowHeight: 40,
             dataRowMinHeight: 40,
-            dataRowMaxHeight: 60,
+            dataRowMaxHeight: 80,
             columns: [
               DataColumn(
                 label: SizedBox(
                   width: 24,
-                  child: Checkbox(value: false, onChanged: null),
+                  child: Checkbox(
+                    value:
+                        _selectedTraineeIds.length == trainees.length &&
+                        trainees.isNotEmpty,
+                    onChanged: (value) {
+                      setState(() {
+                        if (value == true) {
+                          _selectedTraineeIds = trainees
+                              .map((t) => t.id.toString())
+                              .toSet();
+                        } else {
+                          _selectedTraineeIds.clear();
+                        }
+                      });
+                    },
+                  ),
                 ),
               ),
               DataColumn(
@@ -381,10 +397,18 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                             attendanceMap[trainee.id] ?? true;
                         return DataRow(
                           cells: [
-                            const DataCell(
-                              SizedBox(
-                                width: 24,
-                                child: Checkbox(value: false, onChanged: null),
+                            DataCell(
+                              Checkbox(
+                                value: _selectedTraineeIds.contains(trainee.id),
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value == true) {
+                                      _selectedTraineeIds.add(trainee.id);
+                                    } else {
+                                      _selectedTraineeIds.remove(trainee.id);
+                                    }
+                                  });
+                                },
                               ),
                             ),
                             DataCell(Text(trainee.fullName)),
@@ -521,7 +545,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                           30,
-                                                        ), // pill shape
+                                                        ),
                                                   ),
                                                   child: Text(
                                                     traineeAttempt
@@ -623,9 +647,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                                         )
                                                       : Colors.grey.shade200,
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                        30,
-                                                      ), // pill
+                                                      BorderRadius.circular(30),
                                                 ),
                                                 child: Text(
                                                   traineeAttempt
@@ -636,7 +658,12 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                                         traineeAttempt
                                                                 ?.postAssessmentScore !=
                                                             null
-                                                        ? Colors.green.shade800
+                                                        ? const Color.fromARGB(
+                                                            255,
+                                                            125,
+                                                            64,
+                                                            46,
+                                                          )
                                                         : Colors.grey,
                                                     fontSize: 14,
                                                   ),
@@ -664,7 +691,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                       .toList(),
           ),
           if (isLoading)
-            Container(
+            SizedBox(
               height: 200,
               child: const Center(child: CircularProgressIndicator()),
             ),
@@ -831,73 +858,82 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
       });
     }
 
-    final List<Widget> children = [];
-
-    if (documents.isNotEmpty) {
-      children.addAll(
-        documents.map((doc) {
-          return _buildDocumentLinkWithIcon(
-            doc['label'],
-            doc['url'],
-            doc['icon'],
-          );
-        }).toList(),
-      );
-    } else {
-      children.add(
-        Text(
-          "No documents",
-          style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
-        ),
-      );
-    }
-
-    children.add(const SizedBox(width: 6));
-
-    children.add(
-      GestureDetector(
-        onTap: () => _showEditDialog(trainee),
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          child: Icon(Icons.edit, size: 16, color: colorScheme.primary),
-        ),
-      ),
-    );
-
-    return Wrap(spacing: 8, runSpacing: 4, children: children);
-  }
-
-  Widget _buildDocumentLinkWithIcon(String label, String url, IconData icon) {
-    return GestureDetector(
-      onTap: () async {
-        final uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri, mode: LaunchMode.externalApplication);
-        } else {
-          if (mounted) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('Could not launch $label')));
-          }
-        }
-      },
+    return SizedBox(
+      width: 100,
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 12, color: Colors.blue.shade700),
-          const SizedBox(width: 4),
-          Flexible(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: Colors.blue.shade700,
-                fontSize: 10,
-                decoration: TextDecoration.underline,
-              ),
-              overflow: TextOverflow.ellipsis,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: documents.isNotEmpty
+                  ? documents.map((doc) {
+                      return _buildDocumentLinkWithIcon(
+                        doc['label'],
+                        doc['url'],
+                        doc['icon'],
+                      );
+                    }).toList()
+                  : [
+                      Text(
+                        "No documents",
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          GestureDetector(
+            onTap: () => _showEditDialog(trainee),
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              child: Icon(Icons.edit, size: 16, color: colorScheme.primary),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDocumentLinkWithIcon(String label, String url, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 1),
+      child: GestureDetector(
+        onTap: () async {
+          final uri = Uri.parse(url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          } else {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Could not launch $label')),
+              );
+            }
+          }
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 10, color: Colors.blue.shade700),
+            const SizedBox(width: 2),
+            Flexible(
+              child: Text(
+                label,
+                style: TextStyle(
+                  color: Colors.blue.shade700,
+                  fontSize: 9,
+                  decoration: TextDecoration.underline,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
