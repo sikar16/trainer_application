@@ -269,12 +269,12 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: _isEditing ? Colors.blue.shade50 : Colors.grey.shade100,
+          // color: _isEditing ? Colors.blue.shade50 : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: _isEditing ? Colors.blue.shade300 : Colors.grey.shade300,
-            width: 1,
-          ),
+          // border: Border.all(
+          //   color: _isEditing ? Colors.blue.shade300 : Colors.grey.shade300,
+          //   width: 1,
+          // ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
