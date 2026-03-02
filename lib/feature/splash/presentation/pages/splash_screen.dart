@@ -32,7 +32,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
+      backgroundColor: colorScheme.primary,
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
@@ -41,19 +44,57 @@ class _SplashScreenState extends State<SplashScreen> {
             context.go('/login');
           }
         },
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset('assets/images/gheero.png', width: 200, height: 100),
-              const SizedBox(height: 10),
-              const SizedBox(
-                width: 30,
-                height: 30,
-                child: CircularProgressIndicator(),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/images/gheeroHwhite.png',
+                    width: 200,
+                    height: 100,
+                  ),
+                  const SizedBox(height: 20),
+                  const SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+
+            // Positioned(
+            //   bottom: 3,
+            //   right: 5,
+            //   child: Container(
+            //     padding: const EdgeInsets.only(
+            //       left: 16,
+            //       top: 8,
+            //       right: 0,
+            //       bottom: 0,
+            //     ),
+            //     decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: const BorderRadius.only(
+            //         topLeft: Radius.circular(8),
+            //         bottomLeft: Radius.circular(8),
+            //       ),
+            //     ),
+            //     child: Text(
+            //       'Trainer App',
+            //       style: TextStyle(
+            //         color: colorScheme.primary,
+            //         fontSize: 24,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+          ],
         ),
       ),
     );
