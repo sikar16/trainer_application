@@ -10,7 +10,7 @@ class OverviewWiget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    // final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
 
     String formatDate(String? date) {

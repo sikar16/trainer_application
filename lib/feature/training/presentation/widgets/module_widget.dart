@@ -40,7 +40,7 @@ class _ModuleWidgetState extends State<ModuleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    // final textTheme = Theme.of(context).textTheme;
 
     return BlocBuilder<ModuleBloc, ModuleState>(
       bloc: _moduleBloc,

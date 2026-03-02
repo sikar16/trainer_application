@@ -22,7 +22,6 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
 
     return Padding(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import '../bloc/job_bloc/job_bloc.dart';
 import '../bloc/job_detail_bloc/job_detail_bloc.dart';
 import '../bloc/job_application_bloc/job_application_bloc.dart';
@@ -72,7 +71,7 @@ class _JobListWidgetState extends State<JobListWidget> {
     );
   }
 
-  Widget _searchBar() {
+  Widget searchBar() {
     return TextField(
       controller: _searchController,
       decoration: InputDecoration(
@@ -143,7 +142,7 @@ class _JobListWidgetState extends State<JobListWidget> {
     );
   }
 
-  Widget _filterTabs() {
+  Widget filterTabs() {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),

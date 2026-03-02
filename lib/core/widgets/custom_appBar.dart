@@ -21,8 +21,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
     return Container(
       // margin: EdgeInsets.only(bottom: 5),
       padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),

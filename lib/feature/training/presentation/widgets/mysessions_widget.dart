@@ -216,7 +216,7 @@ class _MysessionsWidgetState extends State<MysessionsWidget> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
+    // final textTheme = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.only(bottom: 20),

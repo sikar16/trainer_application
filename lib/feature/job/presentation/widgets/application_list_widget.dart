@@ -59,7 +59,7 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
     );
   }
 
-  Widget _filterTabs() {
+  Widget filterTabs() {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
