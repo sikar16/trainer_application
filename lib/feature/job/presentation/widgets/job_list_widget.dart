@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../bloc/job_bloc/job_bloc.dart';
+import '../bloc/job_detail_bloc/job_detail_bloc.dart';
+import '../bloc/job_application_bloc/job_application_bloc.dart';
 import '../../../../core/di/injection_container.dart' as sl;
+import 'job_detail_screen.dart';
 
 class JobListWidget extends StatefulWidget {
   const JobListWidget({super.key});
@@ -361,7 +364,7 @@ class JobCard extends StatelessWidget {
                 ),
               ),
               child: InkWell(
-                onTap: () => GoRouter.of(context).go('/job_detail/$id'),
+                onTap: () => _showJobDetailDialog(context, id, title),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   child: Text(
@@ -374,6 +377,31 @@ class JobCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showJobDetailDialog(BuildContext context, String id, String title) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: SizedBox(
+            width: double.maxFinite,
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) =>
+                      sl.sl<JobDetailBloc>()..add(FetchJobDetail(id)),
+                ),
+                BlocProvider(create: (context) => sl.sl<JobApplicationBloc>()),
+              ],
+              child: JobDetailView(),
+            ),
+          ),
+        );
+      },
     );
   }
 }
