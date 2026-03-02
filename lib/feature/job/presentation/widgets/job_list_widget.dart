@@ -386,18 +386,28 @@ class JobCard extends StatelessWidget {
       builder: (BuildContext context) {
         return Dialog(
           backgroundColor: Colors.transparent,
-          child: SizedBox(
-            width: double.maxFinite,
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) =>
-                      sl.sl<JobDetailBloc>()..add(FetchJobDetail(id)),
-                ),
-                BlocProvider(create: (context) => sl.sl<JobApplicationBloc>()),
-              ],
-              child: JobDetailView(),
+          insetPadding: EdgeInsets.all(10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              // width: double.maxFinite,
+              height: MediaQuery.of(context).size.height * 0.85,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) =>
+                        sl.sl<JobDetailBloc>()..add(FetchJobDetail(id)),
+                  ),
+                  BlocProvider(
+                    create: (context) => sl.sl<JobApplicationBloc>(),
+                  ),
+                ],
+                child: JobDetailView(),
+              ),
             ),
           ),
         );

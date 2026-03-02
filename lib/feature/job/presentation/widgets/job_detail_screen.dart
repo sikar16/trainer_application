@@ -158,9 +158,36 @@ class _JobDetailViewState extends State<JobDetailView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          job.title,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: Icon(
+                Icons.close,
+                color: const Color.fromARGB(255, 105, 105, 105),
+                size: 20,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                job.title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
         Divider(color: const Color.fromARGB(255, 226, 226, 226)),
 
@@ -299,18 +326,18 @@ class _JobDetailViewState extends State<JobDetailView> {
         OutlinedButton(
           onPressed: () {},
           style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            side: const BorderSide(
+              color: Color.fromARGB(255, 200, 199, 199),
+              width: 1,
+            ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
           child: const Text(
             'Decline',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.black),
           ),
         ),
 
@@ -326,16 +353,12 @@ class _JobDetailViewState extends State<JobDetailView> {
             backgroundColor: colorScheme.primary,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
           child: const Text(
             'Apply',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.white),
           ),
         ),
       ],
@@ -435,18 +458,16 @@ class _JobDetailViewState extends State<JobDetailView> {
                   },
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    side: const BorderSide(color: Colors.grey),
+                    side: const BorderSide(
+                      color: Color.fromARGB(255, 192, 192, 192),
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: const Text(
                     'Cancel',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.black),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -498,7 +519,6 @@ class _JobDetailViewState extends State<JobDetailView> {
                               'Submit Application',
                               style: TextStyle(
                                 fontSize: 12,
-                                fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
                             ),

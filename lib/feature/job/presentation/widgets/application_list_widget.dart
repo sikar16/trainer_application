@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../domain/entities/application_entity.dart';
 import '../../domain/usecases/get_applications_usecase.dart';
+import '../bloc/job_detail_bloc/job_detail_bloc.dart';
+import '../bloc/job_application_bloc/job_application_bloc.dart';
+import 'job_detail_screen.dart';
 
 enum ApplicationFilter { all, accepted, rejected, pending }
 
@@ -369,27 +372,27 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
           Align(
             alignment: Alignment.centerRight,
             child: OutlinedButton(
-              onPressed: () {
-                GoRouter.of(
-                  context,
-                ).go('/job_detail/${application.job.id}?applied=true');
-              },
+              onPressed: () {},
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: themeColor),
                 foregroundColor: themeColor,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 6,
+                  horizontal: 20,
+                  vertical: 10,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(6),
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "View Detail",
-                  style: TextStyle(fontWeight: FontWeight.w600),
+              child: InkWell(
+                onTap: () => _showJobDetailDialog(
+                  context,
+                  application.job.id,
+                  application.job.title,
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(0),
+                  child: Text("View Detail", style: TextStyle(fontSize: 12)),
                 ),
               ),
             ),
@@ -471,5 +474,37 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
       default:
         return 'Trainer';
     }
+  }
+
+  void _showJobDetailDialog(BuildContext context, String id, String title) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.all(10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.85,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) =>
+                        sl<JobDetailBloc>()..add(FetchJobDetail(id)),
+                  ),
+                  BlocProvider(create: (context) => sl<JobApplicationBloc>()),
+                ],
+                child: JobDetailView(),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
