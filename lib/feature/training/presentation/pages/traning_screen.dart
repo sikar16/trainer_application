@@ -58,6 +58,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
         onNotificationTap: () {},
         onProfileTap: () {},
       ),
+
       bottomNavigationBar: const BottomNavigation(currentIndex: 0),
       body: BlocBuilder<TrainingBloc, TrainingState>(
         builder: (context, state) {
@@ -133,9 +134,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
                 ),
               );
             }
-
+            SizedBox(height: 18);
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 8),
+              margin: EdgeInsets.only(left: 24, right: 27, bottom: 40),
               child: RefreshIndicator(
                 onRefresh: () async {
                   context.read<TrainingBloc>().add(
@@ -143,17 +144,18 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   );
                 },
                 child: ListView.builder(
-                  padding: const EdgeInsets.all(16),
                   itemCount: trainings.length,
                   itemBuilder: (context, index) {
                     final training = trainings[index];
                     return Card(
                       elevation: 0,
                       color: Colors.white,
-                      margin: const EdgeInsets.only(bottom: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Colors.grey.shade300, width: 1),
+                        side: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 0.5,
+                        ),
                       ),
                       child: CustomCard(
                         traningName: training.title,
