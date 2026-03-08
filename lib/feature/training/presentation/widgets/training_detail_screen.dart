@@ -134,7 +134,15 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          height: 20,
+          height: 40,
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey.shade300, // Gray line across all tabs
+                width: 1,
+              ),
+            ),
+          ),
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: tabs.length,
@@ -147,31 +155,43 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                     selectedIndex = index;
                   });
                 },
-                child: Row(
-                  children: [
-                    _getIconForTab(
-                      tabs[index],
-                      isSelected ? colorTheme.primary : colorTheme.secondary,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      tabs[index],
-                      style: TextStyle(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
                         color: isSelected
                             ? colorTheme.primary
-                            : colorTheme.onSurfaceVariant,
-                        fontWeight: isSelected
-                            ? FontWeight.bold
-                            : FontWeight.normal,
+                            : Colors.transparent,
+                        width: 2, // Colored underline for selected tab
                       ),
                     ),
-                  ],
+                  ),
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    children: [
+                      _getIconForTab(
+                        tabs[index],
+                        isSelected ? colorTheme.primary : colorTheme.secondary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        tabs[index],
+                        style: TextStyle(
+                          color: isSelected
+                              ? colorTheme.primary
+                              : colorTheme.onSurfaceVariant,
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
           ),
         ),
-        const Divider(color: Color.fromARGB(255, 218, 219, 219)),
         Expanded(
           child: Container(
             padding: const EdgeInsets.all(16),

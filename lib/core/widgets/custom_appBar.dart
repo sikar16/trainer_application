@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: SizedBox(
         child: AppBar(
           backgroundColor: Colors.white,
@@ -40,7 +40,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 )
               : null,
           title: Padding(
-            padding: const EdgeInsets.only(top: 5, left: 32, bottom: 5),
+            padding: const EdgeInsets.only(top: 5, left: 16, bottom: 5),
             child: Text(
               title,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
