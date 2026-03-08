@@ -99,18 +99,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       fillColor: const Color(0xFFF6F6F6),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide.none,
+                        borderSide: _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1)
+                            : BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide(
-                          color: colorScheme.primary,
-                          width: 1,
-                        ),
+                        borderSide: _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1)
+                            : BorderSide(color: colorScheme.primary, width: 1),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide.none,
+                        borderSide: _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1)
+                            : BorderSide.none,
                       ),
                     ),
                   ),
@@ -140,18 +143,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       fillColor: const Color(0xFFF6F6F6),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide.none,
+                        borderSide: _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1)
+                            : BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide(
-                          color: colorScheme.primary,
-                          width: 1,
-                        ),
+                        borderSide: _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1)
+                            : BorderSide(color: colorScheme.primary, width: 1),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide.none,
+                        borderSide: _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1)
+                            : BorderSide.none,
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
