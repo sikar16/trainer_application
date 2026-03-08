@@ -85,7 +85,7 @@ class _CostomDropDownState extends State<CostomDropDown> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
               decoration: BoxDecoration(
                 color: isExpanded
                     ? const Color(0xFFF8FBFF)
@@ -101,13 +101,19 @@ class _CostomDropDownState extends State<CostomDropDown> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text(widget.title, style: TextStyle(fontSize: 14)),
+                      child: Text(
+                        widget.title,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                     if (hasContent)
                       Icon(
                         isExpanded
                             ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_down,
+                            : Icons.keyboard_arrow_right,
                         color: colorTheme.primary,
                       ),
                   ],

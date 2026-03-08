@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/view_report_widget.dart';
+import 'view_report_widget.dart';
 
 class SessionReportPage extends StatelessWidget {
   final String sessionId;

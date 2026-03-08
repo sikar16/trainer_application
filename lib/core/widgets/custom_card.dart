@@ -25,10 +25,10 @@ class CustomCard extends StatelessWidget {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 0),
       child: Padding(
         padding: const EdgeInsets.all(10),
-
+        //
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

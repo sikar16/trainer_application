@@ -137,10 +137,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
           height: 40,
           decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(
-                color: Colors.grey.shade300, // Gray line across all tabs
-                width: 1,
-              ),
+              bottom: BorderSide(color: Colors.grey.shade300, width: 1),
             ),
           ),
           child: ListView.separated(
@@ -162,7 +159,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                         color: isSelected
                             ? colorTheme.primary
                             : Colors.transparent,
-                        width: 2, // Colored underline for selected tab
+                        width: 2,
                       ),
                     ),
                   ),

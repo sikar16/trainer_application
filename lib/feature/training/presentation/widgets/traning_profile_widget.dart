@@ -83,8 +83,6 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                     "Traning Profile",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
-                  const SizedBox(height: 10),
-
                   const SizedBox(height: 16),
                   CostomDropDown(
                     title: "Keywords",
@@ -150,7 +148,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                           ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   CostomDropDown(
                     title: "Scope",
                     content: Column(
@@ -164,7 +162,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Attendance Requirement",
@@ -178,7 +176,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Assessment Result Requirement",
@@ -193,7 +191,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Competency Outcomes",
@@ -210,7 +208,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Alignment with Standard",
@@ -245,7 +243,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                               .toList(),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Prior Knowledge",
@@ -268,7 +266,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Learning Style Preferences",
@@ -303,7 +301,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                               .toList(),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Delivery Tools",
@@ -335,7 +333,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                               .toList(),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Technological Requirements",
@@ -416,7 +414,7 @@ class _TraningProfileWidgetState extends State<TraningProfileWidget> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   CostomDropDown(
                     title: "Training Objectives",
                     content: Column(

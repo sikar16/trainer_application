@@ -35,9 +35,8 @@ class OverviewWiget extends StatelessWidget {
                     "Overview",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
-                  const SizedBox(height: 10),
-
                   const SizedBox(height: 16),
+
                   CostomDropDown(
                     title: "Basic information",
                     content: Column(
@@ -93,7 +92,7 @@ class OverviewWiget extends StatelessWidget {
                                     border: Border.all(
                                       color: colorTheme.surfaceContainer,
                                     ),
-                                    borderRadius: BorderRadius.circular(22),
+                                    borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
                                     tag.name,
@@ -107,7 +106,7 @@ class OverviewWiget extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   CostomDropDown(
                     title: "Location",
                     content: Column(
@@ -161,7 +160,7 @@ class OverviewWiget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Training Details",
@@ -240,7 +239,7 @@ class OverviewWiget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Target Audience",
@@ -380,7 +379,7 @@ class OverviewWiget extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
 
                   CostomDropDown(
                     title: "Purpose of the Training",
