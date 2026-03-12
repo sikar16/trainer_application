@@ -180,47 +180,45 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
 
             const SizedBox(width: 10),
 
-            Text(
-              _isPresent ? 'Present' : 'Absent',
-              style: TextStyle(
-                color: _isPresent ? presentColor : absentColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-
+            // Text(
+            //   _isPresent ? 'Present' : 'Absent',
+            //   style: TextStyle(
+            //     color: _isPresent ? presentColor : absentColor,
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 16,
+            //   ),
+            // ),
             const SizedBox(width: 10),
 
-            if (_savedComment != null && _savedComment!.isNotEmpty) ...[
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.orange.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.comment,
-                      size: 14,
-                      color: Colors.orange.shade700,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      'Comment',
-                      style: TextStyle(
-                        color: Colors.orange.shade700,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-            ],
-
+            // if (_savedComment != null && _savedComment!.isNotEmpty) ...[
+            //   Container(
+            //     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            //     decoration: BoxDecoration(
+            //       color: Colors.orange.shade50,
+            //       borderRadius: BorderRadius.circular(8),
+            //     ),
+            //     child: Row(
+            //       mainAxisSize: MainAxisSize.min,
+            //       children: [
+            //         Icon(
+            //           Icons.comment,
+            //           size: 14,
+            //           color: Colors.orange.shade700,
+            //         ),
+            //         const SizedBox(width: 4),
+            //         Text(
+            //           'Comment',
+            //           style: TextStyle(
+            //             color: Colors.orange.shade700,
+            //             fontSize: 11,
+            //             fontWeight: FontWeight.w600,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            //   const SizedBox(width: 8),
+            // ],
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
@@ -288,8 +286,8 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  Icons.check_circle,
-                  size: 18,
+                  Icons.check_circle_outline_outlined,
+                  size: 25,
                   color: _isPresent ? presentColor : Colors.grey.shade400,
                 ),
               ),
@@ -304,44 +302,43 @@ class _AttendanceChipWidgetState extends State<AttendanceChipWidget> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
-                  Icons.cancel,
-                  size: 18,
+                  Icons.cancel_outlined,
+                  size: 25,
                   color: !_isPresent ? absentColor : Colors.grey.shade400,
                 ),
               ),
             ),
             const SizedBox(width: 8),
 
-            Text(
-              _isPresent ? 'Present' : 'Absent',
-              style: TextStyle(
-                color: _isPresent ? presentColor : absentColor,
-                fontWeight: FontWeight.w500,
-                fontSize: 13,
-              ),
-            ),
-
+            // Text(
+            //   _isPresent ? 'Present' : 'Absent',
+            //   style: TextStyle(
+            //     color: _isPresent ? presentColor : absentColor,
+            //     fontWeight: FontWeight.w500,
+            //     fontSize: 13,
+            //   ),
+            // ),
             const SizedBox(width: 6),
 
-            GestureDetector(
-              onTap: _showCommentDialog,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: _savedComment != null && _savedComment!.isNotEmpty
-                      ? Colors.orange.shade100
-                      : Colors.transparent,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.comment,
-                  size: 14,
-                  color: _savedComment != null && _savedComment!.isNotEmpty
-                      ? Colors.orange.shade700
-                      : Colors.grey.shade500,
-                ),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: _showCommentDialog,
+            //   child: Container(
+            //     padding: const EdgeInsets.all(4),
+            //     decoration: BoxDecoration(
+            //       color: _savedComment != null && _savedComment!.isNotEmpty
+            //           ? Colors.orange.shade100
+            //           : Colors.transparent,
+            //       shape: BoxShape.circle,
+            //     ),
+            //     child: Icon(
+            //       Icons.comment,
+            //       size: 14,
+            //       color: _savedComment != null && _savedComment!.isNotEmpty
+            //           ? Colors.orange.shade700
+            //           : Colors.grey.shade500,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

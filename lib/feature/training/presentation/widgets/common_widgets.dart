@@ -14,7 +14,7 @@ class CommonCard extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colorScheme.outlineVariant),
+        // border: Border.all(color: colorScheme.outlineVariant),
         color: Colors.white,
       ),
       child: child,

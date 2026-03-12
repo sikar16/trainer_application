@@ -32,11 +32,13 @@ class TraineeDataTableWidget extends StatefulWidget {
   final Function(TraineeEntity) onUploadID;
   final Function(String traineeId, bool isPresent) onAttendanceChanged;
   final Function(String traineeId, String comment)? onCommentChanged;
+  final Function(TraineeEntity)? onAddIdAndConsent;
   final String? selectedSurveyId;
   final String? selectedSurveyName;
   final String? selectedAssessmentId;
   final String? selectedAssessmentName;
   final String trainingId;
+  final bool disableTraineeLoading;
 
   const TraineeDataTableWidget({
     super.key,
@@ -46,11 +48,13 @@ class TraineeDataTableWidget extends StatefulWidget {
     required this.onUploadID,
     required this.onAttendanceChanged,
     this.onCommentChanged,
+    this.onAddIdAndConsent,
     this.selectedSurveyId,
     this.selectedSurveyName,
     this.selectedAssessmentId,
     this.selectedAssessmentName,
     required this.trainingId,
+    this.disableTraineeLoading = false,
   });
 
   @override
@@ -66,7 +70,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
   Set<String> _selectedTraineeIds = {};
 
   void _loadTrainees() {
-    if (widget.selectedCohortId != null) {
+    if (!widget.disableTraineeLoading && widget.selectedCohortId != null) {
       context.read<TraineeBloc>().add(
         GetTraineesByCohortEvent(
           cohortId: widget.selectedCohortId!,
@@ -189,7 +193,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
             return BlocBuilder<TraineeBloc, TraineeState>(
               builder: (context, traineeState) {
                 if (traineeState is TraineeLoading) {
-                  return CommonCard(
+                  return Container(
                     padding: EdgeInsets.zero,
                     child: Column(
                       children: [
@@ -233,7 +237,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                   }
 
                   if (trainees.isEmpty) {
-                    return CommonCard(
+                    return Container(
                       padding: const EdgeInsets.all(20),
                       child: const Text(
                         'No trainees available',
@@ -258,8 +262,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                         }
                       }
 
-                      return CommonCard(
-                        padding: EdgeInsets.zero,
+                      return SizedBox(
                         child: Column(
                           children: [
                             _buildCompleteTable(
@@ -306,11 +309,20 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
       child: Column(
         children: [
           DataTable(
-            columnSpacing: 16,
-            horizontalMargin: 16,
             headingRowHeight: 40,
             dataRowMinHeight: 40,
             dataRowMaxHeight: 80,
+            columnSpacing: 16,
+            horizontalMargin: 16,
+            dividerThickness: 0,
+            border: TableBorder(
+              top: BorderSide.none,
+              bottom: BorderSide.none,
+              left: BorderSide.none,
+              right: BorderSide.none,
+              horizontalInside: BorderSide.none,
+              verticalInside: BorderSide.none,
+            ),
             columns: [
               DataColumn(
                 label: SizedBox(
@@ -445,13 +457,13 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                                     isPresent,
                                   );
                                 },
-                                onCommentChanged:
-                                    widget.onCommentChanged != null
-                                    ? (comment) => widget.onCommentChanged!(
-                                        trainee.id,
-                                        comment,
-                                      )
-                                    : null,
+                                // onCommentChanged:
+                                //     widget.onCommentChanged != null
+                                //     ? (comment) => widget.onCommentChanged!(
+                                //         trainee.id,
+                                //         comment,
+                                //       )
+                                //     : null,
                               ),
                             ),
                             DataCell(
@@ -726,15 +738,8 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
         ? _currentPage * _pageSize
         : _totalElements;
 
-    return Container(
+    return Padding(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(12),
-          bottomRight: Radius.circular(12),
-        ),
-      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -934,8 +939,14 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
       });
     }
 
+    // Check if trainee has no ID or consent documents
+    final hasNoIdOrConsent =
+        trainee.frontIdUrl == null &&
+        trainee.backIdUrl == null &&
+        trainee.consentFormUrl == null;
+
     return SizedBox(
-      width: 100,
+      width: 150,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -952,24 +963,41 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                       );
                     }).toList()
                   : [
-                      Text(
-                        "No documents",
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontSize: 12,
+                      OutlinedButton.icon(
+                        onPressed: widget.onAddIdAndConsent != null
+                            ? () => widget.onAddIdAndConsent!(trainee)
+                            : null,
+                        icon: const Icon(Icons.description_outlined, size: 14),
+                        label: const Text(
+                          'Add ID & Consent',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: colorScheme.outline),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          minimumSize: const Size(0, 28),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                       ),
                     ],
             ),
           ),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: () => _showEditDialog(trainee),
-            child: Container(
-              padding: const EdgeInsets.all(4),
-              child: Icon(Icons.edit, size: 16, color: colorScheme.primary),
+          if (documents.isNotEmpty) ...[
+            const SizedBox(width: 8),
+            GestureDetector(
+              onTap: () => _showEditDialog(trainee),
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                child: Icon(Icons.edit, size: 16, color: colorScheme.primary),
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );

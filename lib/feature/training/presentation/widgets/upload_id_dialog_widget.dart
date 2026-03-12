@@ -441,8 +441,8 @@ class _UploadIDDialogWidgetState extends State<UploadIDDialogWidget> {
                     child: Text(
                       "View Consent Form",
                       style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                        color: colorScheme.primary,
                       ),
                     ),
                   ),

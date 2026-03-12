@@ -90,6 +90,7 @@ import 'package:gheero/feature/training/data/repositories/assessment_repository_
 import 'package:gheero/feature/training/domain/repositories/assessment_repository.dart';
 import 'package:gheero/feature/training/domain/usecases/get_assessments_usecase.dart';
 import 'package:gheero/feature/training/presentation/bloc/assessment_bloc/assessment_bloc.dart';
+import 'package:gheero/feature/training/presentation/bloc/survey_bloc/survey_bloc.dart';
 import 'package:gheero/feature/training/presentation/bloc/survey_completion_bloc/survey_completion_bloc.dart';
 import 'package:gheero/feature/training/presentation/bloc/assessment_attempt_bloc/assessment_attempt_bloc.dart';
 import 'package:gheero/feature/training/data/datasources/survey_completion_remote_data_source.dart';
@@ -368,6 +369,7 @@ Future<void> initDependencies() async {
   sl.registerFactory<AssessmentBloc>(
     () => AssessmentBloc(assessmentRepository: sl()),
   );
+  sl.registerFactory<SurveyBloc>(() => SurveyBloc(apiClient: sl()));
   sl.registerFactory<SurveyCompletionBloc>(
     () => SurveyCompletionBloc(repository: sl()),
   );

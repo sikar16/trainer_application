@@ -62,50 +62,48 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildTopButton(
-                      title: "Survey Status",
-                      isExpanded: isSurveyExpanded,
-                      onTap: () {
-                        setState(() {
-                          isSurveyExpanded = !isSurveyExpanded;
-                          isAssessmentExpanded = false;
-                        });
-                        _notifyHeightChanged();
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildTopButton(
-                      title: "Assessment Scores",
-                      isExpanded: isAssessmentExpanded,
-                      onTap: () {
-                        setState(() {
-                          isAssessmentExpanded = !isAssessmentExpanded;
-                          isSurveyExpanded = false;
-                        });
-                        _notifyHeightChanged();
-                      },
-                    ),
-                  ),
-                ],
-              ),
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _buildTopButton(
+                  title: "Survey Status",
+                  isExpanded: isSurveyExpanded,
+                  onTap: () {
+                    setState(() {
+                      isSurveyExpanded = !isSurveyExpanded;
+                      isAssessmentExpanded = false;
+                    });
+                    _notifyHeightChanged();
+                  },
+                ),
 
-              if (isSurveyExpanded) _buildSurveyContent(),
+                const SizedBox(width: 16),
 
-              if (isAssessmentExpanded) _buildAssessmentContent(),
-            ],
-          ),
+                _buildTopButton(
+                  title: "Assessment Scores",
+                  isExpanded: isAssessmentExpanded,
+                  onTap: () {
+                    setState(() {
+                      isAssessmentExpanded = !isAssessmentExpanded;
+                      isSurveyExpanded = false;
+                    });
+                    _notifyHeightChanged();
+                  },
+                ),
+              ],
+            ),
+
+            if (isSurveyExpanded) _buildSurveyContent(),
+            if (isAssessmentExpanded) _buildAssessmentContent(),
+          ],
         ),
       ),
     );
@@ -119,19 +117,21 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.grey.shade300),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
+            Text(title),
+            const SizedBox(width: 4),
             Icon(
-              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+              isExpanded
+                  ? Icons.keyboard_arrow_right
+                  : Icons.keyboard_arrow_down,
             ),
-            const SizedBox(width: 8),
-            Expanded(child: Text(title, overflow: TextOverflow.ellipsis)),
           ],
         ),
       ),
@@ -139,6 +139,8 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
   }
 
   Widget _buildSurveyContent() {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<SurveyBloc, SurveyState>(
       builder: (context, state) {
         if (state is SurveyLoading) {
@@ -151,49 +153,50 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
             padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey.shade300),
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DropdownButtonFormField<String>(
-                  initialValue: selectedSurvey,
-                  style: const TextStyle(fontSize: 14, color: Colors.black),
-                  hint: const Text("Select survey to view completion status"),
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey.shade100,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    width: 180,
+                    child: DropdownButtonFormField<String>(
+                      initialValue: selectedSurvey,
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                      hint: const Text("Select survey"),
+                      isExpanded: true,
+                      dropdownColor: Colors.white,
+                      menuMaxHeight: 200,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      items: state.surveys
+                          .map(
+                            (survey) => DropdownMenuItem(
+                              value: survey.id,
+                              child: Text(survey.name),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedSurvey = value;
+                        });
+                      },
                     ),
                   ),
-                  items: state.surveys
-                      .map(
-                        (survey) => DropdownMenuItem(
-                          value: survey.id,
-                          child: Text(survey.name),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedSurvey = value;
-                    });
-                    if (widget.onSurveySelected != null) {
-                      final survey = state.surveys.firstWhere(
-                        (s) => s.id == value,
-                      );
-                      widget.onSurveySelected!(value, survey.name);
-                    }
-                  },
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  "Shows which students have completed the selected survey",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ],
             ),
@@ -217,51 +220,50 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
             padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey.shade300),
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DropdownButtonFormField<String>(
-                  initialValue: selectedAssessment,
-                  style: const TextStyle(fontSize: 14, color: Colors.black),
-                  hint: const Text("Select assessment to view scores"),
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey.shade100,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    width: 200,
+                    child: DropdownButtonFormField<String>(
+                      initialValue: selectedSurvey,
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                      hint: const Text("Select assessment"),
+                      isExpanded: true,
+                      dropdownColor: Colors.white,
+                      menuMaxHeight: 200,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      items: state.assessments
+                          .map(
+                            (assessment) => DropdownMenuItem(
+                              value: assessment.id,
+                              child: Text(assessment.name),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedSurvey = value;
+                        });
+                      },
                     ),
                   ),
-                  items: state.assessments
-                      .map(
-                        (assessment) => DropdownMenuItem(
-                          value: assessment.id,
-                          child: Text(assessment.name),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedAssessment = value;
-                    });
-                    if (widget.onAssessmentSelected != null) {
-                      final assessment = state.assessments.firstWhere(
-                        (a) => a.id == value,
-                      );
-
-                      widget.onAssessmentSelected!(value, assessment.name);
-                    }
-                  },
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  "Shows assessment scores for selected assessment",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ],
             ),
