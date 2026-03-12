@@ -12,6 +12,7 @@ import '../../domain/repositories/lesson_repository.dart';
 import '../../domain/repositories/module_repository.dart';
 import '../../../../core/di/injection_container.dart' as sl;
 import '../../../../core/widgets/custom_dropdown.dart';
+import 'lesson_details_dialog.dart';
 
 class ModuleWidget extends StatefulWidget {
   final String trainingId;
@@ -171,26 +172,37 @@ class _ModuleWidgetState extends State<ModuleWidget> {
                   ...snapshot.data!.map((lesson) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            lesson.name,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.grey[700],
-                            ),
+                      child: InkWell(
+                        onTap: () => _showLessonDetails(context, lesson),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey[300]!),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            lesson.objective,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey[600],
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                lesson.name,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                lesson.objective,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     );
                   }),
@@ -242,27 +254,43 @@ class _ModuleWidgetState extends State<ModuleWidget> {
                                 ...snapshot.data!.map((lesson) {
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 8),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          lesson.name,
-                                          style: TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.grey[700],
+                                    child: InkWell(
+                                      onTap: () =>
+                                          _showLessonDetails(context, lesson),
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(6),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                          border: Border.all(
+                                            color: Colors.grey[300]!,
                                           ),
                                         ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          lesson.objective,
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.grey[600],
-                                          ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              lesson.name,
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.grey[700],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              lesson.objective,
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.grey[600],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   );
                                 })
@@ -317,6 +345,13 @@ class _ModuleWidgetState extends State<ModuleWidget> {
     } catch (e) {
       return [];
     }
+  }
+
+  void _showLessonDetails(BuildContext context, LessonEntity lesson) {
+    showDialog(
+      context: context,
+      builder: (context) => LessonDetailsDialog(lesson: lesson),
+    );
   }
 
   Future<void> _fetchModuleDetailsIfNeeded(ModuleEntity module) async {

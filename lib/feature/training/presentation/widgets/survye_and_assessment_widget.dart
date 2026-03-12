@@ -180,6 +180,10 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
                         fillColor: Colors.grey.shade100,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade400,
+                            width: 0.3,
+                          ),
                         ),
                       ),
                       items: state.surveys
