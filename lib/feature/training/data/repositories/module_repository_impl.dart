@@ -12,4 +12,10 @@ class ModuleRepositoryImpl implements ModuleRepository {
     final moduleModel = await _remoteDataSource.getModules(trainingId);
     return moduleModel.toEntity();
   }
+
+  @override
+  Future<ModuleResponseEntity> getModuleById(String moduleId) async {
+    final moduleModel = await _remoteDataSource.getModuleById(moduleId);
+    return moduleModel.toEntity();
+  }
 }

@@ -107,6 +107,10 @@ import 'package:gheero/feature/training/data/repositories/content_repository_imp
 import 'package:gheero/feature/training/domain/repositories/content_repository.dart';
 import 'package:gheero/feature/training/domain/usecases/get_content_usecase.dart';
 import 'package:gheero/feature/training/presentation/bloc/content_bloc/content_bloc.dart';
+import 'package:gheero/feature/training/data/datasources/lesson_remote_data_source.dart';
+import 'package:gheero/feature/training/data/repositories/lesson_repository_impl.dart';
+import 'package:gheero/feature/training/domain/repositories/lesson_repository.dart';
+import 'package:gheero/feature/training/presentation/bloc/lesson_bloc/lesson_bloc.dart';
 import 'package:gheero/feature/training/data/datasources/session_report_remote_data_source.dart';
 import 'package:gheero/feature/training/data/repositories/session_report_repository_impl.dart';
 import 'package:gheero/feature/training/domain/repositories/session_report_repository.dart';
@@ -193,6 +197,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<AssessmentAttemptRemoteDataSource>(
     () => AssessmentAttemptRemoteDataSource(apiClient: sl()),
   );
+  sl.registerLazySingleton<LessonRemoteDataSource>(
+    () => LessonRemoteDataSource(apiClient: sl()),
+  );
 
   /* =======================
      REPOSITORIES
@@ -255,6 +262,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<AssessmentAttemptRepository>(
     () => AssessmentAttemptRepositoryImpl(sl()),
   );
+  sl.registerLazySingleton<LessonRepository>(() => LessonRepositoryImpl(sl()));
 
   /* =======================
      USE CASES
@@ -376,4 +384,5 @@ Future<void> initDependencies() async {
   sl.registerFactory<AssessmentAttemptBloc>(
     () => AssessmentAttemptBloc(repository: sl()),
   );
+  sl.registerFactory<LessonBloc>(() => LessonBloc(sl()));
 }

@@ -5,12 +5,14 @@ class CostomDropDown extends StatefulWidget {
   final Widget? content;
   final VoidCallback? onTap;
   final String? groupKey;
+  final double? fontSize;
   const CostomDropDown({
     super.key,
     required this.title,
     this.content,
     this.onTap,
     this.groupKey,
+    this.fontSize,
   });
 
   @override
@@ -79,7 +81,7 @@ class _CostomDropDownState extends State<CostomDropDown> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: _toggleExpansion,
+        onTap: widget.content != null ? _toggleExpansion : null,
 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,21 +103,29 @@ class _CostomDropDownState extends State<CostomDropDown> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text(
-                        widget.title,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                      child: GestureDetector(
+                        onTap: widget.onTap,
+                        child: Text(
+                          widget.title,
+                          style: TextStyle(
+                            fontSize: widget.fontSize ?? 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
                     if (hasContent)
-                      Icon(
-                        isExpanded
-                            ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_right,
-                        color: colorTheme.primary,
-                      ),
+                      GestureDetector(
+                        onTap: _toggleExpansion,
+                        child: Icon(
+                          isExpanded
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_right,
+                          color: colorTheme.primary,
+                        ),
+                      )
+                    else if (widget.onTap != null)
+                      Icon(Icons.arrow_forward_ios, size: 14),
                   ],
                 ),
               ),

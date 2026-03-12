@@ -3,6 +3,7 @@ import '../models/module_model.dart';
 
 abstract class ModuleRemoteDataSource {
   Future<ModuleResponseModel> getModules(String trainingId);
+  Future<ModuleResponseModel> getModuleById(String moduleId);
 }
 
 class ModuleRemoteDataSourceImpl implements ModuleRemoteDataSource {
@@ -20,6 +21,17 @@ class ModuleRemoteDataSourceImpl implements ModuleRemoteDataSource {
       return ModuleResponseModel.fromJson(response.data);
     } else {
       throw Exception('Failed to load modules: ${response.statusCode}');
+    }
+  }
+
+  @override
+  Future<ModuleResponseModel> getModuleById(String moduleId) async {
+    final response = await _apiClient.get('/api/module/$moduleId');
+
+    if (response.statusCode == 200) {
+      return ModuleResponseModel.fromJson(response.data);
+    } else {
+      throw Exception('Failed to load module: ${response.statusCode}');
     }
   }
 }

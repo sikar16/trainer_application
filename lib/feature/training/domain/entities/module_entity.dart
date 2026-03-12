@@ -3,12 +3,16 @@ class ModuleEntity {
   final String name;
   final String description;
   final TrainingTagEntity trainingTag;
+  final ModuleEntity? parentModule;
+  final List<ModuleEntity> childModules;
 
   ModuleEntity({
     required this.id,
     required this.name,
     required this.description,
     required this.trainingTag,
+    this.parentModule,
+    this.childModules = const [],
   });
 }
 

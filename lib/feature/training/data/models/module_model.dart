@@ -5,12 +5,16 @@ class ModuleModel {
   final String name;
   final String description;
   final TrainingTagModel trainingTag;
+  final ModuleModel? parentModule;
+  final List<ModuleModel> childModules;
 
   ModuleModel({
     required this.id,
     required this.name,
     required this.description,
     required this.trainingTag,
+    this.parentModule,
+    this.childModules = const [],
   });
 
   factory ModuleModel.fromJson(Map<String, dynamic> json) {
@@ -19,6 +23,14 @@ class ModuleModel {
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       trainingTag: TrainingTagModel.fromJson(json['trainingTag'] ?? {}),
+      parentModule: json['parentModule'] != null
+          ? ModuleModel.fromJson(json['parentModule'])
+          : null,
+      childModules:
+          (json['childModules'] as List<dynamic>?)
+              ?.map((child) => ModuleModel.fromJson(child))
+              .toList() ??
+          [],
     );
   }
 
@@ -28,6 +40,8 @@ class ModuleModel {
       name: name,
       description: description,
       trainingTag: trainingTag.toEntity(),
+      parentModule: parentModule?.toEntity(),
+      childModules: childModules.map((child) => child.toEntity()).toList(),
     );
   }
 }
@@ -68,15 +82,27 @@ class ModuleResponseModel {
   });
 
   factory ModuleResponseModel.fromJson(Map<String, dynamic> json) {
-    return ModuleResponseModel(
-      code: json['code'] ?? '',
-      message: json['message'] ?? '',
-      modules:
-          (json['modules'] as List<dynamic>?)
-              ?.map((module) => ModuleModel.fromJson(module))
-              .toList() ??
-          [],
-    );
+    // Handle both single module and array responses
+    if (json.containsKey('module')) {
+      // Single module response
+      final moduleJson = json['module'] as Map<String, dynamic>;
+      return ModuleResponseModel(
+        code: json['code'] ?? '',
+        message: json['message'] ?? '',
+        modules: [ModuleModel.fromJson(moduleJson)],
+      );
+    } else {
+      // Array response
+      return ModuleResponseModel(
+        code: json['code'] ?? '',
+        message: json['message'] ?? '',
+        modules:
+            (json['modules'] as List<dynamic>?)
+                ?.map((module) => ModuleModel.fromJson(module))
+                .toList() ??
+            [],
+      );
+    }
   }
 
   ModuleResponseEntity toEntity() {
