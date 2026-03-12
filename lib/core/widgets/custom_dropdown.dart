@@ -121,7 +121,7 @@ class _CostomDropDownState extends State<CostomDropDown> {
                           isExpanded
                               ? Icons.keyboard_arrow_up
                               : Icons.keyboard_arrow_right,
-                          color: colorTheme.primary,
+                          color: Colors.black,
                         ),
                       )
                     else if (widget.onTap != null)

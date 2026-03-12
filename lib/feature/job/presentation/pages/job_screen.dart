@@ -45,7 +45,7 @@ class _JobScreenState extends State<JobScreen> {
     return Row(
       children: [
         _topTab("Jobs", TopTab.jobs),
-        const SizedBox(width: 16),
+
         _topTab("My Applications", TopTab.applications),
       ],
     );

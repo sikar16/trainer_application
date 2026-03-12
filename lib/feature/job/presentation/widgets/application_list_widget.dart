@@ -372,28 +372,27 @@ class _ApplicationListWidgetState extends State<ApplicationListWidget> {
           Align(
             alignment: Alignment.centerRight,
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () => _showJobDetailDialog(
+                context,
+                application.job.id,
+                application.job.title,
+              ),
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: themeColor),
                 foregroundColor: themeColor,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
+                  vertical: 6,
+                  horizontal: 14,
                 ),
+                minimumSize: const Size(0, 24),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
                 ),
               ),
-              child: InkWell(
-                onTap: () => _showJobDetailDialog(
-                  context,
-                  application.job.id,
-                  application.job.title,
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(0),
-                  child: Text("View Detail", style: TextStyle(fontSize: 12)),
-                ),
+              child: const Text(
+                "View Detail",
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
               ),
             ),
           ),

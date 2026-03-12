@@ -21,35 +21,35 @@ class ScrollViewWidget extends StatelessWidget {
                 label: "Overview",
                 route: '/overview',
               ),
-              const SizedBox(width: 40),
+
               _scrollItem(
                 context,
                 icon: Icons.school_outlined,
                 label: "Training Profile",
                 route: '/training-profile',
               ),
-              const SizedBox(width: 40),
+
               _scrollItem(
                 context,
                 icon: Icons.group_outlined,
                 label: "Audience Profile",
                 route: '/audience-profile',
               ),
-              const SizedBox(width: 40),
+
               _scrollItem(
                 context,
                 icon: Icons.view_module_outlined,
                 label: "Module",
                 route: '/module',
               ),
-              const SizedBox(width: 40),
+
               _scrollItem(
                 context,
                 icon: Icons.event_note_outlined,
                 label: "Sessions",
                 route: '/my-sessions',
               ),
-              const SizedBox(width: 40),
+
               _scrollItem(
                 context,
                 icon: Icons.menu_book_outlined,
@@ -77,7 +77,7 @@ class ScrollViewWidget extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, size: 20, color: colorTheme.primary),
-          const SizedBox(width: 10),
+          const SizedBox(width: 8),
           Text(
             label,
             style: textTheme.bodyMedium?.copyWith(color: colorTheme.primary),

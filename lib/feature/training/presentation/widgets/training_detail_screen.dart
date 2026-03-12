@@ -170,7 +170,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                         tabs[index],
                         isSelected ? colorTheme.primary : colorTheme.secondary,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Text(
                         tabs[index],
                         style: TextStyle(
