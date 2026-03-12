@@ -244,15 +244,23 @@ class _SessionsListWidgetState extends State<SessionsListWidget> {
 
               if (sessions.isEmpty) {
                 return Center(
+                  heightFactor: 4,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.event_outlined,
-                        size: 14,
-                        color: colorScheme.onSurfaceVariant,
+                      Text(
+                        'No Sessions Available',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      const SizedBox(height: 16),
-                      Text('No sessions found', style: TextStyle(fontSize: 12)),
+                      const SizedBox(height: 8),
+                      Text(
+                        'No sessions are available in this cohort for attendance tracking. Please add sessions to this cohort first.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
+                      ),
                     ],
                   ),
                 );

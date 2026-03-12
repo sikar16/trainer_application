@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         await StorageService.clearAll();
 
         if (mounted) {
-          context.go('/login');
+          context.push('/login');
         }
       }
     } catch (e) {

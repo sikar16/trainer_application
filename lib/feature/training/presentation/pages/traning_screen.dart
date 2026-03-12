@@ -168,7 +168,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                         rationale: training.rationale,
                         nextpage: 'View training',
                         onNextTap: () {
-                          context.go('/trainingDetails/${training.id}');
+                          context.push('/trainingDetails/${training.id}');
                         },
                       ),
                     );

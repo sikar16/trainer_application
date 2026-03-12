@@ -15,7 +15,7 @@ void showLogoutWarningDialog(BuildContext context) {
           if (state is LogoutSuccess) {
             CustomSnackBar.success(context, "Logout successful");
             context.pop();
-            context.go('/login');
+            context.push('/login');
           } else if (state is ProfileError) {
             CustomSnackBar.error(context, state.message);
           }

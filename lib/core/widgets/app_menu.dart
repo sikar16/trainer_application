@@ -51,17 +51,17 @@ class AppMenu extends StatelessWidget {
           _MenuItem(
             icon: Icons.cast_for_education,
             title: 'Trainings',
-            onTap: () => context.go('/training'),
+            onTap: () => context.push('/training'),
           ),
           _MenuItem(
             icon: Icons.work_outline,
             title: 'Job',
-            onTap: () => context.go('/job'),
+            onTap: () => context.push('/job'),
           ),
           _MenuItem(
             icon: Icons.person_outline,
             title: 'Profile',
-            onTap: () => context.go('/profile'),
+            onTap: () => context.push('/profile'),
           ),
 
           const SizedBox(height: 16),

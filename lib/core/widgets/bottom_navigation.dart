@@ -28,13 +28,13 @@ class BottomNavigation extends StatelessWidget {
         onTap: (index) {
           switch (index) {
             case 0:
-              context.go('/training');
+              context.push('/training');
               break;
             case 1:
-              context.go('/job');
+              context.push('/job');
               break;
             case 2:
-              context.go('/profile');
+              context.push('/profile');
               break;
           }
         },

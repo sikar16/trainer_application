@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state is LoginSuccess) {
           CustomSnackBar.success(context, 'Login successful!');
-          context.go('/training');
+          context.push('/training');
         } else if (state is LoginFailure) {
           setState(() {
             _passwordError = state.message;
@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        context.go('/forgot-password');
+                        context.push('/forgot-password');
                       },
                       child: Text(
                         "Forgot Password?",

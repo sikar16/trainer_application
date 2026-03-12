@@ -71,7 +71,7 @@ class _JobDetailViewState extends State<JobDetailView> {
       //   leading: IconButton(
       //     icon: const Icon(Icons.arrow_back),
       //     onPressed: () {
-      //       context.go('/job');
+      //       context.push('/job');
       //     },
       //   ),
       //   title: const Text('Job Details'),

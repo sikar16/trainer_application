@@ -95,7 +95,7 @@ class _ModuleWidgetState extends State<ModuleWidget> {
           child: CostomDropDown(
             title: module.name,
             onTap: () {
-              context.go(
+              context.push(
                 '/module-detail/${module.id}',
                 extra: widget.trainingTitle,
               );

@@ -60,7 +60,7 @@ class _ModuleDetailViewState extends State<ModuleDetailView> {
             if (context.canPop()) {
               context.pop();
             } else {
-              context.go('/training');
+              context.push('/training');
             }
           },
         ),

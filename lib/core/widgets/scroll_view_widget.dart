@@ -73,7 +73,7 @@ class ScrollViewWidget extends StatelessWidget {
     final colorTheme = Theme.of(context).colorScheme;
 
     return InkWell(
-      onTap: () => context.go(route),
+      onTap: () => context.push(route),
       child: Row(
         children: [
           Icon(icon, size: 20, color: colorTheme.primary),

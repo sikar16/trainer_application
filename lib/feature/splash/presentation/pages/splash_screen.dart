@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final profileBloc = context.read<ProfileBloc>();
       profileBloc.add(GetProfileEvent());
     } else {
-      if (mounted) context.go('/login');
+      if (mounted) context.push('/login');
     }
   }
 
@@ -39,9 +39,9 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoaded) {
-            context.go('/training');
+            context.push('/training');
           } else if (state is ProfileError) {
-            context.go('/login');
+            context.push('/login');
           }
         },
         child: Stack(

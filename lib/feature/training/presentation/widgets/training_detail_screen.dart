@@ -61,7 +61,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
               if (Navigator.of(context).canPop()) {
                 context.pop();
               } else {
-                context.go('/training');
+                context.push('/training');
               }
             },
 
