@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import '../../../domain/entities/lesson_entity.dart';
 import '../../../domain/repositories/lesson_repository.dart';
 import 'lesson_event.dart';
 import 'lesson_state.dart';

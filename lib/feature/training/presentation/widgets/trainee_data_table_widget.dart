@@ -21,7 +21,7 @@ import '../bloc/assessment_attempt_bloc/assessment_attempt_state.dart';
 import '../../domain/entities/trainee_entity.dart';
 import '../../domain/entities/assessment_entity.dart';
 import '../../domain/entities/assessment_attempt_entity.dart';
-import 'common_widgets.dart';
+// import 'common_widgets.dart';
 import 'attendance_chip_widget.dart';
 import 'upload_id_dialog_widget.dart';
 
@@ -733,10 +733,10 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
 
   Widget _buildPaginationControls() {
     final colorScheme = Theme.of(context).colorScheme;
-    final startItem = (_currentPage - 1) * _pageSize + 1;
-    final endItem = (_currentPage * _pageSize < _totalElements)
-        ? _currentPage * _pageSize
-        : _totalElements;
+    // final startItem = (_currentPage - 1) * _pageSize + 1;
+    // final endItem = (_currentPage * _pageSize < _totalElements)
+    //     ? _currentPage * _pageSize
+    //     : _totalElements;
 
     return Padding(
       padding: const EdgeInsets.all(16),

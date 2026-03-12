@@ -91,7 +91,7 @@ class _AttendancePageWidgetState extends State<AttendancePageWidget> {
         foregroundColor: colorScheme.onSurface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, size: 18),
+          icon: const Icon(Icons.arrow_back_ios, size: 16),
           onPressed: () => Navigator.pop(context),
         ),
       ),

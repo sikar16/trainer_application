@@ -69,7 +69,7 @@ class _JobDetailViewState extends State<JobDetailView> {
       // appBar: AppBar(
       //   backgroundColor: const Color(0xFFFFFFFF),
       //   leading: IconButton(
-      //     icon: const Icon(Icons.arrow_back),
+      //     icon: const Icon(Icons.arrow_back_ios),
       //     onPressed: () {
       //       context.push('/job');
       //     },
@@ -221,7 +221,12 @@ class _JobDetailViewState extends State<JobDetailView> {
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(255, 207, 207, 207).withOpacity(0.1),
+            color: const Color.fromARGB(
+              255,
+              207,
+              207,
+              207,
+            ).withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

@@ -53,15 +53,15 @@ class _ContentWidgetState extends State<ContentWidget> {
     );
   }
 
-  void _onSearchChanged(String query) {
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-      setState(() {
-        _currentPage = 1;
-      });
-      _fetchContent(searchQuery: query.isEmpty ? null : query);
-    });
-  }
+  // void _onSearchChanged(String query) {
+  //   _debounceTimer?.cancel();
+  //   _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+  //     setState(() {
+  //       _currentPage = 1;
+  //     });
+  //     _fetchContent(searchQuery: query.isEmpty ? null : query);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +165,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                     ElevatedButton.icon(
                                       icon: const Icon(
                                         Icons.arrow_back_ios,
-                                        size: 16,
+                                        size: 1,
                                       ),
                                       label: const Text('Previous'),
                                       onPressed: () {
@@ -312,7 +312,7 @@ class _ContentWidgetState extends State<ContentWidget> {
   }
 
   Widget _tableRow(ContentEntity content) {
-    final contentFor = content.lessonName ?? content.moduleName ?? "";
+    // final contentFor = content.lessonName ?? content.moduleName ?? "";
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -517,8 +517,8 @@ class _LinkCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final ColorScheme = Theme.of(context).colorScheme;
+    // final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (link == null || link!.isEmpty) {
       return Expanded(
@@ -544,7 +544,7 @@ class _LinkCell extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: ColorScheme.primary,
+            color: colorScheme.primary,
             fontSize: 12,
             // decoration: TextDecoration.underline,
           ),
@@ -554,42 +554,42 @@ class _LinkCell extends StatelessWidget {
   }
 }
 
-class _StatusChip extends StatelessWidget {
-  final String text;
-  final Color color;
-  final Color textColor;
-  final int flex;
-  const _StatusChip({
-    required this.text,
-    required this.color,
-    required this.textColor,
-    required this.flex,
-  });
+// class _StatusChip extends StatelessWidget {
+//   final String text;
+//   final Color color;
+//   final Color textColor;
+//   final int flex;
+//   const _StatusChip({
+//     required this.text,
+//     required this.color,
+//     required this.textColor,
+//     required this.flex,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+//   @override
+//   Widget build(BuildContext context) {
+//     final textTheme = Theme.of(context).textTheme;
 
-    return Expanded(
-      flex: flex,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Text(
-            text,
-            style: TextStyle(
-              color: textColor,
-              fontSize: textTheme.labelSmall?.fontSize,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//     return Expanded(
+//       flex: flex,
+//       child: Align(
+//         alignment: Alignment.centerLeft,
+//         child: Container(
+//           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+//           decoration: BoxDecoration(
+//             color: color,
+//             borderRadius: BorderRadius.circular(16),
+//           ),
+//           child: Text(
+//             text,
+//             style: TextStyle(
+//               color: textColor,
+//               fontSize: textTheme.labelSmall?.fontSize,
+//               fontWeight: FontWeight.w600,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

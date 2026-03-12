@@ -71,8 +71,6 @@ class _CostomDropDownState extends State<CostomDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    final colorTheme = Theme.of(context).colorScheme;
-
     final hasContent = widget.content != null;
     return Container(
       decoration: BoxDecoration(

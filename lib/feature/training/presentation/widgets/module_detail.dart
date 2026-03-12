@@ -55,7 +55,7 @@ class _ModuleDetailViewState extends State<ModuleDetailView> {
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios, size: 16),
           onPressed: () {
             if (context.canPop()) {
               context.pop();

@@ -244,7 +244,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         appBar: AppBar(
           backgroundColor: const Color(0xFFFFFFFF),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back_ios, size: 16),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: const Text(

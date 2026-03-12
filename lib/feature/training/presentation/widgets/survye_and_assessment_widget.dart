@@ -139,7 +139,7 @@ class _SurveyAndAssessmentState extends State<SurveyAndAssessment> {
   }
 
   Widget _buildSurveyContent() {
-    final colorScheme = Theme.of(context).colorScheme;
+    // final colorScheme = Theme.of(context).colorScheme;
 
     return BlocBuilder<SurveyBloc, SurveyState>(
       builder: (context, state) {
