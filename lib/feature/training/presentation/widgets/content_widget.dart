@@ -72,34 +72,30 @@ class _ContentWidgetState extends State<ContentWidget> {
           FetchContent(trainingId: widget.trainingId, page: 1, pageSize: 10),
         ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Content",
-              style: textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 16),
 
-            TextField(
-              controller: _searchController,
-              onChanged: _onSearchChanged,
-              decoration: InputDecoration(
-                hintText: "Search by Name",
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-
+            // TextField(
+            //   controller: _searchController,
+            //   onChanged: _onSearchChanged,
+            //   decoration: InputDecoration(
+            //     hintText: "Search by Name",
+            //     contentPadding: const EdgeInsets.symmetric(
+            //       horizontal: 16,
+            //       vertical: 12,
+            //     ),
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(10),
+            //     ),
+            //   ),
+            // ),
             Expanded(
               child: BlocListener<ContentBloc, ContentState>(
                 listener: (context, state) {
@@ -258,14 +254,15 @@ class _ContentWidgetState extends State<ContentWidget> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SizedBox(
-          width: 1400,
+          width: 1000,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
+                // border: Border.all(color: Colors.grey.shade300),
                 borderRadius: BorderRadius.circular(12),
               ),
+
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -284,7 +281,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: const Color(0xFFEAECF0),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
       ),
       child: const Row(
@@ -292,25 +289,23 @@ class _ContentWidgetState extends State<ContentWidget> {
           _HeaderCell("Name", flex: 2),
           SizedBox(width: 20),
 
-          _HeaderCell("Content For", flex: 3),
+          _HeaderCell("Description", flex: 2),
           SizedBox(width: 20),
 
-          _HeaderCell("Description", flex: 3),
-          SizedBox(width: 20),
-
+          // _HeaderCell("Content For", flex: 2),
+          // SizedBox(width: 20),
           _HeaderCell("Content Level", flex: 2),
           SizedBox(width: 20),
 
-          _HeaderCell("Assigned To", flex: 3),
-          SizedBox(width: 20),
-
-          _HeaderCell("File Type", flex: 1),
+          // _HeaderCell("Assigned To", flex: 3),
+          // SizedBox(width: 20),
+          _HeaderCell("File Type", flex: 2),
           SizedBox(width: 20),
 
           _HeaderCell("Content Link", flex: 2),
           SizedBox(width: 20),
 
-          _HeaderCell("Status", flex: 2),
+          // _HeaderCell("Status", flex: 2),
         ],
       ),
     );
@@ -328,53 +323,53 @@ class _ContentWidgetState extends State<ContentWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _BodyCell(content.name, flex: 2),
-          const SizedBox(width: 20),
-          _BodyCell(contentFor, flex: 3),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
+          _BodyCell(content.description, flex: 2, textColor: Color(0xFF667085)),
+          const SizedBox(width: 10),
 
-          _BodyCell(content.description, flex: 3),
-          const SizedBox(width: 20),
+          // _BodyCell(contentFor, flex: 2),
 
+          // const SizedBox(width: 20),
           _BodyChip(
             text: content.contentLevel,
             color: content.contentLevel == "LESSON"
-                ? const Color.fromARGB(255, 211, 226, 245)
+                ? const Color.fromARGB(255, 231, 237, 244)
                 : content.contentLevel == "ASSESSMENT"
                 ? const Color.fromARGB(255, 246, 236, 255)
-                : const Color.fromARGB(255, 223, 249, 231),
+                : const Color(0xFFF0FDF4),
             textColor: content.contentLevel == "LESSON"
                 ? const Color(0xFF3B82F6)
                 : content.contentLevel == "ASSESSMENT"
                 ? const Color(0xFF8B5CF6)
-                : const Color(0xFF22C55E),
+                : const Color(0xFF17803C),
+
             flex: 2,
           ),
 
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
 
-          _BodyCell(content.contentDeveloper.email, flex: 3),
-          const SizedBox(width: 20),
-
-          _BodyCell(content.contentFileType, flex: 2),
-          const SizedBox(width: 20),
+          // _BodyCell(content.contentDeveloper.email, flex: 3),
+          // const SizedBox(width: 20),
+          _FileTypeChip(content.contentFileType, flex: 2),
+          const SizedBox(width: 10),
 
           _LinkCell("View Link", link: content.link, flex: 2),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
 
-          _StatusChip(
-            text: content.contentStatus,
-            color: content.contentStatus == "ACCEPTED"
-                ? const Color.fromARGB(255, 223, 249, 231)
-                : content.contentStatus == "REJECTED"
-                ? const Color.fromARGB(255, 247, 220, 220)
-                : const Color.fromARGB(255, 209, 228, 251),
-            textColor: content.contentStatus == "ACCEPTED"
-                ? const Color(0xFF22C55E)
-                : content.contentStatus == "REJECTED"
-                ? const Color(0xFFEF4444)
-                : const Color(0xFF3B82F6),
-            flex: 2,
-          ),
+          // _StatusChip(
+          //   text: content.contentStatus,
+          //   color: content.contentStatus == "ACCEPTED"
+          //       ? const Color.fromARGB(255, 223, 249, 231)
+          //       : content.contentStatus == "REJECTED"
+          //       ? const Color.fromARGB(255, 247, 220, 220)
+          //       : const Color.fromARGB(255, 209, 228, 251),
+          //   textColor: content.contentStatus == "ACCEPTED"
+          //       ? const Color(0xFF22C55E)
+          //       : content.contentStatus == "REJECTED"
+          //       ? const Color(0xFFEF4444)
+          //       : const Color(0xFF3B82F6),
+          //   flex: 2,
+          // ),
         ],
       ),
     );
@@ -390,9 +385,12 @@ class _HeaderCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: flex,
-      child: Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.grey),
+      child: Container(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 12, color: Color(0xFF667085)),
+        ),
       ),
     );
   }
@@ -401,17 +399,69 @@ class _HeaderCell extends StatelessWidget {
 class _BodyCell extends StatelessWidget {
   final String text;
   final int flex;
-  final bool bold;
-  const _BodyCell(this.text, {required this.flex, this.bold = false});
+  final Color? textColor; // new optional parameter
+
+  const _BodyCell(
+    this.text, {
+    required this.flex,
+    this.textColor, // default is null → use black
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: flex,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontWeight: bold ? FontWeight.w600 : FontWeight.normal,
+      child: Container(
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 12,
+            color:
+                textColor ?? Colors.black, // use passed color or default black
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FileTypeChip extends StatelessWidget {
+  final String text;
+  final int flex;
+
+  const _FileTypeChip(this.text, {required this.flex, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: flex,
+      child: Container(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: const Color(0xFFEEEEEE),
+            borderRadius: BorderRadius.circular(16),
+            // border: Border.all(color: const Color(0xFFD0D5DD)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.description_outlined,
+                size: 14,
+                color: Color(0xFF344054),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                text,
+                style: const TextStyle(fontSize: 12, color: Color(0xFF344054)),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -443,6 +493,7 @@ class _BodyChip extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color.fromARGB(255, 226, 226, 226)),
           ),
           child: Text(
             text,
@@ -474,10 +525,7 @@ class _LinkCell extends StatelessWidget {
         flex: flex,
         child: Text(
           "Awaiting Link",
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: textTheme.bodyMedium?.fontSize,
-          ),
+          style: TextStyle(color: Colors.grey, fontSize: 12),
         ),
       );
     }
@@ -497,8 +545,8 @@ class _LinkCell extends StatelessWidget {
           text,
           style: TextStyle(
             color: ColorScheme.primary,
-            fontSize: textTheme.bodyMedium?.fontSize,
-            decoration: TextDecoration.underline,
+            fontSize: 12,
+            // decoration: TextDecoration.underline,
           ),
         ),
       ),
