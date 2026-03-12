@@ -8,6 +8,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onProfileTap;
   final VoidCallback? onBackTap;
   final bool showBackButton;
+  final bool automaticallyImplyLeading;
 
   const CustomAppBar({
     super.key,
@@ -17,6 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onProfileTap,
     this.onBackTap,
     this.showBackButton = false,
+    this.automaticallyImplyLeading = false,
   });
 
   @override
@@ -25,6 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: SizedBox(
         child: AppBar(
           backgroundColor: Colors.white,
+          automaticallyImplyLeading: automaticallyImplyLeading,
           leading: showBackButton
               ? IconButton(
                   icon: const Icon(Icons.navigate_before),

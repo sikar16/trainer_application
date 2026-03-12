@@ -123,22 +123,15 @@ class _JobDetailViewState extends State<JobDetailView> {
                 ),
               );
             } else if (state is JobDetailLoaded) {
-              return CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.all(16),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                        _buildJobContent(
-                          context,
-                          state.jobDetail.job,
-                          colorScheme,
-                        ),
-                        if (_showApplicationForm) _buildApplicationForm(),
-                      ]),
-                    ),
-                  ),
-                ],
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildJobContent(context, state.jobDetail.job, colorScheme),
+                    if (_showApplicationForm) _buildApplicationForm(),
+                  ],
+                ),
               );
             } else {
               return const Center(child: Text('No job data available'));
@@ -218,9 +211,24 @@ class _JobDetailViewState extends State<JobDetailView> {
   Widget _buildSessionCard(JobDetailEntity job) {
     final session = job.sessions.first;
 
-    return Card(
-      elevation: 0,
-      color: Colors.white,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: const Color.fromARGB(255, 235, 235, 235),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: const Color.fromARGB(255, 207, 207, 207).withOpacity(0.1),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -228,33 +236,37 @@ class _JobDetailViewState extends State<JobDetailView> {
             children: [
               SizedBox(
                 width: 180,
-                child: Text(session.name, style: TextStyle(fontSize: 14)),
+                child: Text(session.name, style: const TextStyle(fontSize: 14)),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               _buildChip(
                 session.deliveryMethod == 'OFFLINE' ? 'In Person' : 'Online',
               ),
             ],
           ),
 
-          const SizedBox(height: 26),
+          const SizedBox(height: 16),
 
           Row(
             children: [
-              Expanded(
+              SizedBox(
+                width: 100,
                 child: _buildJobDetailRow(
                   icon: Icons.calendar_today,
                   text: _formatDate(session.startDate),
                 ),
               ),
-
-              Expanded(
+              const SizedBox(width: 16),
+              SizedBox(
+                width: 80,
                 child: _buildJobDetailRow(
                   icon: Icons.schedule,
                   text: _formatTime(session.startDate),
                 ),
               ),
-              Expanded(
+              const SizedBox(width: 16),
+              SizedBox(
+                width: 80,
                 child: _buildJobDetailRow(
                   icon: Icons.school_outlined,
                   text: '${session.numberOfStudents} ',
@@ -263,14 +275,14 @@ class _JobDetailViewState extends State<JobDetailView> {
             ],
           ),
           const SizedBox(height: 16),
-          // Text(
-          //   session.lessons.isNotEmpty ? session.lessons.first.description : '',
-          //   style: TextStyle(
-          //     color: Colors.grey.shade700,
-          //     fontSize: 12,
-          //     height: 1.4,
-          //   ),
-          // ),
+          Text(
+            session.lessons.isNotEmpty ? session.lessons.first.description : '',
+            style: TextStyle(
+              color: Colors.grey.shade700,
+              fontSize: 12,
+              height: 1.4,
+            ),
+          ),
         ],
       ),
     );
@@ -279,35 +291,43 @@ class _JobDetailViewState extends State<JobDetailView> {
   Widget _buildDetailSection(JobDetailEntity job) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Card(
-        elevation: 0,
-        color: const Color(0xFFF8F8F8),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildInfoRow(
-                leftTitle: 'Start On',
-                leftValue: _formatDate(job.createdAt),
-                rightTitle: 'Ends On',
-                rightValue: _formatDate(job.deadlineDate),
-              ),
-              const SizedBox(height: 15),
-              _buildInfoRow(
-                leftTitle: 'Number of Sessions',
-                leftValue: job.numberOfSessions.toString(),
-                rightTitle: '',
-                rightValue: '',
-              ),
-              const SizedBox(height: 15),
-              _buildInfoRow(
-                leftTitle: 'Location',
-                leftValue: job.sessions.first.trainingVenue.location,
-                rightTitle: '',
-                rightValue: '',
-              ),
-            ],
+      child: SizedBox(
+        width: 300,
+        child: Card(
+          elevation: 0,
+          color: const Color(0xFFF8F8F8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildInfoRow(
+                  leftTitle: 'Start On',
+                  leftValue: _formatDate(job.createdAt),
+                  rightTitle: 'Ends On',
+                  rightValue: _formatDate(job.deadlineDate),
+                ),
+                const SizedBox(height: 15),
+
+                _buildInfoRow(
+                  leftTitle: 'Number of Sessions',
+                  leftValue: job.numberOfSessions.toString(),
+
+                  rightTitle: '',
+                  rightValue: '',
+                ),
+                const SizedBox(height: 15),
+                _buildInfoRow(
+                  leftTitle: 'Location',
+                  leftValue: job.sessions.first.trainingVenue.location,
+                  rightTitle: '',
+                  rightValue: '',
+                ),
+              ],
+            ),
           ),
         ),
       ),

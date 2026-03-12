@@ -22,6 +22,7 @@ class _JobScreenState extends State<JobScreen> {
       backgroundColor: const Color(0xFFFFFFFF),
       appBar: CustomAppBar(
         title: "Jobs",
+        showBackButton: false,
         onMenuTap: () {},
         onNotificationTap: () {},
         onProfileTap: () {},
@@ -44,7 +45,7 @@ class _JobScreenState extends State<JobScreen> {
     return Row(
       children: [
         _topTab("Jobs", TopTab.jobs),
-        const SizedBox(width: 24),
+        const SizedBox(width: 16),
         _topTab("My Applications", TopTab.applications),
       ],
     );

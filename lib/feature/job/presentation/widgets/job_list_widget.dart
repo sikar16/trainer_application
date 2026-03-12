@@ -353,24 +353,23 @@ class JobCard extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () => _showJobDetailDialog(context, id, title),
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: themeColor),
                 foregroundColor: themeColor,
-                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 6,
+                  horizontal: 14,
+                ),
+                minimumSize: const Size(0, 24),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
                 ),
               ),
-              child: InkWell(
-                onTap: () => _showJobDetailDialog(context, id, title),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  child: Text(
-                    "View Detaile",
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ),
+              child: const Text(
+                "View Detail",
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
               ),
             ),
           ),
