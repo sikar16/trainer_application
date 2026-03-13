@@ -205,6 +205,7 @@ class _JobListWidgetState extends State<JobListWidget> {
                 id: job.id,
                 title: job.title,
                 createdAt: _formatDate(job.createdAt),
+                createdAtAgo: _formatTimeAgo(job.createdAt),
                 deadlineDate: _formatDate(job.deadlineDate),
                 description: job.description,
                 status: job.status,
@@ -248,12 +249,35 @@ class _JobListWidgetState extends State<JobListWidget> {
   String _formatDate(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
   }
+
+  String _formatTimeAgo(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    final months = (difference.inDays / 30).floor();
+
+    if (months == 0) {
+      final days = difference.inDays;
+      if (days == 0) {
+        return 'Today';
+      } else if (days == 1) {
+        return '1 day ago';
+      } else {
+        return '$days days ago';
+      }
+    } else if (months == 1) {
+      return '1 month ago';
+    } else {
+      return '$months months ago';
+    }
+  }
 }
 
 class JobCard extends StatelessWidget {
   final String id;
   final String title;
   final String createdAt;
+  final String createdAtAgo;
   final String deadlineDate;
   final String description;
   final String status;
@@ -265,6 +289,7 @@ class JobCard extends StatelessWidget {
     required this.id,
     required this.title,
     required this.createdAt,
+    required this.createdAtAgo,
     required this.deadlineDate,
     required this.description,
     required this.status,
@@ -342,7 +367,7 @@ class JobCard extends StatelessWidget {
             children: [
               const SizedBox(width: 8),
               Text(
-                "3 months ago",
+                createdAtAgo,
                 style: TextStyle(color: colorScheme.primary, fontSize: 10),
               ),
             ],
