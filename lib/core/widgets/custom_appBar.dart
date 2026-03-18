@@ -28,6 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: AppBar(
           backgroundColor: Colors.white,
           automaticallyImplyLeading: automaticallyImplyLeading,
+          titleSpacing: 0,
           leading: showBackButton
               ? IconButton(
                   icon: const Icon(Icons.navigate_before),
@@ -42,13 +43,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       },
                 )
               : null,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 5, left: 16, bottom: 5),
-            child: Text(
-              title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-            ),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           ),
+
           centerTitle: false,
         ),
       ),

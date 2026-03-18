@@ -133,7 +133,8 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           height: 40,
           decoration: BoxDecoration(
             border: Border(
@@ -164,25 +165,30 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                     ),
                   ),
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      _getIconForTab(
-                        tabs[index],
-                        isSelected ? colorTheme.primary : Color(0xFF565555),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        tabs[index],
-                        style: TextStyle(
-                          color: isSelected
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      children: [
+                        _getIconForTab(
+                          tabs[index],
+                          isSelected
                               ? colorTheme.primary
-                              : colorTheme.onSurfaceVariant,
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
+                              : const Color(0xFF565555),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 6),
+                        Text(
+                          tabs[index],
+                          style: TextStyle(
+                            color: isSelected
+                                ? colorTheme.primary
+                                : colorTheme.onSurfaceVariant,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
