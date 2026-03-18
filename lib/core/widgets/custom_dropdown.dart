@@ -107,7 +107,7 @@ class _CostomDropDownState extends State<CostomDropDown> {
                         child: Text(
                           widget.title,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
