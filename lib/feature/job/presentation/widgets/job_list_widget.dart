@@ -338,19 +338,17 @@ class JobCard extends StatelessWidget {
                     deadlineDate,
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
                   ),
+                  const SizedBox(width: 40),
+                  Icon(Icons.menu_book, size: 16, color: Colors.grey.shade600),
+                  const SizedBox(width: 4),
+
+                  Text(
+                    "$sessions Sessions",
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
+                  ),
                 ],
               ),
               const Spacer(),
-              Icon(
-                Icons.menu_book_outlined,
-                size: 16,
-                color: Colors.grey.shade600,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                "$sessions Sessions",
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 10),
-              ),
             ],
           ),
 
@@ -358,14 +356,13 @@ class JobCard extends StatelessWidget {
 
           Text(
             description,
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+            style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
           ),
 
           const SizedBox(height: 12),
 
           Row(
             children: [
-              const SizedBox(width: 8),
               Text(
                 createdAtAgo,
                 style: TextStyle(color: colorScheme.primary, fontSize: 10),

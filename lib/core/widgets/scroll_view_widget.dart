@@ -71,16 +71,24 @@ class ScrollViewWidget extends StatelessWidget {
   }) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
+    final currentRoute = GoRouterState.of(context).uri.toString();
+    final isActive = currentRoute.contains(route);
 
     return InkWell(
       onTap: () => context.push(route),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: colorTheme.primary),
+          Icon(
+            icon,
+            size: 20,
+            color: isActive ? colorTheme.primary : Colors.grey,
+          ),
           const SizedBox(width: 8),
           Text(
             label,
-            style: textTheme.bodyMedium?.copyWith(color: colorTheme.primary),
+            style: textTheme.bodyMedium?.copyWith(
+              color: isActive ? colorTheme.error : Colors.grey,
+            ),
           ),
         ],
       ),

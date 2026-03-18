@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CostomDropDown extends StatefulWidget {
   final String title;
@@ -106,7 +107,7 @@ class _CostomDropDownState extends State<CostomDropDown> {
                         child: Text(
                           widget.title,
                           style: TextStyle(
-                            fontSize: widget.fontSize ?? 14,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -115,11 +116,12 @@ class _CostomDropDownState extends State<CostomDropDown> {
                     if (hasContent)
                       GestureDetector(
                         onTap: _toggleExpansion,
-                        child: Icon(
+                        child: SvgPicture.asset(
                           isExpanded
-                              ? Icons.keyboard_arrow_up
-                              : Icons.keyboard_arrow_right,
-                          color: Colors.black,
+                              ? 'assets/icons/up_arrow.svg'
+                              : 'assets/icons/right_arrow.svg',
+                          width: isExpanded ? 18 : 12,
+                          height: isExpanded ? 18 : 12,
                         ),
                       )
                     else if (widget.onTap != null)

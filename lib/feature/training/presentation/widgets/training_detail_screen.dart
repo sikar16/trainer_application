@@ -168,7 +168,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                     children: [
                       _getIconForTab(
                         tabs[index],
-                        isSelected ? colorTheme.primary : colorTheme.secondary,
+                        isSelected ? colorTheme.primary : Color(0xFF565555),
                       ),
                       const SizedBox(width: 6),
                       Text(
