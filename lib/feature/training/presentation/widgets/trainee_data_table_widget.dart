@@ -311,9 +311,9 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
           DataTable(
             headingRowHeight: 40,
             dataRowMinHeight: 40,
-            dataRowMaxHeight: 80,
-            columnSpacing: 16,
-            horizontalMargin: 16,
+            dataRowMaxHeight: 60,
+            // columnSpacing: 16,
+            // horizontalMargin: 16,
             dividerThickness: 0,
             border: TableBorder(
               top: BorderSide.none,
@@ -325,8 +325,7 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
             ),
             columns: [
               DataColumn(
-                label: SizedBox(
-                  width: 24,
+                label: Center(
                   child: Checkbox(
                     value:
                         _selectedTraineeIds.length == trainees.length &&
@@ -413,24 +412,28 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                         return DataRow(
                           cells: [
                             DataCell(
-                              Checkbox(
-                                value: _selectedTraineeIds.contains(trainee.id),
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value == true) {
-                                      _selectedTraineeIds.add(trainee.id);
-                                    } else {
-                                      _selectedTraineeIds.remove(trainee.id);
-                                    }
-                                  });
-                                },
+                              Center(
+                                child: Checkbox(
+                                  value: _selectedTraineeIds.contains(
+                                    trainee.id,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value == true) {
+                                        _selectedTraineeIds.add(trainee.id);
+                                      } else {
+                                        _selectedTraineeIds.remove(trainee.id);
+                                      }
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                             DataCell(
                               Text(
                                 trainee.fullName,
                                 style: const TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -438,13 +441,13 @@ class _TraineeDataTableWidgetState extends State<TraineeDataTableWidget> {
                             DataCell(
                               Text(
                                 trainee.contactPhone,
-                                style: const TextStyle(fontSize: 12),
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ),
                             DataCell(
                               Text(
                                 sessionDate ?? 'N/A',
-                                style: const TextStyle(fontSize: 12),
+                                style: const TextStyle(fontSize: 14),
                               ),
                             ),
                             DataCell(

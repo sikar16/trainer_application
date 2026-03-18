@@ -38,7 +38,7 @@ class SessionCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,17 +85,35 @@ class SessionCardWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Delivery Method", style: TextStyle(fontSize: 12)),
+                      const Text(
+                        "Delivery Method",
+                        style: TextStyle(fontSize: 12),
+                      ),
                       const SizedBox(height: 4),
-                      Text(
-                        session.deliveryMethod[0].toUpperCase() +
-                            session.deliveryMethod.substring(1).toLowerCase(),
-                        style: TextStyle(
-                          fontSize: 12,
+
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
                           color:
                               session.deliveryMethod.toLowerCase() == 'online'
-                              ? Colors.green
-                              : colorScheme.onSurface,
+                              ? Colors.green.withOpacity(0.15)
+                              : Colors.grey.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          session.deliveryMethod[0].toUpperCase() +
+                              session.deliveryMethod.substring(1).toLowerCase(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color:
+                                session.deliveryMethod.toLowerCase() == 'online'
+                                ? Colors.green
+                                : Colors.black,
+                          ),
                         ),
                       ),
                     ],
@@ -103,7 +121,7 @@ class SessionCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
 
             // Status and button row
             Column(
