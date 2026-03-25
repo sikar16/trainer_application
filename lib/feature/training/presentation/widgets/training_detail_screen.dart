@@ -166,7 +166,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                   ),
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
                     child: Row(
                       children: [
                         _getIconForTab(
@@ -175,7 +175,6 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                               ? colorTheme.primary
                               : const Color(0xFF565555),
                         ),
-                        const SizedBox(width: 6),
                         Text(
                           tabs[index],
                           style: TextStyle(

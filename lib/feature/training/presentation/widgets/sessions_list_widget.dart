@@ -107,9 +107,6 @@ class _SessionsListWidgetState extends State<SessionsListWidget> {
 
                   if (_selectedCohortId == null && cohorts.isNotEmpty) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      setState(() {
-                        _selectedCohortId = cohorts.first.id;
-                      });
                       _onCohortSelected(cohorts.first.id);
                     });
                   }
